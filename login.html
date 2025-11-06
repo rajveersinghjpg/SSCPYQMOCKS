@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>SSC Mock — Login</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<style>
+  :root{--blue:#153d7a;--accent:#1f4d8a;--bg:#f3f6fb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#f6f9ff,#eef6ff);color:#17202a;display:flex;align-items:center;justify-content:center;height:100vh}
+  .card{width:360px;background:#fff;border-radius:12px;box-shadow:0 12px 40px rgba(16,24,40,0.08);padding:22px}
+  h2{margin:0 0 8px;font-size:20px;color:var(--accent)}
+  p{margin:0 0 18px;color:#6b7280}
+  input{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef8;margin-bottom:12px}
+  .btn{width:100%;padding:10px;border-radius:8px;border:0;background:linear-gradient(90deg,var(--blue),#2b62b0);color:#fff;font-weight:700;cursor:pointer}
+  .link{margin-top:12px;text-align:center;color:#6b7280;font-size:13px}
+  .small{font-size:12px;color:#9aa3b2}
+  .error{color:#d9534f;margin-bottom:8px}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2>SSC CGL Mock Portal</h2>
+    <p>Login with username & password. If new user — an account will be created automatically.</p>
+
+    <div id="err" class="error" style="display:none"></div>
+
+    <label class="small">Username</label>
+    <input id="username" placeholder="Enter username (e.g. rajveer)">
+
+    <label class="small">Password</label>
+    <input id="password" type="password" placeholder="Enter password">
+
+    <button id="loginBtn" class="btn">Login / Register</button>
+
+    <div class="link">
+      <small>After login you will be redirected to the homepage</small>
+    </div>
+  </div>
+
+<script>
+/* Simple client-side user store (localStorage) */
+const USERS_KEY = 'ssc_users_v1';
+const CURRENT_USER_KEY = 'ssc_current_user';
+
+/* helpers */
+const el = id => document.getElementById(id);
+function loadUsers(){ try{ return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; }catch(e){return {} } }
+function saveUsers(u){ localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+
+el('loginBtn').addEventListener('click', ()=> {
+  const username = el('username').value.trim();
+  const password = el('password').value;
+  if(!username || !password){ showError('Please enter username and password.'); return; }
+  const users = loadUsers();
+  if(users[username]){
+    // existing account: verify password
+    if(users[username].password !== password){
+      showError('Wrong password for this user.');
+      return;
+    }
+  } else {
+    // create account
+    users[username] = { password };
+    saveUsers(users);
+  }
+  // set current user
+  localStorage.setItem(CURRENT_USER_KEY, username);
+  // redirect to homepage
+  window.location.href = 'index.html';
+});
+
+function showError(msg){
+  const e = el('err'); e.style.display='block'; e.innerText = msg;
+}
+</script>
+</body>
+</html>
