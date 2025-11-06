@@ -1,289 +1,296 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>SSC CGL TIER I 2025 — 12 Sep Shift 1 (Mock)</title>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<style>
-  :root{
-    --blue:#1956a8; --accent:#163d71; --green:#28a745; --red:#d9534f;
-    --muted:#6b7280; --card:#ffffff; --bg:#f4f8fd; --tile:#1e4f8b;
-    --tile-answered:#2ea44f; --tile-skipped:#d9534f; --tile-marked:#7b3fb0;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif;background:var(--bg);color:#1b232b}
-  .topbar{background:linear-gradient(90deg,var(--blue),#1b63a2);color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:44px;height:44px;border-radius:6px;background:#fff;color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:900}
-  .title{font-weight:900;font-size:18px}
-  .subtitle{font-size:12px;opacity:0.95}
-  .top-controls{display:flex;gap:10px;align-items:center}
-  .btn{background:#fff;color:var(--accent);border:0;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:800}
-  .btn.primary{background:#063a82;color:#fff}
-  .timer{background:#fff;padding:6px 10px;border-radius:8px;font-weight:900;color:#073a6a}
-  .layout{display:flex;gap:18px;padding:18px;height:calc(100vh - 84px)}
-  .left{width:300px;background:var(--card);border-radius:10px;padding:18px;box-shadow:0 8px 20px rgba(16,24,40,0.05);display:flex;flex-direction:column}
-  .sections{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
-  .section-btn{background:var(--tile);color:#fff;padding:10px;border-radius:8px;border:0;font-weight:800;text-align:left;cursor:pointer}
-  .section-btn.active{background:var(--green)}
-  .qpanel-title{font-weight:900;color:var(--accent);margin-top:6px;margin-bottom:10px}
-  .qgrid{display:grid;grid-template-columns:repeat(5,48px);gap:10px}
-  .qnum{height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--tile);color:#fff;font-weight:900;cursor:pointer;border:0}
-  .qnum.answered{background:var(--tile-answered)}
-  .qnum.skipped{background:var(--tile-skipped)}
-  .qnum.marked{background:var(--tile-marked)}
-  .section-summary{margin-top:auto;padding-top:12px;border-top:1px dashed #eef6ff;color:var(--muted);font-weight:800}
-
-  .main{flex:1;display:flex;flex-direction:column}
-  .controls-row{display:flex;gap:8px;align-items:center;background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
-  .qcard{flex:1;background:var(--card);margin-top:12px;border-radius:10px;padding:22px;box-shadow:0 6px 18px rgba(16,24,40,0.04);overflow:auto}
-  .qheader{font-weight:900;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
-  .qtext{font-size:16px;line-height:1.7;margin-bottom:16px}
-  .options{display:flex;flex-direction:column;gap:12px}
-  .opt{border:1px solid #eef5fa;padding:14px;border-radius:8px;display:flex;gap:12px;align-items:center;cursor:pointer;background:#fbfdff}
-  .opt input{transform:scale(1.02)}
-  .footer-actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
-  .counts{font-weight:800;color:var(--muted)}
-  .result-card{background:#fff;padding:14px;border-radius:10px;box-shadow:0 8px 20px rgba(16,24,40,0.04)}
-
-  .review-tabs{display:flex;gap:8px;margin-bottom:12px}
-  .review-tab{padding:8px 12px;border-radius:6px;background:#eef6ff;color:var(--accent);cursor:pointer;font-weight:800}
-  .review-tab.active{background:var(--accent);color:#fff}
-
-  .overlayPaused{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:9999;color:#fff;font-size:36px;font-weight:900}
-
-  @media(max-width:980px){
-    .layout{flex-direction:column;height:auto}
-    .left{width:100%;order:2}
-    .main{order:1}
-  }
-</style>
+  <meta charset="utf-8" />
+  <title>SSC CGL — 12 Sep Shift 2 (Mock)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --blue:#153d7a;
+      --accent:#1f4d8a;
+      --green:#28a745;
+      --red:#d9534f;
+      --marked:#7b3fb0;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --bg:#f3f6fb;
+      --glass: rgba(255,255,255,0.85);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:#17202a}
+    .topbar{background:linear-gradient(90deg,var(--blue),#2b62b0);color:#fff;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .logo{width:44px;height:44px;border-radius:8px;background:#fff;color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:900}
+    .brand h1{margin:0;font-size:18px;letter-spacing:0.2px}
+    .controls{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:700}
+    .btn.ghost{background:#fff;color:var(--accent);border:1px solid #dfe7f3}
+    .timer{font-weight:800;background:#ffdede;color:#b30000;padding:6px 10px;border-radius:6px}
+    .layout{display:flex;gap:16px;padding:16px;height:calc(100vh - 72px);align-items:flex-start}
+    /* left panel */
+    .left{width:300px;background:var(--card);border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(16,24,40,0.06);display:flex;flex-direction:column;gap:12px;overflow:auto}
+    .sections{display:flex;flex-direction:column;gap:8px}
+    .section-btn{background:var(--accent);color:#fff;border:0;padding:8px;border-radius:6px;text-align:left;cursor:pointer;font-weight:800}
+    .section-btn.active{background:var(--green)}
+    .qgrid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .qnum{width:40px;height:38px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;background:var(--accent);color:#fff;cursor:pointer;border:0}
+    .qnum.answered{background:var(--green)}
+    .qnum.skipped{background:var(--red)}
+    .qnum.marked{background:var(--marked)}
+    .summary{margin-top:auto;background:#f6f9ff;padding:10px;border-radius:8px;color:var(--muted);font-weight:700}
+    /* main area */
+    .main{flex:1;display:flex;flex-direction:column;height:100%}
+    .centerStart{display:flex;align-items:center;justify-content:center;height:60vh}
+    .startCard{background:var(--card);padding:36px;border-radius:12px;box-shadow:0 10px 30px rgba(16,24,40,0.12);text-align:center;width:720px}
+    .startBtn{display:inline-block;background:var(--accent);color:#fff;padding:22px 32px;border-radius:10px;font-size:22px;font-weight:900;cursor:pointer}
+    .controls-row{background:var(--card);padding:12px;border-radius:10px;display:flex;gap:8px;align-items:center;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
+    .qcard{flex:1;background:var(--card);margin-top:12px;border-radius:10px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.04);overflow:auto;position:relative}
+    .qheader{font-weight:800;margin-bottom:12px}
+    .qtext{font-size:16px;line-height:1.7}
+    .options{margin-top:12px;display:flex;flex-direction:column;gap:10px}
+    .opt{border:1px solid #e8eef8;padding:12px;border-radius:8px;display:flex;gap:10px;align-items:center;cursor:pointer;background:#fff}
+    .opt.correct{border-color:var(--green);background:#f0fff3}
+    .opt.wrong{border-color:var(--red);background:#fff4f4}
+    .opt input{transform:scale(1.1);margin-right:8px}
+    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:10px 4px}
+    .small{color:var(--muted);font-weight:700}
+    /* result screen */
+    .results{padding:20px;background:var(--card);border-radius:8px;box-shadow:0 6px 18px rgba(16,24,40,0.06)}
+    table{border-collapse:collapse;width:100%}
+    th,td{border:1px solid #e9eef8;padding:10px;text-align:left}
+    /* responsive */
+    @media(max-width:980px){
+      .layout{flex-direction:column;height:auto}
+      .left{width:100%;display:flex;order:2}
+      .main{order:1}
+    }
+  </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div class="brand">
-    <div class="logo">SSC</div>
-    <div>
-      <div class="title">SSC CGL TIER I 2025 — 12 Sep Shift 1</div>
-      <div class="subtitle">Full Mock — 60 minutes · Single-question view</div>
-    </div>
-  </div>
-
-  <div class="top-controls">
-    <button id="prevTop" class="btn">Previous</button>
-    <button id="clearTop" class="btn">Clear</button>
-    <button id="markForReviewTop" class="btn">Mark for Review</button>
-    <button id="saveNextTop" class="btn primary">Save & Next</button>
-  </div>
-
-  <div style="display:flex;align-items:center;gap:12px">
-    <div style="text-align:right;color:#fff;font-weight:800">Total Answered: <span id="totalAnswered">0</span></div>
-    <div class="timer" id="timeBox">60:00</div>
-    <button id="fullscreenBtn" class="btn">Full screen</button>
-    <button id="pauseBtn" class="btn">Pause</button>
-    <button id="submitBtn" class="btn primary">Submit</button>
-  </div>
-</div>
-
-<!-- LAYOUT -->
-<div class="layout" id="mainLayout">
-  <!-- LEFT -->
-  <aside class="left">
-    <div class="sections">
-      <button id="btnA" class="section-btn active">Reasoning (25)</button>
-      <button id="btnB" class="section-btn">General Awareness (25)</button>
-      <button id="btnC" class="section-btn">Quantitative Aptitude (25)</button>
-      <button id="btnD" class="section-btn">English Comprehension (25)</button>
-    </div>
-
-    <div class="qpanel-title">Question Panel</div>
-    <div class="qgrid" id="qGrid"></div>
-
-    <div class="section-summary">
-      <div>Answered: <span id="secAnswered">0</span></div>
-      <div>Not Answered: <span id="secNotAnswered">0</span></div>
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-    <div class="controls-row">
-      <div style="font-weight:900">Section: <span id="sectionLabel">Reasoning</span> — Q<span id="qNo">1</span></div>
-      <div style="flex:1"></div>
-      <div style="color:var(--muted)">Language:
-        <select id="langSel" style="padding:6px;border-radius:6px;border:1px solid #e6eef8;margin-left:8px">
-          <option>English</option>
-        </select>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">SSC</div>
+      <div>
+        <h1 id="examTitle">SSC CGL — 12 Sep Shift 2</h1>
+        <div style="font-size:12px;color:rgba(255,255,255,0.9)">Full Mock — 60 minutes · Single-question view</div>
       </div>
     </div>
 
-    <div class="qcard" id="qCard">
-      <div class="qheader"><div id="qHeader">Loading...</div></div>
-      <div class="qtext" id="qText"></div>
+    <div class="controls">
+      <div style="text-align:right">
+        <div class="small" style="color:#fff">Total Answered: <span id="totalAnswered">0</span></div>
+        <div style="margin-top:6px" class="timer" id="timeBox">60:00</div>
+      </div>
+      <button id="restartBtnTop" class="btn ghost" title="Restart exam">Restart</button>
+      <button id="submitTop" class="btn" title="Submit exam">Submit</button>
+    </div>
+  </div>
 
-      <div class="options" id="optsWrap"></div>
+  <div class="layout">
+    <!-- LEFT PANEL -->
+    <aside class="left">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-weight:800;font-size:16px;color:var(--blue)">Sections</div>
+      </div>
 
-      <div class="footer-actions">
-        <div style="display:flex;gap:8px">
-          <button id="btnMark" class="btn">Mark for Review</button>
-          <button id="btnClear" class="btn">Clear Response</button>
-          <button id="btnSaveNext" class="btn primary">Save & Next</button>
+      <div class="sections" id="sectionList">
+        <!-- JS populates sections -->
+      </div>
+
+      <div style="font-weight:800;color:var(--blue);margin-top:6px">Question Panel</div>
+      <div class="qgrid" id="qGrid"><!-- populated by JS --></div>
+
+      <div class="summary">
+        <div>Section Summary</div>
+        <div style="margin-top:8px">Answered: <span id="secAnswered">0</span></div>
+        <div>Not Answered: <span id="secNotAnswered">0</span></div>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <main class="main" id="mainArea">
+      <!-- Start screen -->
+      <div id="startScreen" class="centerStart">
+        <div class="startCard">
+          <h2 style="margin:0 0 12px">Start Exam — SSC CGL 12 Sep Shift 2</h2>
+          <div style="color:var(--muted);margin-bottom:18px">Duration: 60 minutes · 100 questions · No login required</div>
+          <div><button id="startBtn" class="startBtn">START EXAM</button></div>
         </div>
-        <div class="counts">Questions answered: <strong id="footerAnswered">0</strong></div>
+      </div>
+
+      <!-- Exam content (hidden initially) -->
+      <div id="examArea" style="display:none;height:100%;flex-direction:column">
+        <div class="controls-row">
+          <button id="prevBtn" class="btn ghost">Previous</button>
+          <button id="clearBtn" class="btn ghost" style="background:#fff;color:#2b62b0;border:1px solid #dfe7f3">Clear Response</button>
+          <button id="markBtn" class="btn ghost" style="background:#fff;color:#7b3fb0;border:1px solid #e9def7">Mark for Review</button>
+          <button id="saveNextBtn" class="btn">Save & Next</button>
+
+          <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
+            <button id="pauseBtn" class="btn ghost" style="background:#fff;color:#111">Pause</button>
+          </div>
+        </div>
+
+        <div class="qcard" id="qCard">
+          <div class="qheader" id="qHeader">Question</div>
+          <div class="qtext" id="qText">Loading...</div>
+
+          <div class="options" id="optsWrap"></div>
+
+          <div class="footer">
+            <div>
+              <button id="reviewAnswersBtn" class="btn ghost" style="display:none">Review Answers</button>
+            </div>
+            <div class="small">Questions answered: <strong id="footerAnswered">0</strong></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- RESULTS AREA (hidden until submit) -->
+  <div id="resultsLayer" style="display:none;padding:18px">
+    <div class="results" id="resultsBox">
+      <h2>Markcard</h2>
+      <div id="resultsTable"></div>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="startReviewBtn" class="btn">Review Your Answers</button>
+        <button id="closeResultsBtn" class="btn ghost" style="background:#cfcfcf;color:#111">Close</button>
       </div>
     </div>
-  </main>
-</div>
-
-<!-- Result Modal -->
-<div id="resultModal" style="display:none;position:fixed;left:50%;top:8%;transform:translateX(-50%);width:95%;max-width:1000px;z-index:999;background:var(--card);border-radius:10px;padding:18px;box-shadow:0 12px 40px rgba(0,0,0,0.2)">
-  <div class="result-card">
-    <h2>Mark Card</h2>
-    <div id="scoreSummary"></div>
-    <div style="margin-top:12px;display:flex;gap:8px">
-      <button id="openReview" class="btn primary">Review Your Answers</button>
-      <button id="closeResult" class="btn">Close</button>
-    </div>
   </div>
-</div>
-
-<!-- Review panel -->
-<div id="reviewPanel" style="display:none;position:fixed;left:50%;top:6%;transform:translateX(-50%);width:95%;max-width:1100px;z-index:999;background:var(--card);border-radius:10px;padding:18px;box-shadow:0 12px 40px rgba(0,0,0,0.2);max-height:84vh;overflow:auto">
-  <div class="result-card">
-    <h2>Review — Answers by Section</h2>
-    <div class="review-tabs" style="margin-bottom:12px">
-      <div class="review-tab active" data-sec="A">SECTION A</div>
-      <div class="review-tab" data-sec="B">SECTION B</div>
-      <div class="review-tab" data-sec="C">SECTION C</div>
-      <div class="review-tab" data-sec="D">SECTION D</div>
-    </div>
-    <div id="reviewList" style="max-height:60vh;overflow:auto"></div>
-    <div style="margin-top:12px;display:flex;gap:8px">
-      <button id="backToResult" class="btn">Back</button>
-      <button id="backToMock" class="btn primary">Back to Mock</button>
-    </div>
-  </div>
-</div>
-
 
 <script>
-/* ---------- QUESTIONS (complete 1-100) ----------
-   Each entry: {id: <number>, section: 'A'|'B'|'C'|'D', q: 'text', options: ['A. ...','B. ...','C. ...','D. ...']}
-   I used the exact question text you provided earlier.
+/* ================================
+   CONFIG / DATA
+   ================================ */
+
+/* NOTE:
+   - If you want to replace questions for Shift-2, replace the QUESTIONS object below entirely
+     with your own JS object in the same structure (sections -> list of Q objects with id, q, options).
+   - Paste your answer key JSON into ANSWER_KEY variable (format: "1":"C", "2":"B", ...).
 */
-const QUESTIONS = [
-  // Section A: Reasoning (1-25)
-  {id:1, section:'A', q:"Q1. In the following question, select the related word from the given alternatives.\\nWatt : Power :: Pascal : ?", options:["A. Energy","B. Temperature","C. Pressure","D. Force"]},
-  {id:2, section:'A', q:"Q2. In the following question, select the related word from the given alternatives.\\nMekong : Tibet :: Amazon : ?", options:["A. Chile","B. Peru","C. Colombia","D. Ecuador"]},
-  {id:3, section:'A', q:"Q3. Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.\\nCGK, GKO, KOS, OSW, ?", options:["A. SDA","B. KNB","C. SWA","D. KJH"]},
-  {id:4, section:'A', q:"Q4. Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.\\nMIN, NJM, OKL, PLK, ?", options:["A. QWS","B. HGF","C. QMJ","D. UJH"]},
-  {id:5, section:'A', q:"Q5. Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.\\nBRF, EUH, HXJ, KAL, ?", options:["A. NMB","B. NKH","C. NHG","D. NDN"]},
-  {id:6, section:'A', q:"Q6. Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.\\nWZWT, WVOH, WRGV, WNYJ, ?", options:["A. WJQX","B. WJQW","C. WHPX","D. WIPX"]},
-  {id:7, section:'A', q:"Q7. Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.\\nMCFI, NEKP, OGPW, PIUD, ?", options:["A. NKYD","B. QLYL","C. QKZK","D. QKZL"]},
-  {id:8, section:'A', q:"Q8. What comes next: 3, 12, 7, 16, 11, 20, 15, ?", options:["A. 16","B. 24","C. 14","D. 18"]},
-  {id:9, section:'A', q:"Q9. Each of the letters in the word STUDENT is arranged in alphabetical order. How many letters are there in the English alphabetical series between the letter that is second from the left and the one that is fourth from the right in the new letter-cluster formed?", options:["A. 17","B. 13","C. 11","D. 15"]},
-  {id:10, section:'A', q:"Q10. Which of the following addresses are identical to each other?\\n1. Arjun Mehta A-101, Emerald Towers, Surat, 395001\\n2. Arjun Mehta A-101, Emerald Tower, Surat, 395001\\n3. Arjun M. A-101, Emerald Tower, Surat, 395001\\n4. Arjun Mehta A-101, Emerald Tower, Surat, 395001", options:["A. 1 and 2","B. 2 and 3","C. 1 and 3","D. All four are identical"]},
-  {id:11, section:'A', q:"Q11. Which of the following is/are identical to the address given: \\nMeenal Gupta 102, Silver Oaks, Sector 12, Noida, 201301\\nOptions:\\n1. Meenal Gupta 102, Silver Oaks, Sector 12, Noida, 201301\\n2. Meenal Gupta 102, Silver Oaks, Sector-12, Noida, 201301\\n3. Meenal Gupta 102, Silver Oaks, Sector 12, Noida 201301\\n4. Meenal Gupta 102, Silver Oaks, Sector 12, Noida, 201302", options:["A. 1 only","B. 1 and 2","C. 1 and 3","D. 1,2 and 3"]},
-  {id:12, section:'A', q:"Q12. Find the option that best completes the analogy.\\nAG : 10 :: CM : ?", options:["A. KO","B. KU","C. KS","D. S"]},
-  {id:13, section:'A', q:"Q13. A is facing North. B is seated second to the right of A. Who is sitting immediately to the left of B?", options:["A. The person seated to the immediate right of A","B. The person seated opposite to A","C. The person seated to the immediate left of A","D. Cannot be determined"]},
-  {id:14, section:'A', q:"Q14. In the following question, the second word is related to the first word by a specific pattern of letter transformation. Identify the same pattern and apply it to the third word to find the correct option that completes the analogy.\\nTIME : VJOG :: WORD : ?", options:["A. YPTF","B. YQTG","C. YPSF","D. ZPSF"]},
-  {id:15, section:'A', q:"Q15. In each of the following questions, a specific pattern such as reversal or rearrangement has been applied to the first word to get the second. Apply the same pattern to the third word and find the correct answer from the given options.\\nGNIDAER : READING :: NOITULOS : ?", options:["A. SOLUTION","B. SOLUNOIT","C. NOILOSUT","D. POLLUTION"]},
-  {id:16, section:'A', q:"Q16. In each of the following questions, the first word is coded to form the second word using a specific rearrangement and/or substitution rule. Apply the same rule to the third word to determine the correct corresponding word from the given alternatives.\\nAYRRIC : CATTLE :: NCPDCAR : ?", options:["A. SUBJECTS","B. NEGLECT","C. PERFECT","D. OPERATE"]},
-  {id:17, section:'A', q:"Q17. Identify the odd one: 2, 3, 5, 7, 11, 13, 17, 20", options:["A. 17","B. 13","C. 20","D. 1"]},
-  {id:18, section:'A', q:"Q18. Which of the following is the odd one out?\\n2, 3, 5\\n11, 13, 17\\n4, 6, 8\\n7, 19, 23", options:["A. 2,3,5","B. 11,13,17","C. 4,6,8","D. 7,19,23"]},
-  {id:19, section:'A', q:"Q19. Rani said, “The man in the photo is my mother’s son-in-law.” Who is the man to Rani?", options:["A. Husband","B. Father","C. Uncle","D. Cousin"]},
-  {id:20, section:'A', q:"Q20. In each of the following questions, a group of three numbers/symbols is given in each option. Identify the group that does NOT follow the same pattern as the others.\\nK11 : 19 : G7\\nM13 : K11 : 19\\nO15 : M13 : K11\\nN14 : K11 : H8", options:["A. A","B. B","C. C","D. D"]},
-  {id:21, section:'A', q:"Q21. In each of the following questions, a group of three numbers/symbols is given in each option. Identify the group that does NOT follow the same pattern as the others.\\nA1@ : B2# : C3$\\nD4% : E5$ : F6&\\nG7* : H8( : I9)\\nJ10_ : K11@ : L12@", options:["A. A","B. B","C. C","D. D"]},
-  {id:22, section:'A', q:"Q22. Pointing to a man, a woman said, “His mother is the only daughter of my father.” How is the man related to the woman?", options:["A. Son","B. Nephew","C. Cousin","D. Grandson"]},
-  {id:23, section:'A', q:"Q23. Pointing to a woman, John says, “She is the wife of my uncle’s only son.” How is the woman related to John?", options:["A. Cousin","B. Sister-in-law","C. Niece","D. Aunt"]},
-  {id:24, section:'A', q:"Q24. A man said, “My mother’s husband’s only son is the father of your sister’s brother.” How is the man related to you?", options:["A. Uncle","B. Father","C. Grandfather","D. Brother"]},
-  {id:25, section:'A', q:"Q25. If # = ×, @ = –, $ = +, then evaluate: 9 # 2 @ 3 $ 1", options:["A. 18","B. 14","C. 16","D. 17"]},
 
-  // Section B: General Awareness (26-50)
-  {id:26, section:'B', q:"Q26. Which of the following features distinguishes the Elephanta Caves from other rock-cut sites of early India?", options:["A. They are primarily Buddhist caves with large stupas.","B. The caves focus on Shaivite themes and feature sculptural depth through light and shadow.","C. They contain a mix of Jain and Vaishnavite depictions in pillar halls.","D. The caves are entirely monolithic structures from the Mauryan period."]},
-  {id:27, section:'B', q:"Q27. Read the statements about the Goncha Festival of Bastar:\\n1. Tupki, a mock gun made of bamboo, uses Goncha fruit as bullets.\\n2. The chariot procession was started by the Chalukya rulers.\\n3. Rath Yatra begins on Ashadh Shukla Dashmi and ends on Dutiya.\\nWhich of the above statements are correct?", options:["A. 1 and 2 only","B. 2 and 3 only","C. 1 and 3 only","D. 1, 2 and 3"]},
-  {id:28, section:'B', q:"Q28. Fill in the blank:\\nIn Carnatic music, a laghu with five beats is known as ___ jaati.", options:["A. Tishra","B. Chaturashra","C. Khanda","D. Mishra"]},
-  {id:29, section:'B', q:"Q29. Which of the following statements about Judo is correct?", options:["A. Judo was introduced in 1882 by Jigoro Kano in Japan.","B. India’s first National Judo Championship was held in 1970 at Delhi University.","C. Kalpana Devi won gold at the 2010 Judo World Cup.","D. Judo became an Olympic sport in 1965."]},
-  {id:30, section:'B', q:"Q30. Where and when will the 59th National Cross Country Championships – 2025 be held?", options:["A. 10 Jan 2025 – Lucknow, Uttar Pradesh","B. 12 Jan 2025 – Meerut, Uttar Pradesh","C. 15 Jan 2025 – Kanpur, Uttar Pradesh","D. 12 Jan 2025 – Jaipur, Rajasthan"]},
-  {id:31, section:'B', q:"Q31. What is the core structural focus of the 2024 India–UAE Bilateral Investment Treaty (BIT) within India’s international investment strategy?", options:["A. Proposes joint sovereign funds and links INR swap with UAE banks.","B. Focuses on pre-establishment rights and UAE-based arbitration.","C. Ensures post-establishment investor confidence via standard and national treatment.","D. Aims at GCC-wide tax regulation under India-led digital framework."]},
-  {id:32, section:'B', q:"Q32. The Santosh Trophy 2022-23 final was uniquely held in ___, where Karnataka defeated Meghalaya to win the title after 54 years.", options:["A. Dubai","B. Riyadh","C. Doha","D. Muscat"]},
-  {id:33, section:'B', q:"Q33. Which of the following statements best captures the essence of \"Landscapes of Loss: The Story of an Indian Drought\" by Kavitha Iyer?", options:["A. A study on drought’s human and ecological impacts in India.","B. A fictional story about a family in a drought-hit area.","C. A history of monsoon patterns and ancient agriculture in India.","D. A colonial-era policy analysis of water management."]},
-  {id:34, section:'B', q:"Q34. Consider the following statements about glacial landforms:\\n1. Hanging valleys are often found opening into main glacial valleys at higher elevations.\\n2. Spurs of such hanging valleys are frequently truncated into triangular facets.\\nWhich of the following statements is/are correct?", options:["A. Only 1","B. Only 2","C. 1 and 2 are correct","D. Neither 1 nor 2 are correct"]},
-  {id:35, section:'B', q:"Q35. What is the primary function of the Crew Escape System (CES) on ISRO’s Human Rated LVM3 (HLVM3) rocket?", options:["A. To guide the crew module into its designated low-Earth orbit.","B. To eject the crew module to safety during launch emergencies.","C. To assist in docking the crew module with a space station.","D. To provide thermal shielding during re-entry into Earth’s atmosphere."]},
-  {id:36, section:'B', q:"Q36. Which of the following statements about Justice Sanjiv Khanna is/are true?\\n1. He is the 51st Chief Justice of India.\\n2. He succeeded Justice D.Y. Chandrachud.\\n3. He served as CJI from 2023.", options:["A. 1 and 2 only","B. 2 and 3 only","C. 1 and 3 only","D. 1, 2 and 3 all are true"]},
-  {id:37, section:'B', q:"Q37. Which of the following objectives are part of the National Population Policy (NPP) 2000?\\n1. Providing free and compulsory education up to 14 years of age.\\n2. Increasing fertility rate to ensure demographic dividend.\\n3. Reducing infant mortality rate below 30 per 1000 live births.\\n4. Promoting delayed marriage for girls.", options:["A. Only 1 and 2 are correct","B. Only 1 and 3 are correct","C. Only 1, 3 and 4 are correct","D. 1, 2, 3 and 4 all are correct"]},
-  {id:38, section:'B', q:"Q38. Which pathway in cellular respiration generates the most ATP?", options:["A. Glycolysis","B. Krebs cycle","C. Electron transport chain","D. Fermentation"]},
-  {id:39, section:'B', q:"Q39. Arrange the following events in chronological order:\\na. Eastern Zonal Council meeting 2022\\nb. States Reorganisation Act passed\\nc. First Central Zonal Council meeting", options:["A. b – c – a","B. c – b – a","C. a – b – c","D. b – a – c"]},
-  {id:40, section:'B', q:"Q40. Which of the following most accurately describes the legal character of the right to property under Article 300A of the Indian Constitution?", options:["A. It is a fundamental right guaranteeing compensation for all property acquisitions.","B. It allows the State to deprive a person of property by any law, even without due process.","C. It is a constitutional legal right that permits deprivation only by authority of law.","D. It permits citizens to claim property protection under Article 32 before the Supreme Court."]},
-  {id:41, section:'B', q:"Q41. For a rigid body, the angular velocity of any particle about a given axis of rotation is:", options:["A. Proportional to its distance from the axis.","B. The same for all particles.","C. Inversely proportional to its distance from the axis.","D. Always zero."]},
-  {id:42, section:'B', q:"Q42. The Bharatiya Sakshya Adhiniyam (BSA) places emphasis on the use of technology to ensure the authenticity of evidence. This is particularly relevant for:", options:["A. Physical exhibits from crime scenes.","B. Hand-written diaries.","C. Digital and electronic evidence.","D. Oral confessions."]},
-  {id:43, section:'B', q:"Q43. Read the below statements marked as Assertion (A) and Reason (R):\\nAssertion (A): The One Nation One Ration Card ensures portability of food grains.\\nReason (R): It uses Aadhaar-enabled biometric authentication.", options:["A. Both A and R are true, and R is the correct explanation of A.","B. Both A and R are true, but R is not the correct explanation of A.","C. A is true, but R is false.","D. A is false, but R is true."]},
-  {id:44, section:'B', q:"Q44. Cheraw, the bamboo dance performed using crossed bamboo sticks, is a folk dance of which state?", options:["A. Mizoram","B. Meghalaya","C. Arunachal Pradesh","D. Sikkim"]},
-  {id:45, section:'B', q:"Q45. What is a key factor assessed in the Global Firepower Military Strength Ranking 2025?", options:["A. Economic stability","B. Cultural influence","C. Defence budget","D. Healthcare spending"]},
-  {id:46, section:'B', q:"Q46. Which of the following correctly describes cooperative-sector industries?", options:["A. Owned and operated by central government agencies.","B. Operated solely for export purposes.","C. Owned by workers or suppliers sharing profits and losses.","D. Maintained by foreign companies with Indian partnerships."]},
-  {id:47, section:'B', q:"Q47. Education is now placed under which list after the 42nd Amendment?", options:["A. Union List","B. State List","C. Concurrent List","D. Judicial List"]},
-  {id:48, section:'B', q:"Q48. What is the main objective of the National Framework for Climate Services (NFCS) launched in 2024?", options:["A. To set emission trading targets.","B. To regulate groundwater quality.","C. To deliver sector-specific climate information services.","D. To mandate carbon offsetting in the private sector."]},
-  {id:49, section:'B', q:"Q49. Argon is produced in Earth’s crust via:", options:["A. Decay of K-40.","B. Volcanic activity.","C. Photosynthesis.","D. Cosmic rays."]},
-  {id:50, section:'B', q:"Q50. Which of the following is true about Fundamental Rights and Directive Principles of State Policy (DPSPs)?", options:["A. Both are justiciable and enforceable by courts.","B. DPSPs override Fundamental Rights when in conflict.","C. Fundamental Rights are justiciable, but DPSPs are not.","D. DPSPs are guaranteed by the Constitution; Fundamental Rights are optional."]},
+/* --- DEFAULT QUESTIONS (use these or replace) --- */
+/* For brevity I include the exact 100 questions you gave earlier; if you want a different set
+   paste a new object in its place with the same structure. */
+const QUESTIONS = {
+  "Reasoning": [
+    {"id":1,"q":"In the following question, select the related word from the given alternatives.\nWatt : Power :: Pascal : ?","options":["A. Energy","B. Temperature","C. Pressure","D. Force"]},
+    {"id":2,"q":"In the following question, select the related word from the given alternatives.\nMekong : Tibet :: Amazon : ?","options":["A. Chile","B. Peru","C. Colombia","D. Ecuador"]},
+    {"id":3,"q":"Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.\nCGK, GKO, KOS, OSW, ?","options":["A. SDA","B. KNB","C. SWA","D. KJH"]},
+    {"id":4,"q":"Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.\nMIN, NJM, OKL, PLK, ?","options":["A. QWS","B. HGF","C. QMJ","D. UJH"]},
+    {"id":5,"q":"Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.\nBRF, EUH, HXJ, KAL, ?","options":["A. NMB","B. NKH","C. NHG","D. NDN"]},
+    {"id":6,"q":"Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.\nWZWT, WVOH, WRGV, WNYJ, ?","options":["A. WJQX","B. WJQW","C. WHPX","D. WIPX"]},
+    {"id":7,"q":"Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.\nMCFI, NEKP, OGPW, PIUD, ?","options":["A. NKYD","B. QLYL","C. QKZK","D. QKZL"]},
+    {"id":8,"q":"What comes next: 3, 12, 7, 16, 11, 20, 15, ?","options":["A. 16","B. 24","C. 14","D. 18"]},
+    {"id":9,"q":"Each of the letters in the word STUDENT is arranged in alphabetical order. How many letters are there in the English alphabetical series between the letter that is second from the left and the one that is fourth from the right in the new letter-cluster formed?","options":["A. 17","B. 13","C. 11","D. 15"]},
+    {"id":10,"q":"Which of the following addresses are identical to each other?\nArjun Mehta A-101, Emerald Towers, Surat, 395001\nArjun Mehta A-101, Emerald Tower, Surat, 395001\nArjun M. A-101, Emerald Tower, Surat, 395001\nArjun Mehta A-101, Emerald Tower, Surat, 395001","options":["A. 1 and 2","B. 2 and 3","C. 1 and 3","D. All four are identical"]},
+    {"id":11,"q":"Which of the following is/are identical to the address given:\nMeenal Gupta 102, Silver Oaks, Sector 12, Noida, 201301\nOptions:\n1. Meenal Gupta 102, Silver Oaks, Sector 12, Noida, 201301\n2. Meenal Gupta 102, Silver Oaks, Sector-12, Noida, 201301\n3. Meenal Gupta 102, Silver Oaks, Sector 12, Noida 201301\n4. Meenal Gupta 102, Silver Oaks, Sector 12, Noida, 201302","options":["A. 1 only","B. 1 and 2","C. 1 and 3","D. 1,2 and 3"]},
+    {"id":12,"q":"Find the option that best completes the analogy.\nAG : 10 :: CM : ?","options":["A. KO","B. KU","C. KS","D. S"]},
+    {"id":13,"q":"A is facing North. B is seated second to the right of A. Who is sitting immediately to the left of B?","options":["A. The person seated to the immediate right of A","B. The person seated opposite to A","C. The person seated to the immediate left of A","D. Cannot be determined"]},
+    {"id":14,"q":"In the following question, the second word is related to the first word by a specific pattern of letter transformation.\nTIME : VJOG :: WORD : ?","options":["A. YPTF","B. YQTG","C. YPSF","D. ZPSF"]},
+    {"id":15,"q":"GNIDAER : READING :: NOITULOS : ?","options":["A. SOLUTION","B. SOLUNOIT","C. NOILOSUT","D. POLLUTION"]},
+    {"id":16,"q":"AYRRIC : CATTLE :: NCPDCAR : ?","options":["A. SUBJECTS","B. NEGLECT","C. PERFECT","D. OPERATE"]},
+    {"id":17,"q":"Identify the odd one: 2, 3, 5, 7, 11, 13, 17, 20","options":["A. 17","B. 13","C. 20","D. 1"]},
+    {"id":18,"q":"Which of the following is the odd one out?\nA. 2, 3, 5\nB. 11, 13, 17\nC. 4, 6, 8\nD. 7, 19, 23","options":["A. A","B. B","C. C","D. D"]},
+    {"id":19,"q":"Rani said, “The man in the photo is my mother’s son-in-law.” Who is the man to Rani?","options":["A. Husband","B. Father","C. Uncle","D. Cousin"]},
+    {"id":20,"q":"Identify the group that does NOT follow the same pattern:\nA. K11 : 19 : G7\nB. M13 : K11 : 19\nC. O15 : M13 : K11\nD. N14 : K11 : H8","options":["A. A","B. B","C. C","D. D"]},
+    {"id":21,"q":"Identify the group that does NOT follow the same pattern:\nA. A1@ : B2# : C3$\nB. D4% : E5$ : F6&\nC. G7* : H8( : I9)\nD. J10_ : K11@ : L12@","options":["A. A","B. B","C. C","D. D"]},
+    {"id":22,"q":"Pointing to a man, a woman said, “His mother is the only daughter of my father.” How is the man related to the woman?","options":["A. Son","B. Nephew","C. Cousin","D. Grandson"]},
+    {"id":23,"q":"Pointing to a woman, John says, “She is the wife of my uncle’s only son.” How is the woman related to John?","options":["A. Cousin","B. Sister-in-law","C. Niece","D. Aunt"]},
+    {"id":24,"q":"A man said, “My mother’s husband’s only son is the father of your sister’s brother.” How is the man related to you?","options":["A. Uncle","B. Father","C. Grandfather","D. Brother"]},
+    {"id":25,"q":"If # = ×, @ = –, $ = +, then evaluate: 9 # 2 @ 3 $ 1","options":["A. 18","B. 14","C. 16","D. 17"]}
+  ],
+  "General Awareness": [
+    {"id":26,"q":"Which of the following features distinguishes the Elephanta Caves from other rock-cut sites of early India?","options":["A. They are primarily Buddhist caves with large stupas.","B. The caves focus on Shaivite themes and feature sculptural depth through light and shadow.","C. They contain a mix of Jain and Vaishnavite depictions in pillar halls.","D. The caves are entirely monolithic structures from the Mauryan period."]},
+    {"id":27,"q":"Read the statements about the Goncha Festival of Bastar:\n1. Tupki, a mock gun made of bamboo, uses Goncha fruit as bullets.\n2. The chariot procession was started by the Chalukya rulers.\n3. Rath Yatra begins on Ashadh Shukla Dashmi and ends on Dutiya.\nWhich of the above statements are correct?","options":["A. 1 and 2 only","B. 2 and 3 only","C. 1 and 3 only","D. 1, 2 and 3"]},
+    {"id":28,"q":"Fill in the blank:\nIn Carnatic music, a laghu with five beats is known as ___ jaati.","options":["A. Tishra","B. Chaturashra","C. Khanda","D. Mishra"]},
+    {"id":29,"q":"Which of the following statements about Judo is correct?","options":["A. Judo was introduced in 1882 by Jigoro Kano in Japan.","B. India’s first National Judo Championship was held in 1970 at Delhi University.","C. Kalpana Devi won gold at the 2010 Judo World Cup.","D. Judo became an Olympic sport in 1965."]},
+    {"id":30,"q":"Where and when will the 59th National Cross Country Championships – 2025 be held?","options":["A. 10 Jan 2025 – Lucknow, Uttar Pradesh","B. 12 Jan 2025 – Meerut, Uttar Pradesh","C. 15 Jan 2025 – Kanpur, Uttar Pradesh","D. 12 Jan 2025 – Jaipur, Rajasthan"]},
+    {"id":31,"q":"What is the core structural focus of the 2024 India–UAE Bilateral Investment Treaty (BIT) within India’s international investment strategy?","options":["A. Proposes joint sovereign funds and links INR swap with UAE banks.","B. Focuses on pre-establishment rights and UAE-based arbitration.","C. Ensures post-establishment investor confidence via standard and national treatment.","D. Aims at GCC-wide tax regulation under India-led digital framework."]},
+    {"id":32,"q":"The Santosh Trophy 2022-23 final was uniquely held in ___, where Karnataka defeated Meghalaya to win the title after 54 years.","options":["A. Dubai","B. Riyadh","C. Doha","D. Muscat"]},
+    {"id":33,"q":"Which of the following statements best captures the essence of \"Landscapes of Loss: The Story of an Indian Drought\" by Kavitha Iyer?","options":["A. A study on drought’s human and ecological impacts in India.","B. A fictional story about a family in a drought-hit area.","C. A history of monsoon patterns and ancient agriculture in India.","D. A colonial-era policy analysis of water management."]},
+    {"id":34,"q":"Consider the following statements about glacial landforms:\n1. Hanging valleys are often found opening into main glacial valleys at higher elevations.\n2. Spurs of such hanging valleys are frequently truncated into triangular facets.\nWhich of the following statements is/are correct?","options":["A. Only 1","B. Only 2","C. 1 and 2 are correct","D. Neither 1 nor 2 are correct"]},
+    {"id":35,"q":"What is the primary function of the Crew Escape System (CES) on ISRO’s Human Rated LVM3 (HLVM3) rocket?","options":["A. To guide the crew module into its designated low-Earth orbit.","B. To eject the crew module to safety during launch emergencies.","C. To assist in docking the crew module with a space station.","D. To provide thermal shielding during re-entry into Earth’s atmosphere."]},
+    {"id":36,"q":"Which of the following statements about Justice Sanjiv Khanna is/are true?\n1. He is the 51st Chief Justice of India.\n2. He succeeded Justice D.Y. Chandrachud.\n3. He served as CJI from 2023.","options":["A. 1 and 2 only","B. 2 and 3 only","C. 1 and 3 only","D. 1, 2 and 3 all are true"]},
+    {"id":37,"q":"Which of the following objectives are part of the National Population Policy (NPP) 2000?\n1. Providing free and compulsory education up to 14 years of age.\n2. Increasing fertility rate to ensure demographic dividend.\n3. Reducing infant mortality rate below 30 per 1000 live births.\n4. Promoting delayed marriage for girls.","options":["A. Only 1 and 2 are correct","B. Only 1 and 3 are correct","C. Only 1, 3 and 4 are correct","D. 1, 2, 3 and 4 all are correct"]},
+    {"id":38,"q":"Which pathway in cellular respiration generates the most ATP?","options":["A. Glycolysis","B. Krebs cycle","C. Electron transport chain","D. Fermentation"]},
+    {"id":39,"q":"Arrange the following events in chronological order:\na. Eastern Zonal Council meeting 2022\nb. States Reorganisation Act passed\nc. First Central Zonal Council meeting","options":["A. b – c – a","B. c – b – a","C. a – b – c","D. b – a – c"]},
+    {"id":40,"q":"Which of the following most accurately describes the legal character of the right to property under Article 300A of the Indian Constitution?","options":["A. It is a fundamental right guaranteeing compensation for all property acquisitions.","B. It allows the State to deprive a person of property by any law, even without due process.","C. It is a constitutional legal right that permits deprivation only by authority of law.","D. It permits citizens to claim property protection under Article 32 before the Supreme Court."]},
+    {"id":41,"q":"For a rigid body, the angular velocity of any particle about a given axis of rotation is:","options":["A. Proportional to its distance from the axis.","B. The same for all particles.","C. Inversely proportional to its distance from the axis.","D. Always zero."]},
+    {"id":42,"q":"The Bharatiya Sakshya Adhiniyam (BSA) places emphasis on the use of technology to ensure the authenticity of evidence. This is particularly relevant for:","options":["A. Physical exhibits from crime scenes.","B. Hand-written diaries.","C. Digital and electronic evidence.","D. Oral confessions."]},
+    {"id":43,"q":"Read the below statements marked as Assertion (A) and Reason (R):\nAssertion (A): The One Nation One Ration Card ensures portability of food grains.\nReason (R): It uses Aadhaar-enabled biometric authentication.","options":["A. Both A and R are true, and R is the correct explanation of A.","B. Both A and R are true, but R is not the correct explanation of A.","C. A is true, but R is false.","D. A is false, but R is true."]},
+    {"id":44,"q":"Cheraw, the bamboo dance performed using crossed bamboo sticks, is a folk dance of which state?","options":["A. Mizoram","B. Meghalaya","C. Arunachal Pradesh","D. Sikkim"]},
+    {"id":45,"q":"What is a key factor assessed in the Global Firepower Military Strength Ranking 2025?","options":["A. Economic stability","B. Cultural influence","C. Defence budget","D. Healthcare spending"]},
+    {"id":46,"q":"Which of the following correctly describes cooperative-sector industries?","options":["A. Owned and operated by central government agencies.","B. Operated solely for export purposes.","C. Owned by workers or suppliers sharing profits and losses.","D. Maintained by foreign companies with Indian partnerships."]},
+    {"id":47,"q":"Education is now placed under which list after the 42nd Amendment?","options":["A. Union List","B. State List","C. Concurrent List","D. Judicial List"]},
+    {"id":48,"q":"What is the main objective of the National Framework for Climate Services (NFCS) launched in 2024?","options":["A. To set emission trading targets.","B. To regulate groundwater quality.","C. To deliver sector-specific climate information services.","D. To mandate carbon offsetting in the private sector."]},
+    {"id":49,"q":"Argon is produced in Earth’s crust via:","options":["A. Decay of K-40.","B. Volcanic activity.","C. Photosynthesis.","D. Cosmic rays."]},
+    {"id":50,"q":"Which of the following is true about Fundamental Rights and Directive Principles of State Policy (DPSPs)?","options":["A. Both are justiciable and enforceable by courts.","B. DPSPs override Fundamental Rights when in conflict.","C. Fundamental Rights are justiciable, but DPSPs are not.","D. DPSPs are guaranteed by the Constitution; Fundamental Rights are optional."]}
+  ],
+  "Quantitative Aptitude": [
+    {"id":51,"q":"Arrange the fractions (3/4), (2/5), (5/7), (3/5) in ascending order.","options":["A. 2/5, 3/5, 3/4, 5/7","B. 2/5, 3/5, 5/7, 3/4","C. 3/5, 2/5, 5/7, 3/4","D. 2/5, 5/7, 3/5, 3/4"]},
+    {"id":52,"q":"Simplify: (26 + 3.6) - 1.9.","options":["A. 27.7","B. 27.9","C. 28.7","D. 27.1"]},
+    {"id":53,"q":"Evaluate: 71 - 6 + (1 - (3 x 3 - 6)).","options":["A. 64","B. 66","C. 68","D. 62"]},
+    {"id":54,"q":"From a sample of 200 software engineers:\nProficient in Python and Java = 50\nPython only = 70\nJava only = 60\nNeither = 20\nWhat is the ratio of those proficient in Python to those proficient in Java?","options":["A. 11 : 12","B. 12 : 11","C. 7 : 6","D. 6 : 7"]},
+    {"id":55,"q":"Arvind started a business by investing ₹80,000. After 4 months Bhavin joined with ₹1,20,000. At the end of 8 months from the start, Chandan joined with ₹1,60,000. If the total profit at the end of the year (12 months) is ₹1,05,000, find Chandan’s share.","options":["A. ₹26,250","B. ₹21,000","C. ₹31,500","D. ₹17,500"]},
+    {"id":56,"q":"A and B start a business. A invests ₹80,000 for 9 months, B invests ₹1,20,000 for 6 months. If total profit is ₹45,000, what is B’s share?","options":["A. ₹20,000","B. ₹25,000","C. ₹27,000","D. ₹30,000"]},
+    {"id":57,"q":"What is the average of all integers between 100 and 250 that are exactly divisible by 11?","options":["A. 176","B. 186","C. 196","D. 166"]},
+    {"id":58,"q":"The average of 15 numbers is 80. The average of the first 6 numbers is 72. The average of the next 6 numbers is 25% more than the average of the first 6 numbers. The 13th number is 8 more than the 15th number, and the 14th number is 10 less than the 15th number. What is the average of the 13th and 14th numbers?","options":["A. 75","B. 76","C. 77","D. 78"]},
+    {"id":59,"q":"A landlord bought a flat for ₹8,00,000. He pays ₹2,000 per month for maintenance and wants a 9% annual return on his investment after maintenance. What should be the monthly rent he charges?","options":["A. ₹7,000","B. ₹7,500","C. ₹8,000","D. ₹8,500"]},
+    {"id":60,"q":"An amount doubles in 5 years at compound interest. How many years will it take for the amount to grow to 8 times its original value?","options":["A. 15 years","B. 16 years","C. 17 years","D. 18 years"]},
+    {"id":61,"q":"A sum becomes ₹6,600 in 2 years and ₹7,920 in 3 years at compound interest. What is the original principal?","options":["A. ₹5,583.33","B. ₹6,000.00","C. ₹5,000.00","D. ₹6,500.00"]},
+    {"id":62,"q":"Suman purchased 25 litres of milk at ₹45 per litre and another 15 litres at ₹50 per litre. She mixed both quantities and sold the entire mixture at ₹48 per litre. What was her total profit or loss?","options":["A. Profit of ₹90","B. Loss of ₹45","C. Profit of ₹45","D. Loss of ₹90"]},
+    {"id":63,"q":"A toy manufacturer produced 1,200 toy cars at a total cost of ₹90,000. He donated 200 cars to charity. For the remaining, he announced a 10% discount on the market price of ₹120 per car and offered 2 free toy cars for every 8 bought. If all 1,200 toy cars were distributed, what is his overall gain or loss percentage?","options":["A. 4% profit","B. 4% loss","C. 5% profit","D. 5% loss"]},
+    {"id":64,"q":"A retailer marks an air conditioner 80% above its cost price. He offers a first discount of 25% on the marked price and then an additional 10% discount on the already discounted price. If the final selling price is ₹15,552, what is the approximate cost price of the air conditioner?","options":["A. ₹79,000","B. ₹79,200","C. ₹71,200","D. ₹71,000"]},
+    {"id":65,"q":"A 40-litre mixture contains juice and water in the ratio 5:3. How much water (in litres) must be added to this mixture to change the ratio of juice to water to 2:3?","options":["A. 5 litres","B. 10 litres","C. 15 litres","D. 25 litres"]},
+    {"id":66,"q":"A can complete a task in 15 days, while B takes 20 days to finish the same task. If they work together for 4 days, what fraction of the work will still remain?","options":["A. 2/15","B. 1/6","C. 3/10","D. 1/5"]},
+    {"id":67,"q":"Two oils priced at ₹90 per kg and ₹150 per kg are blended and sold at ₹144 per kg, achieving a profit margin of 20%. What is the ratio of the two oils in the mixture?","options":["A. 1 : 2","B. 2 : 1","C. 3 : 5","D. 5 : 3"]},
+    {"id":68,"q":"Three pipes A, B and C fill a tank in 6, 8 and 12 hours respectively. All three operate together for 2 hours before C is closed. How much additional time will it take to completely fill the tank after that?","options":["A. 2 hours","B. 2.5 hours","C. 3 hours","D. 4 hours"]},
+    {"id":69,"q":"A bullet train covers a fixed distance in 30 minutes at an average speed of 240 km/h. Due to diversion the distance increases by 20%. If it still must arrive in 30 minutes, what should its new average speed be (in km/h)?","options":["A. 280 km/h","B. 288 km/h","C. 300 km/h","D. 320 km/h"]},
+    {"id":70,"q":"Two cars X and Y start from points 360 km apart. If they move towards each other they meet in 4 hours. If they move in the same direction, they meet in 12 hours. What is the speed of car X? (Assume X is the faster car.)","options":["A. 60 km/h","B. 75 km/h","C. 90 km/h","D. 45 km/h"]},
+    {"id":71,"q":"A circular pizza has radius 21 cm. If 75% of it is eaten, what is the area of pizza remaining? (Use π = 22/7).","options":["A. 173.25 cm²","B. 346.36 cm²","C. 432.25 cm²","D. 115.5 cm²"]},
+    {"id":72,"q":"A ring-shaped disc has outer radius 10 cm and inner radius 7 cm. What is the approximate ratio of the ring’s area to the area of the whole outer circle?","options":["A. 1 : 2","B. 2 : 3","C. 3 : 4","D. 4 : 5"]},
+    {"id":73,"q":"A bicycle wheel has radius 35 cm. What percentage of its circumference is covered in a quarter turn? (Use π = 22/7).","options":["A. 15%","B. 25%","C. 30%","D. 35%"]},
+    {"id":74,"q":"The line y = mx + 5 passes through the point (1, 8). Find m.","options":["A. 3","B. 2","C. 5","D. -3"]},
+    {"id":75,"q":"313 + 183 - 373 + 210 is equal to:","options":["A. -368","B. -148","C. -456","D. -234"]}
+  ],
+  "English Comprehension": [
+    {"id":76,"q":"Select the most appropriate synonym of the given word: PERFIDIOUS","options":["A. Honest","B. Faithful","C. Treacherous","D. Loyal"]},
+    {"id":77,"q":"Choose the correct meaning of the idiom “Hobson’s Choice.”","options":["A. A dilemma between two evils","B. A free and fair decision","C. No real choice at all","D. A selection made under duress"]},
+    {"id":78,"q":"Select the most appropriate antonym of the given word: Perfidious","options":["A. Betraying","B. Faithless","C. Treacherous","D. Loyal"]},
+    {"id":79,"q":"Identify the misspelt word.","options":["A. Vicereine","B. Floccinaucinihilipilification","C. Defenestrate","D. Quintessance"]},
+    {"id":80,"q":"Spot the correct spelling of a CSF-shunt procedure.","options":["A. Ventriculoperitoneal","B. Ventriculoperitonal","C. Ventriculaperitoneal","D. Ventriculoperetoneal"]},
+    {"id":81,"q":"Choose the correct one-word substitute for: 'An official reprimand or strong criticism.'","options":["A. Accusation","B. Denunciation","C. Censure","D. Indictment"]},
+    {"id":82,"q":"The startup scaled so rapidly that its infrastructure could ___ keep pace.","options":["A. Barely","B. Merely","C. Scarcely","D. All but"]},
+    {"id":83,"q":"Rare though the phenomenon is, it can occur ___ prolonged drought conditions.","options":["A. Towards","B. Amid","C. Among","D. During"]},
+    {"id":84,"q":"While the proposal appeared pragmatic on paper, its implementation proved ___ complicated than expected.","options":["A. Less","B. Much","C. Rather","D. More"]},
+    {"id":85,"q":"Find the part of the sentence that contains an error:\nThat the report failed to address the root causes (1) / of the community unrest were surprising (2) / given the exhaustive data (3) / compiled over several months. (4)","options":["A. (1)","B. (2)","C. (3)","D. (4"]},
+    {"id":86,"q":"Find the part of the sentence that contains an error:\nWhat renders the draft legislation particularly contentious is not its proposed realignment of fiscal powers per se, (1) / but that it presumes, without empirical substantiation, (2) / a fiscal equivalence among states whose developmental baselines are (3) / incommensurable by any normative metric. (4)","options":["A. (1)","B. (2)","C. (3)","D. (4)"]},
+    {"id":87,"q":"Change the following from active to passive voice:\nThey have been neglecting maintenance of the archives for years.","options":["A. Maintenance of the archives had been neglected by them for years.","B. Maintenance of the archives is being neglected by them for years.","C. Maintenance of the archives was being neglected by them for years.","D. Maintenance of the archives has been being neglected by them for years."]},
+    {"id":88,"q":"Select the sentence containing the homonym of the highlighted word:\nThe choir began the introit at the priest’s signal.","options":["A. The child sang the introit during the intermission.","B. The introit was replaced by an organ improvisation.","C. The missal included Latin text for the introit.","D. The cantor rehearsed the Sunday introit."]},
+    {"id":89,"q":"Convert the sentence from passive to active voice:\nIt was being suggested by multiple sources that the operation had been compromised internally.","options":["A. Multiple sources suggested the operation was compromised internally.","B. The operation was compromised, multiple sources suggested.","C. Sources were suggesting an operation compromise.","D. The operation had compromised multiple internal sources."]},
+    {"id":90,"q":"Comprehension Passage:\nWhile education and wisdom are often conflated in everyday discourse, a discerning mind perceives a fundamental difference between the two. Education is the formal acquisition of knowledge, usually measured through degrees, academic achievements, and proficiency in structured disciplines. It is delivered through systematic curricula, institutional assessments, and theoretical frameworks.\nHowever, wisdom transcends this rigidity; it is the judicious application of knowledge to real-life situations, enriched by experience, introspection, and emotional intelligence. An individual may be highly educated yet lack wisdom if they are unable to apply their learning ethically and effectively. Conversely, many wise individuals — farmers, artisans, elders — may not possess formal education, but their decisions exhibit prudence and sagacity cultivated through lived experience.\nThus, education equips the mind, but wisdom enriches the soul. In an era dominated by information overload and algorithmic thinking, the gap between the two has widened. Educational institutions often prioritise rote memorisation and standardised testing over critical thinking and moral reasoning. Consequently, society produces people skilled in problem-solving but deficient in decision-making that requires empathy, patience, or foresight.\nWisdom, being innately human, cannot be downloaded or fast-tracked; it is earned through trial, failure, reflection, and a nuanced understanding of human nature. Furthermore, while education is temporally bounded — ending with formal schooling or academic milestones — wisdom is a lifelong pursuit. It does not boast certificates but manifests in humility, ethical consistency, and the ability to navigate ambiguity with grace.\nUltimately, the highest form of intelligence lies not merely in knowing what is right, but in consistently choosing to do it, especially when it is inconvenient.\nQ90: According to the passage, how is wisdom primarily acquired?","options":["A. Through textbooks","B. Through emotional detachment","C. Through experience and reflection","D. Through algorithmic thinking"]},
+    {"id":91,"q":"What does the author mean by 'wisdom enriches the soul'?","options":["A. It enhances academic success.","B. It fosters deeper moral insight.","C. It improves verbal expression.","D. It sharpens mathematical skills."]},
+    {"id":92,"q":"According to the author, who can be wise despite lacking formal education?","options":["A. Scientists","B. School children","C. Elders and artisans","D. Technocrats"]},
+    {"id":93,"q":"What is the central contrast drawn in the passage?","options":["A. Education vs. career","B. Intelligence vs. memory","C. Reading vs. writing","D. Formal learning vs. applied wisdom"]},
+    {"id":94,"q":"According to the passage, why has the gap between education and wisdom widened in recent times?","options":["A. Due to overuse of social media","B. Because wisdom is no longer valued","C. Because of rote learning and algorithmic methods","D. Because people stop learning after school"]},
+    {"id":95,"q":"She has the reputation to be a kind woman.\nChoose the best replacement for the highlighted part.","options":["A. To have kindness","B. Of being a kind woman","C. Of being the kind woman","D. To be kind-hearted"]},
+    {"id":96,"q":"The doctor advised him to avoid eating sweets and doing exercise regularly.\nChoose the most suitable replacement.","options":["A. Avoiding sweets and doing regular exercise","B. To avoid sweets and to exercise regularly","C. To avoid eating sweets and to exercise regularly","D. To not eat sweets and do exercises"]},
+    {"id":97,"q":"He asked me, 'Have you done your homework?'\nChoose the correct indirect speech.","options":["A. He asked me if I had done my homework.","B. He asked me have I done my homework.","C. He asked me whether I have done my homework.","D. He asked me whether had I done my homework."]},
+    {"id":98,"q":"He said that he would join the meeting after lunch.\nChoose the correct direct speech.","options":["A. 'I will join the meeting after lunch,' he said.","B. 'I would join the meeting after lunch,' he said.","C. 'I shall join the meeting after lunch,' he said.","D. 'I can join the meeting after lunch,' he said."]},
+    {"id":99,"q":"Rearrange the following sentences in correct order to make a logical passage:\n1. A media strategy was framed based on outreach results.\n2. Demographic metrics were tracked from campaign dashboards.\n3. User interactions were collected across platforms.\n4. Analysts segmented users by age and behaviour.","options":["A. 3 – 2 – 4 – 1","B. 2 – 3 – 1 – 4","C. 3 – 1 – 4 – 2","D. 4 – 1 – 2 – 3"]},
+    {"id":100,"q":"Rearrange the following sentences to form a coherent paragraph:\n1. It is a process that involves the systematic and objective investigation of a subject to discover new facts or confirm existing ones.\n2. Research is a foundational pillar of academic and scientific progress.\n3. This can be either theoretical, aiming to expand knowledge, or applied, seeking to solve a practical problem.\n4. The findings of this investigation are then documented and peer-reviewed to ensure validity and credibility.","options":["A. 2, 1, 3, 4","B. 1, 2, 4, 3","C. 4, 3, 2, 1","D. 3, 4, 1, 2"]}
+  ]
+};
 
-  // Section C: Quantitative Aptitude (51-75)
-  {id:51, section:'C', q:"Q51. Arrange the fractions (3/4), (2/5), (5/7), (3/5) in ascending order.", options:["A. 2/5, 3/5, 3/4, 5/7","B. 2/5, 3/5, 5/7, 3/4","C. 3/5, 2/5, 5/7, 3/4","D. 2/5, 5/7, 3/5, 3/4"]},
-  {id:52, section:'C', q:"Q52. Simplify: (26 + 3.6) - 1.9.", options:["A. 27.7","B. 27.9","C. 28.7","D. 27.1"]},
-  {id:53, section:'C', q:"Q53. Evaluate: 71 - 6 + (1 - (3 x 3 - 6)).", options:["A. 64","B. 66","C. 68","D. 62"]},
-  {id:54, section:'C', q:"Q54. From a sample of 200 software engineers:\\nProficient in Python and Java = 50\\nPython only = 70\\nJava only = 60\\nNeither = 20\\nWhat is the ratio of those proficient in Python to those proficient in Java?", options:["A. 11 : 12","B. 12 : 11","C. 7 : 6","D. 6 : 7"]},
-  {id:55, section:'C', q:"Q55. Arvind started a business by investing ₹80,000. After 4 months Bhavin joined with ₹1,20,000. At the end of 8 months from the start, Chandan joined with ₹1,60,000. If the total profit at the end of the year (12 months) is ₹1,05,000, find Chandan’s share.", options:["A. ₹26,250","B. ₹21,000","C. ₹31,500","D. ₹17,500"]},
-  {id:56, section:'C', q:"Q56. A and B start a business. A invests ₹80,000 for 9 months, B invests ₹1,20,000 for 6 months. If total profit is ₹45,000, what is B’s share?", options:["A. ₹20,000","B. ₹25,000","C. ₹27,000","D. ₹30,000"]},
-  {id:57, section:'C', q:"Q57. What is the average of all integers between 100 and 250 that are exactly divisible by 11?", options:["A. 176","B. 186","C. 196","D. 166"]},
-  {id:58, section:'C', q:"Q58. The average of 15 numbers is 80. The average of the first 6 numbers is 72. The average of the next 6 numbers is 25% more than the average of the first 6 numbers. The 13th number is 8 more than the 15th number, and the 14th number is 10 less than the 15th number. What is the average of the 13th and 14th numbers?", options:["A. 75","B. 76","C. 77","D. 78"]},
-  {id:59, section:'C', q:"Q59. A landlord bought a flat for ₹8,00,000. He pays ₹2,000 per month for maintenance and wants a 9% annual return on his investment after maintenance. What should be the monthly rent he charges?", options:["A. ₹7,000","B. ₹7,500","C. ₹8,000","D. ₹8,500"]},
-  {id:60, section:'C', q:"Q60. An amount doubles in 5 years at compound interest. How many years will it take for the amount to grow to 8 times its original value?", options:["A. 15 years","B. 16 years","C. 17 years","D. 18 years"]},
-  {id:61, section:'C', q:"Q61. A sum becomes ₹6,600 in 2 years and ₹7,920 in 3 years at compound interest. What is the original principal?", options:["A. ₹5,583.33","B. ₹6,000.00","C. ₹5,000.00","D. ₹6,500.00"]},
-  {id:62, section:'C', q:"Q62. Suman purchased 25 litres of milk at ₹45 per litre and another 15 litres at ₹50 per litre. She mixed both quantities and sold the entire mixture at ₹48 per litre. What was her total profit or loss?", options:["A. Profit of ₹90","B. Loss of ₹45","C. Profit of ₹45","D. Loss of ₹90"]},
-  {id:63, section:'C', q:"Q63. A toy manufacturer produced 1,200 toy cars at a total cost of ₹90,000. He donated 200 cars to charity. For the remaining, he announced a 10% discount on the market price of ₹120 per car and offered 2 free toy cars for every 8 bought. If all 1,200 toy cars were distributed, what is his overall gain or loss percentage?", options:["A. 4% profit","B. 4% loss","C. 5% profit","D. 5% loss"]},
-  {id:64, section:'C', q:"Q64. A retailer marks an air conditioner 80% above its cost price. He offers a first discount of 25% on the marked price and then an additional 10% discount on the already discounted price. If the final selling price is ₹15,552, what is the approximate cost price of the air conditioner?", options:["A. ₹79,000","B. ₹79,200","C. ₹71,200","D. ₹71,000"]},
-  {id:65, section:'C', q:"Q65. A 40-litre mixture contains juice and water in the ratio 5:3. How much water (in litres) must be added to this mixture to change the ratio of juice to water to 2:3?", options:["A. 5 litres","B. 10 litres","C. 15 litres","D. 25 litres"]},
-  {id:66, section:'C', q:"Q66. A can complete a task in 15 days, while B takes 20 days to finish the same task. If they work together for 4 days, what fraction of the work will still remain?", options:["A. 2/15","B. 1/6","C. 3/10","D. 1/5"]},
-  {id:67, section:'C', q:"Q67. Two oils priced at ₹90 per kg and ₹150 per kg are blended and sold at ₹144 per kg, achieving a profit margin of 20%. What is the ratio of the two oils in the mixture?", options:["A. 1 : 2","B. 2 : 1","C. 3 : 5","D. 5 : 3"]},
-  {id:68, section:'C', q:"Q68. Three pipes A, B and C fill a tank in 6, 8 and 12 hours respectively. All three operate together for 2 hours before C is closed. How much additional time will it take to completely fill the tank after that?", options:["A. 2 hours","B. 2.5 hours","C. 3 hours","D. 4 hours"]},
-  {id:69, section:'C', q:"Q69. A bullet train covers a fixed distance in 30 minutes at an average speed of 240 km/h. Due to diversion the distance increases by 20%. If it still must arrive in 30 minutes, what should its new average speed be (in km/h)?", options:["A. 280 km/h","B. 288 km/h","C. 300 km/h","D. 320 km/h"]},
-  {id:70, section:'C', q:"Q70. Two cars X and Y start from points 360 km apart. If they move towards each other they meet in 4 hours. If they move in the same direction, they meet in 12 hours. What is the speed of car X? (Assume X is the faster car.)", options:["A. 60 km/h","B. 75 km/h","C. 90 km/h","D. 45 km/h"]},
-  {id:71, section:'C', q:"Q71. A circular pizza has radius 21 cm. If 75% of it is eaten, what is the area of pizza remaining? (Use π = 22/7).", options:["A. 173.25 cm²","B. 346.36 cm²","C. 432.25 cm²","D. 115.5 cm²"]},
-  {id:72, section:'C', q:"Q72. A ring-shaped disc has outer radius 10 cm and inner radius 7 cm. What is the approximate ratio of the ring’s area to the area of the whole outer circle?", options:["A. 1 : 2","B. 2 : 3","C. 3 : 4","D. 4 : 5"]},
-  {id:73, section:'C', q:"Q73. A bicycle wheel has radius 35 cm. What percentage of its circumference is covered in a quarter turn? (Use π = 22/7).", options:["A. 15%","B. 25%","C. 30%","D. 35%"]},
-  {id:74, section:'C', q:"Q74. The line y = mx + 5 passes through the point (1, 8). Find m.", options:["A. 3","B. 2","C. 5","D. -3"]},
-  {id:75, section:'C', q:"Q75. 313 + 183 - 373 + 210 is equal to:", options:["A. -368","B. -148","C. -456","D. -234"]},
-
-  // Section D: English Comprehension (76-100)
-  {id:76, section:'D', q:"Q76. Select the most appropriate synonym of the given word: PERFIDIOUS", options:["A. Honest","B. Faithful","C. Treacherous","D. Loyal"]},
-  {id:77, section:'D', q:"Q77. Choose the correct meaning of the idiom “Hobson’s Choice.”", options:["A. A dilemma between two evils","B. A free and fair decision","C. No real choice at all","D. A selection made under duress"]},
-  {id:78, section:'D', q:"Q78. Select the most appropriate antonym of the given word: Perfidious", options:["A. Betraying","B. Faithless","C. Treacherous","D. Loyal"]},
-  {id:79, section:'D', q:"Q79. Identify the misspelt word.", options:["A. Vicereine","B. Floccinaucinihilipilification","C. Defenestrate","D. Quintessance"]},
-  {id:80, section:'D', q:"Q80. Spot the correct spelling of a CSF-shunt procedure.", options:["A. Ventriculoperitoneal","B. Ventriculoperitonal","C. Ventriculaperitoneal","D. Ventriculoperetoneal"]},
-  {id:81, section:'D', q:"Q81. Choose the correct one-word substitute for: 'An official reprimand or strong criticism.'", options:["A. Accusation","B. Denunciation","C. Censure","D. Indictment"]},
-  {id:82, section:'D', q:"Q82. The startup scaled so rapidly that its infrastructure could ___ keep pace.", options:["A. Barely","B. Merely","C. Scarcely","D. All but"]},
-  {id:83, section:'D', q:"Q83. Rare though the phenomenon is, it can occur ___ prolonged drought conditions.", options:["A. Towards","B. Amid","C. Among","D. During"]},
-  {id:84, section:'D', q:"Q84. While the proposal appeared pragmatic on paper, its implementation proved ___ complicated than expected.", options:["A. Less","B. Much","C. Rather","D. More"]},
-  {id:85, section:'D', q:"Q85. Find the part of the sentence that contains an error:\\nThat the report failed to address the root causes (1) / of the community unrest were surprising (2) / given the exhaustive data (3) / compiled over several months. (4)", options:["A. (1)","B. (2)","C. (3)","D. (4)"]},
-  {id:86, section:'D', q:"Q86. Find the part of the sentence that contains an error:\\nWhat renders the draft legislation particularly contentious is not its proposed realignment of fiscal powers per se, (1) / but that it presumes, without empirical substantiation, (2) / a fiscal equivalence among states whose developmental baselines are (3) / incommensurable by any normative metric. (4)", options:["A. (1)","B. (2)","C. (3)","D. (4)"]},
-  {id:87, section:'D', q:"Q87. Change the following from active to passive voice:\\nThey have been neglecting maintenance of the archives for years.", options:["A. Maintenance of the archives had been neglected by them for years.","B. Maintenance of the archives is being neglected by them for years.","C. Maintenance of the archives was being neglected by them for years.","D. Maintenance of the archives has been being neglected by them for years."]},
-  {id:88, section:'D', q:"Q88. Select the sentence containing the homonym of the highlighted word:\\nThe choir began the introit at the priest’s signal.", options:["A. The child sang the introit during the intermission.","B. The introit was replaced by an organ improvisation.","C. The missal included Latin text for the introit.","D. The cantor rehearsed the Sunday introit."]},
-  {id:89, section:'D', q:"Q89. Convert the sentence from passive to active voice:\\nIt was being suggested by multiple sources that the operation had been compromised internally.", options:["A. Multiple sources suggested the operation was compromised internally.","B. The operation was compromised, multiple sources suggested.","C. Sources were suggesting an operation compromise.","D. The operation had compromised multiple internal sources."]},
-  {id:90, section:'D', q:`Q90. Comprehension Passage:\\n\\nWhile education and wisdom are often conflated in everyday discourse, a discerning mind perceives a fundamental difference between the two. Education is the formal acquisition of knowledge, usually measured through degrees, academic achievements, and proficiency in structured disciplines. It is delivered through systematic curricula, institutional assessments, and theoretical frameworks.\\n\\nHowever, wisdom transcends this rigidity; it is the judicious application of knowledge to real-life situations, enriched by experience, introspection, and emotional intelligence. An individual may be highly educated yet lack wisdom if they are unable to apply their learning ethically and effectively. Conversely, many wise individuals — farmers, artisans, elders — may not possess formal education, but their decisions exhibit prudence and sagacity cultivated through lived experience.\\n\\nThus, education equips the mind, but wisdom enriches the soul. In an era dominated by information overload and algorithmic thinking, the gap between the two has widened. Educational institutions often prioritise rote memorisation and standardised testing over critical thinking and moral reasoning. Consequently, society produces people skilled in problem-solving but deficient in decision-making that requires empathy, patience, or foresight.\\n\\nWisdom, being innately human, cannot be downloaded or fast-tracked; it is earned through trial, failure, reflection, and a nuanced understanding of human nature. Furthermore, while education is temporally bounded — ending with formal schooling or academic milestones — wisdom is a lifelong pursuit. It does not boast certificates but manifests in humility, ethical consistency, and the ability to navigate ambiguity with grace.\\n\\nUltimately, the highest form of intelligence lies not merely in knowing what is right, but in consistently choosing to do it, especially when it is inconvenient.\\n\\nAccording to the passage, how is wisdom primarily acquired?`, options:["A. Through textbooks","B. Through emotional detachment","C. Through experience and reflection","D. Through algorithmic thinking"]},
-  {id:91, section:'D', q:"Q91. What does the author mean by 'wisdom enriches the soul'?", options:["A. It enhances academic success.","B. It fosters deeper moral insight.","C. It improves verbal expression.","D. It sharpens mathematical skills."]},
-  {id:92, section:'D', q:"Q92. According to the author, who can be wise despite lacking formal education?", options:["A. Scientists","B. School children","C. Elders and artisans","D. Technocrats"]},
-  {id:93, section:'D', q:"Q93. What is the central contrast drawn in the passage?", options:["A. Education vs. career","B. Intelligence vs. memory","C. Reading vs. writing","D. Formal learning vs. applied wisdom"]},
-  {id:94, section:'D', q:"Q94. According to the passage, why has the gap between education and wisdom widened in recent times?", options:["A. Due to overuse of social media","B. Because wisdom is no longer valued","C. Because of rote learning and algorithmic methods","D. Because people stop learning after school"]},
-  {id:95, section:'D', q:"Q95. Choose the most suitable option to replace the highlighted part of the sentence:\\nShe has the reputation to be a kind woman.", options:["A. To have kindness","B. Of being a kind woman","C. Of being the kind woman","D. To be kind-hearted"]},
-  {id:96, section:'D', q:"Q96. Choose the most suitable option to replace the highlighted part of the sentence:\\nThe doctor advised him to avoid eating sweets and doing exercise regularly.", options:["A. Avoiding sweets and doing regular exercise","B. To avoid sweets and to exercise regularly","C. To avoid eating sweets and to exercise regularly","D. To not eat sweets and do exercises"]},
-  {id:97, section:'D', q:"Q97. Convert the following from direct to indirect speech:\\nHe asked me, “Have you done your homework?”", options:["A. He asked me if I had done my homework.","B. He asked me have I done my homework.","C. He asked me whether I have done my homework.","D. He asked me whether had I done my homework."]},
-  {id:98, section:'D', q:"Q98. Convert the following from indirect to direct speech:\\nHe said that he would join the meeting after lunch.", options:["A. \"I will join the meeting after lunch,\" he said.","B. \"I would join the meeting after lunch,\" he said.","C. \"I shall join the meeting after lunch,\" he said.","D. \"I can join the meeting after lunch,\" he said."]},
-  {id:99, section:'D', q:"Q99. Rearrange the following sentences in correct order to make a logical passage:\\n1. A media strategy was framed based on outreach results.\\n2. Demographic metrics were tracked from campaign dashboards.\\n3. User interactions were collected across platforms.\\n4. Analysts segmented users by age and behaviour.", options:["A. 3 – 2 – 4 – 1","B. 2 – 3 – 1 – 4","C. 3 – 1 – 4 – 2","D. 4 – 1 – 2 – 3"]},
-  {id:100, section:'D', q:"Q100. Rearrange the following sentences to form a coherent paragraph:\\n1. It is a process that involves the systematic and objective investigation of a subject to discover new facts or confirm existing ones.\\n2. Research is a foundational pillar of academic and scientific progress.\\n3. This can be either theoretical, aiming to expand knowledge, or applied, seeking to solve a practical problem.\\n4. The findings of this investigation are then documented and peer-reviewed to ensure validity and credibility.", options:["A. 2, 1, 3, 4","B. 1, 2, 4, 3","C. 4, 3, 2, 1","D. 3, 4, 1, 2"]}
-];
-
-/* ---------- ANSWER KEY (your JSON) ---------- */
+/* --- PASTE YOUR ANSWER KEY JSON HERE (if you have one) ---
+   Example format:
+   const ANSWER_KEY = {"1":"C","2":"B","3":"C", ...};
+   If empty, scoring will not function until you paste the correct key.
+*/
 const ANSWER_KEY = {
   "1":"C","2":"B","3":"C","4":"C","5":"D","6":"A","7":"C","8":"B","9":"B","10":"C",
   "11":"A","12":"B","13":"A","14":"A","15":"A","16":"C","17":"C","18":"C","19":"A","20":"D",
@@ -297,398 +304,481 @@ const ANSWER_KEY = {
   "91":"B","92":"C","93":"D","94":"C","95":"B","96":"C","97":"A","98":"A","99":"A","100":"A"
 };
 
-/* ---------- STATE & STORAGE ---------- */
-const STORAGE_PREFIX = 'ssc_cgl_mock_12sep_';
+/* ================================
+   STATE & STORAGE
+   ================================ */
+const TOTAL_TIME = 60 * 60; // 60 minutes in seconds
+const STORAGE_KEY = 'ssc_cgl_12sep_shift2_v1';
+
 let state = {
-  currentSection: 'A',  // 'A','B','C','D'
-  currentIndex: 0,      // index within section array
-  answers: JSON.parse(localStorage.getItem(STORAGE_PREFIX+'answers') || '{}'),
-  marked: JSON.parse(localStorage.getItem(STORAGE_PREFIX+'marked') || '{}'),
-  skipped: JSON.parse(localStorage.getItem(STORAGE_PREFIX+'skipped') || '{}'),
-  perSectionTime: JSON.parse(localStorage.getItem(STORAGE_PREFIX+'times') || '{"A":0,"B":0,"C":0,"D":0}'),
-  globalTimeLeft: Number(localStorage.getItem(STORAGE_PREFIX+'timer')) || 60*60,
-  started: localStorage.getItem(STORAGE_PREFIX+'started') === '1',
+  started: false,
   paused: false,
-  sectionStartTs: null,
-  runningInterval: null,
-  submitted: false
+  timer: TOTAL_TIME,
+  timerInterval: null,
+  currentSectionIndex: 0,
+  currentQuestionIndexInSection: 0,
+  answers: {},             // key: "Section-id" -> option text "A. ..." or single letter optionally
+  markedForReview: {},     // same key -> true
+  skipped: {},             // same key -> true if skipped
+  timeSpentPerSection: {}, // sectionName -> seconds spent so far
+  lastSwitchTime: null,    // timestamp to compute section time
+  submitted: false,
+  reviewMode: false
 };
 
-/* helpers */
-const el = id => document.getElementById(id);
-function formatTime(s){ const mm = Math.floor(s/60).toString().padStart(2,'0'); const ss = (s%60).toString().padStart(2,'0'); return `${mm}:${ss}`; }
-
-/* Build section arrays */
-function questionsOfSection(sec){
-  return QUESTIONS.filter(q => q.section === sec).sort((a,b)=>a.id - b.id);
+/* Load from localStorage if present */
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      Object.assign(state, saved);
+      // ensure defaults
+      for (const s of Object.keys(QUESTIONS)) {
+        state.timeSpentPerSection[s] = state.timeSpentPerSection[s] || 0;
+      }
+    } else {
+      for (const s of Object.keys(QUESTIONS)) state.timeSpentPerSection[s] = 0;
+    }
+  } catch(e){
+    console.warn('Could not load saved state', e);
+  }
 }
 
-/* Build left grid */
-function buildLeftGrid(){
+/* Save to localStorage */
+function saveState(){
+  const copy = Object.assign({}, state);
+  // remove timerInterval before storing
+  copy.timerInterval = null;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(copy));
+}
+
+/* Clear saved */
+function clearSaved() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+/* ================================
+   UTIL
+   ================================ */
+const el = id => document.getElementById(id);
+const formatTime = s => {
+  const mm = String(Math.floor(s/60)).padStart(2,'0');
+  const ss = String(s%60).padStart(2,'0');
+  return `${mm}:${ss}`;
+};
+
+function questionKey(sectionName, qid){
+  return `${sectionName}__${qid}`;
+}
+
+/* ================================
+   UI: build sections & grid
+   ================================ */
+function buildSections(){
+  const secList = el('sectionList'); secList.innerHTML = '';
+  const sections = Object.keys(QUESTIONS);
+  sections.forEach((s, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'section-btn' + (idx === state.currentSectionIndex ? ' active' : '');
+    btn.innerText = `${s} (${QUESTIONS[s].length})`;
+    btn.onclick = () => {
+      switchSection(idx);
+    };
+    secList.appendChild(btn);
+  });
+  buildGrid();
+}
+
+function buildGrid(){
   const wrap = el('qGrid'); wrap.innerHTML = '';
-  const list = questionsOfSection(state.currentSection);
-  list.forEach((q, idx)=>{
+  const sections = Object.keys(QUESTIONS);
+  const secName = sections[state.currentSectionIndex];
+  QUESTIONS[secName].forEach((q, index) => {
+    const key = questionKey(secName, q.id);
     const btn = document.createElement('button');
     btn.className = 'qnum';
-    const key = String(q.id);
-    if(state.answers[key]) btn.classList.add('answered');
-    if(state.skipped[key]) btn.classList.add('skipped');
-    if(state.marked[key]) btn.classList.add('marked');
-    btn.innerText = idx+1;
-    btn.title = 'Q' + q.id;
-    btn.onclick = ()=> {
-      saveSectionTime();
-      state.currentIndex = idx;
+    if (state.markedForReview[key]) btn.classList.add('marked');
+    else if (state.skipped[key]) btn.classList.add('skipped');
+    else if (state.answers[key]) btn.classList.add('answered');
+    btn.innerText = index + 1;
+    btn.onclick = () => {
+      state.currentQuestionIndexInSection = index;
       renderQuestion();
-      startSectionTime();
     };
     wrap.appendChild(btn);
   });
   updateSectionSummary();
 }
 
-/* Render current question */
-function renderQuestion(){
-  const list = questionsOfSection(state.currentSection);
-  if(!list.length){ el('qHeader').innerText = 'No questions'; el('qText').innerText=''; el('optsWrap').innerHTML=''; return; }
-  const q = list[state.currentIndex];
-  el('qHeader').innerText = `Section: ${sectionLabel(state.currentSection)} — Q${q.id}`;
-  el('qNo').innerText = q.id;
-  el('qText').innerHTML = q.q.replace(/\n/g,'<br>');
-  const optsWrap = el('optsWrap'); optsWrap.innerHTML = '';
-  const user = state.answers[String(q.id)] || null;
-  q.options.forEach(opt=>{
-    const label = document.createElement('label');
-    label.className = 'opt';
-    const radio = document.createElement('input'); radio.type='radio';
-    // detect letter
-    const m = opt.match(/^\s*([A-D])\s*[\.\)]?\s*(.*)/i);
-    const letter = m ? m[1].toUpperCase() : opt.trim().slice(0,1).toUpperCase();
-    radio.name = 'optRad';
-    radio.checked = (user === letter);
-    radio.disabled = state.paused || state.submitted;
-    radio.onchange = ()=> {
-      state.answers[String(q.id)] = letter;
-      delete state.skipped[String(q.id)];
-      persistAnswers();
-      buildLeftGrid();
-      updateTotals();
-    };
-    label.onclick = ()=> {
-      if(state.paused || state.submitted) return;
-      radio.checked = true; radio.onchange();
-    };
-    const span = document.createElement('span'); span.innerText = opt;
-    label.appendChild(radio); label.appendChild(span);
-    optsWrap.appendChild(label);
-  });
-  el('footerAnswered').innerText = questionsOfSection(state.currentSection).reduce((acc,qq)=> acc + (state.answers[String(qq.id)]?1:0),0);
-  el('totalAnswered').innerText = Object.keys(state.answers).length;
-}
-
-/* Persist */
-function persistAll(){
-  localStorage.setItem(STORAGE_PREFIX+'answers', JSON.stringify(state.answers));
-  localStorage.setItem(STORAGE_PREFIX+'marked', JSON.stringify(state.marked));
-  localStorage.setItem(STORAGE_PREFIX+'skipped', JSON.stringify(state.skipped));
-  localStorage.setItem(STORAGE_PREFIX+'times', JSON.stringify(state.perSectionTime));
-  localStorage.setItem(STORAGE_PREFIX+'timer', String(state.globalTimeLeft));
-  localStorage.setItem(STORAGE_PREFIX+'started', state.started ? '1' : '0');
-}
-
-/* Update section counts */
 function updateSectionSummary(){
-  const list = questionsOfSection(state.currentSection);
-  const answered = list.reduce((acc,q)=> acc + (state.answers[String(q.id)]?1:0),0);
+  const sec = Object.keys(QUESTIONS)[state.currentSectionIndex];
+  const list = QUESTIONS[sec];
+  const answered = list.reduce((a,q)=> a + (state.answers[questionKey(sec,q.id)] ? 1 : 0), 0);
   el('secAnswered').innerText = answered;
-  el('secNotAnswered').innerText = list.length - answered;
-  el('footerAnswered').innerText = answered;
-  el('totalAnswered').innerText = Object.keys(state.answers).length;
+  el('secNotAnswered').innerText = (list.length - answered);
 }
 
-/* Navigation & actions */
-function sectionLabel(s){ if(s==='A') return 'Reasoning'; if(s==='B') return 'General Awareness'; if(s==='C') return 'Quantitative Aptitude'; return 'English Comprehension'; }
+/* ================================
+   RENDER QUESTION
+   ================================ */
+function renderQuestion(){
+  const sections = Object.keys(QUESTIONS);
+  const secName = sections[state.currentSectionIndex];
+  const q = QUESTIONS[secName][state.currentQuestionIndexInSection];
+  if (!q) return;
+  el('qHeader').innerText = `Section: ${secName} — Q${q.id}`;
+  el('qText').innerText = q.q;
+  const optsWrap = el('optsWrap'); optsWrap.innerHTML = '';
 
-function switchSection(s){
-  if(state.currentSection === s) return;
-  saveSectionTime();
-  state.currentSection = s; state.currentIndex = 0;
-  // styles
-  ['A','B','C','D'].forEach(x=>{
-    const btn = document.getElementById('btn'+x);
-    if(x===s) btn.classList.add('active'); else btn.classList.remove('active');
-  });
-  el('sectionLabel').innerText = sectionLabel(s);
-  buildLeftGrid();
-  renderQuestion();
-  startSectionTime();
-  persistAll();
-}
-
-/* Top buttons */
-el('btnA').addEventListener('click', ()=> switchSection('A'));
-el('btnB').addEventListener('click', ()=> switchSection('B'));
-el('btnC').addEventListener('click', ()=> switchSection('C'));
-el('btnD').addEventListener('click', ()=> switchSection('D'));
-
-el('saveNextTop').addEventListener('click', ()=> saveAndNext());
-el('btnSaveNext').addEventListener('click', ()=> saveAndNext());
-
-function saveAndNext(){
-  // mark skipped if no answer for current Q
-  const list = questionsOfSection(state.currentSection);
-  const q = list[state.currentIndex];
-  if(q && !state.answers[String(q.id)]) state.skipped[String(q.id)] = true;
-  // move to next question in section or next section
-  if(state.currentIndex < list.length - 1) state.currentIndex++;
-  else {
-    const order = ['A','B','C','D'];
-    const idx = order.indexOf(state.currentSection);
-    if(idx < order.length -1) switchSection(order[idx+1]);
-    else { state.currentIndex = 0; }
-  }
-  renderQuestion(); buildLeftGrid(); persistAll();
-}
-
-el('prevTop').addEventListener('click', ()=> {
-  const list = questionsOfSection(state.currentSection);
-  if(state.currentIndex > 0) state.currentIndex--;
-  else {
-    const order = ['A','B','C','D']; const idx = order.indexOf(state.currentSection);
-    if(idx > 0) { switchSection(order[idx-1]); state.currentIndex = questionsOfSection(state.currentSection).length - 1; }
-  }
-  renderQuestion(); buildLeftGrid(); persistAll();
-});
-
-el('clearTop').addEventListener('click', ()=> {
-  const list = questionsOfSection(state.currentSection); const q = list[state.currentIndex];
-  if(q){ delete state.answers[String(q.id)]; state.skipped[String(q.id)] = true; persistAll(); renderQuestion(); buildLeftGrid(); }
-});
-el('btnClear').addEventListener('click', ()=> el('clearTop').click());
-
-el('markForReviewTop').addEventListener('click', ()=> toggleMarkAndNext());
-el('btnMark').addEventListener('click', ()=> toggleMarkAndNext());
-
-function toggleMarkAndNext(){
-  const list = questionsOfSection(state.currentSection);
-  const q = list[state.currentIndex];
-  if(!q) return;
-  state.marked[String(q.id)] = !state.marked[String(q.id)];
-  // next
-  if(state.currentIndex < list.length - 1) state.currentIndex++;
-  else {
-    const order = ['A','B','C','D']; const idx = order.indexOf(state.currentSection);
-    if(idx < order.length -1) switchSection(order[idx+1]);
-    else state.currentIndex = 0;
-  }
-  renderQuestion(); buildLeftGrid(); persistAll();
-}
-
-/* Pause functionality: freeze UI (disable radios) */
-el('pauseBtn').addEventListener('click', ()=> {
-  state.paused = !state.paused;
-  el('pauseOverlay').style.display = state.paused ? 'flex' : 'none';
-  const radios = document.querySelectorAll('input[type="radio"]');
-  radios.forEach(r => r.disabled = state.paused || state.submitted);
-  el('pauseBtn').innerText = state.paused ? 'Resume' : 'Pause';
-  // pause timer updates too
-});
-
-/* Fullscreen */
-el('fullscreenBtn').addEventListener('click', async ()=>{
-  if(!document.fullscreenElement){ await document.documentElement.requestFullscreen().catch(()=>{}); el('fullscreenBtn').innerText='Exit full screen'; }
-  else { await document.exitFullscreen().catch(()=>{}); el('fullscreenBtn').innerText='Full screen'; }
-});
-
-/* Timer */
-function startGlobalTimer(){
-  if(state.runningInterval) clearInterval(state.runningInterval);
-  state.started = true; persistAll();
-  state.runningInterval = setInterval(()=>{
-    if(!state.paused && !state.submitted){
-      state.globalTimeLeft = Math.max(0, state.globalTimeLeft - 1);
-      el('timeBox').innerText = formatTime(state.globalTimeLeft);
-      // increment per-section time as we go
-      if(state.sectionStartTs) {
-        const now = Date.now();
-        const delta = Math.floor((now - state.sectionStartTs)/1000);
-        // don't update perSectionTime constantly; will save on saveSectionTime calls
-      }
-      persistAll();
-      if(state.globalTimeLeft <= 0){
-        clearInterval(state.runningInterval);
-        autoSubmit();
+  const key = questionKey(secName, q.id);
+  QUESTIONS[secName][state.currentQuestionIndexInSection].options.forEach(optText => {
+    const lab = document.createElement('label');
+    lab.className = 'opt';
+    // When in reviewMode / after submit, highlight correct and incorrect
+    if (state.submitted || state.reviewMode) {
+      const correctLetter = ANSWER_KEY[q.id];
+      // convert option like "A. Text" to letter
+      const optLetter = (optText || '').trim().slice(0,1);
+      if (optLetter === correctLetter) lab.classList.add('correct');
+      if (state.answers[key]) {
+        const chosenLetter = state.answers[key].trim().slice(0,1);
+        if (chosenLetter === optLetter && chosenLetter !== correctLetter) lab.classList.add('wrong');
       }
     }
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'optRadio';
+    radio.disabled = state.paused || state.submitted || state.reviewMode;
+    // mark checked if user selected
+    radio.checked = !!state.answers[key] && state.answers[key] === optText;
+    radio.onchange = (e) => {
+      if (state.paused || state.submitted || state.reviewMode) return;
+      state.answers[key] = optText;
+      state.skipped[key] = false;
+      saveState(); buildGrid(); updateTotals(); updateSectionSummary();
+    };
+    const txt = document.createElement('span');
+    txt.innerText = optText;
+    lab.appendChild(radio); lab.appendChild(txt);
+    lab.onclick = () => {
+      if (state.paused || state.submitted || state.reviewMode) return;
+      state.answers[key] = optText;
+      state.skipped[key] = false;
+      saveState(); buildGrid(); updateTotals(); updateSectionSummary();
+      // update radio checked manually
+      radio.checked = true;
+    };
+    optsWrap.appendChild(lab);
+  });
+
+  updateTotals();
+  buildGrid();
+}
+
+/* ================================
+   NAV CONTROLS
+   ================================ */
+function saveAndNext(){
+  const sections = Object.keys(QUESTIONS);
+  const secName = sections[state.currentSectionIndex];
+  const q = QUESTIONS[secName][state.currentQuestionIndexInSection];
+  const key = questionKey(secName, q.id);
+  if (!state.answers[key]) state.skipped[key] = true;
+  else state.skipped[key] = false;
+  // move to next question
+  if (state.currentQuestionIndexInSection < QUESTIONS[secName].length - 1) {
+    state.currentQuestionIndexInSection++;
+  } else if (state.currentSectionIndex < sections.length - 1) {
+    switchSection(state.currentSectionIndex + 1);
+    state.currentQuestionIndexInSection = 0;
+  }
+  renderQuestion();
+}
+
+function goPrev(){
+  if (state.currentQuestionIndexInSection > 0) {
+    state.currentQuestionIndexInSection--;
+    renderQuestion();
+    return;
+  }
+  if (state.currentSectionIndex > 0) {
+    const newSec = state.currentSectionIndex - 1;
+    state.currentSectionIndex = newSec;
+    state.currentQuestionIndexInSection = QUESTIONS[Object.keys(QUESTIONS)[newSec]].length - 1;
+    renderQuestion();
+  }
+}
+
+function clearResponse(){
+  const secName = Object.keys(QUESTIONS)[state.currentSectionIndex];
+  const q = QUESTIONS[secName][state.currentQuestionIndexInSection];
+  const key = questionKey(secName, q.id);
+  delete state.answers[key];
+  state.skipped[key] = true;
+  saveState(); buildGrid(); updateTotals(); updateSectionSummary(); renderQuestion();
+}
+
+function markForReview(){
+  const secName = Object.keys(QUESTIONS)[state.currentSectionIndex];
+  const q = QUESTIONS[secName][state.currentQuestionIndexInSection];
+  const key = questionKey(secName, q.id);
+  state.markedForReview[key] = true;
+  saveState(); buildGrid();
+  // optionally move next
+  saveAndNext();
+}
+
+/* Section switching tracks time spent */
+function switchSection(newIndex){
+  const sections = Object.keys(QUESTIONS);
+  const prev = sections[state.currentSectionIndex];
+  const now = Date.now();
+  if (state.lastSwitchTime) {
+    const elapsedSec = Math.floor((now - state.lastSwitchTime)/1000);
+    state.timeSpentPerSection[prev] = (state.timeSpentPerSection[prev] || 0) + elapsedSec;
+  }
+  state.lastSwitchTime = now;
+  state.currentSectionIndex = newIndex;
+  state.currentQuestionIndexInSection = 0;
+  // update UI active class
+  Array.from(document.querySelectorAll('.section-btn')).forEach((b,i)=> {
+    if (i === newIndex) b.classList.add('active'); else b.classList.remove('active');
+  });
+  buildGrid(); renderQuestion(); saveState();
+}
+
+/* ================================
+   TIMER
+   ================================ */
+function startTimer(){
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.timerInterval = setInterval(()=> {
+    if (state.paused || state.submitted) return;
+    state.timer--;
+    if (state.timer <= 0) {
+      state.timer = 0;
+      clearInterval(state.timerInterval);
+      doSubmit();
+    }
+    el('timeBox').innerText = formatTime(state.timer);
+    // save periodically
+    if (state.timer % 5 === 0) saveState();
   }, 1000);
+  el('timeBox').innerText = formatTime(state.timer);
 }
 
-/* Section timing */
-function startSectionTime(){
-  state.sectionStartTs = Date.now();
-}
-function saveSectionTime(){
-  if(!state.sectionStartTs) return;
-  const delta = Math.floor((Date.now() - state.sectionStartTs)/1000);
-  state.perSectionTime[state.currentSection] = (state.perSectionTime[state.currentSection] || 0) + delta;
-  state.sectionStartTs = Date.now();
-  persistAll();
+function stopTimer(){
+  if (state.timerInterval) clearInterval(state.timerInterval);
 }
 
-/* Auto submit */
-function autoSubmit(){ if(confirm('Time is up. Submit now?')) doSubmit(); else doSubmit(); }
+/* ================================
+   PAUSE
+   ================================ */
+function togglePause(){
+  state.paused = !state.paused;
+  // stop / resume timer
+  if (state.paused) stopTimer();
+  else startTimer();
+  // disable inputs
+  document.querySelectorAll('input[type="radio"]').forEach(i=> i.disabled = state.paused || state.submitted || state.reviewMode);
+  el('pauseBtn').innerText = state.paused ? 'Resume' : 'Pause';
+  saveState();
+}
 
-/* Submit logic: calculate marks (2 for right, -0.5 for wrong), show markcard */
-el('submitBtn').addEventListener('click', ()=> {
-  if(confirm('Submit test now?')) doSubmit();
-});
+/* ================================
+   RESTART
+   ================================ */
+function restartExam(){
+  if (!confirm('Restart exam? This will clear all your current answers and reset time.')) return;
+  // stop
+  stopTimer();
+  // reset state
+  state = {
+    started: true,
+    paused: false,
+    timer: TOTAL_TIME,
+    timerInterval: null,
+    currentSectionIndex: 0,
+    currentQuestionIndexInSection: 0,
+    answers: {},
+    markedForReview: {},
+    skipped: {},
+    timeSpentPerSection: {},
+    lastSwitchTime: Date.now(),
+    submitted: false,
+    reviewMode: false
+  };
+  for (const s of Object.keys(QUESTIONS)) state.timeSpentPerSection[s] = 0;
+  clearSaved();
+  saveState();
+  // UI
+  el('startScreen').style.display = 'none';
+  el('examArea').style.display = 'flex';
+  el('resultsLayer').style.display = 'none';
+  buildSections();
+  renderQuestion();
+  startTimer();
+}
+
+/* ================================
+   SUBMIT & SCORING
+   ================================ */
+function computeResults(){
+  // finalize last section time
+  const sections = Object.keys(QUESTIONS);
+  const now = Date.now();
+  if (state.lastSwitchTime) {
+    const elapsedSec = Math.floor((now - state.lastSwitchTime)/1000);
+    const prev = sections[state.currentSectionIndex];
+    state.timeSpentPerSection[prev] = (state.timeSpentPerSection[prev] || 0) + elapsedSec;
+    state.lastSwitchTime = now;
+  }
+  // compute per-section stats
+  const sectionStats = {};
+  let totalCorrect = 0, totalWrong = 0, totalUnanswered = 0, totalMarks = 0;
+  sections.forEach(sec => {
+    const list = QUESTIONS[sec];
+    let correct = 0, wrong = 0, unans = 0, marks = 0;
+    list.forEach(q => {
+      const key = questionKey(sec, q.id);
+      const answer = state.answers[key];
+      const correctLetter = ANSWER_KEY[q.id];
+      if (!answer) {
+        unans++;
+      } else {
+        const chosenLetter = answer.trim().slice(0,1);
+        if (chosenLetter === correctLetter) {
+          correct++;
+          marks += 2;
+        } else {
+          wrong++;
+          marks -= 0.5;
+        }
+      }
+    });
+    sectionStats[sec] = {
+      total: list.length, correct, wrong, unans, marks: (Math.round((marks + Number.EPSILON) * 100)/100)
+    };
+    totalCorrect += correct; totalWrong += wrong; totalUnanswered += unans; totalMarks += marks;
+  });
+  totalMarks = Math.round((totalMarks + Number.EPSILON) * 100)/100;
+  return { sectionStats, totalCorrect, totalWrong, totalUnanswered, totalMarks, timeSpentPerSection: state.timeSpentPerSection };
+}
 
 function doSubmit(){
-  saveSectionTime();
+  if (state.submitted) return;
+  if (!confirm('Submit exam now?')) return;
+  stopTimer();
   state.submitted = true;
-  // disable inputs
-  document.querySelectorAll('input[type="radio"]').forEach(r=> r.disabled = true);
-  // compute per-section stats
-  const stats = {A:{right:0,wrong:0,unanswered:0,marks:0},B:{right:0,wrong:0,unanswered:0,marks:0},C:{right:0,wrong:0,unanswered:0,marks:0},D:{right:0,wrong:0,unanswered:0,marks:0}};
-  QUESTIONS.forEach(q=>{
-    const id = String(q.id);
-    const your = state.answers[id] || null;
-    const corr = ANSWER_KEY[id] || null;
-    const sec = q.section;
-    if(!your) { stats[sec].unanswered++; }
-    else if(your === corr) { stats[sec].right++; stats[sec].marks += 2; }
-    else { stats[sec].wrong++; stats[sec].marks -= 0.5; }
-  });
-  // totals
-  let totalMarks=0, totalRight=0, totalWrong=0, totalUn=0;
-  ['A','B','C','D'].forEach(s=>{
-    totalMarks += stats[s].marks; totalRight += stats[s].right; totalWrong += stats[s].wrong; totalUn += stats[s].unanswered;
-  });
-  // time display
-  const times = {};
-  ['A','B','C','D'].forEach(s => times[s] = formatTime(state.perSectionTime[s] || 0));
-  // build HTML
-  const html = [];
-  html.push(`<p><strong>Total Marks:</strong> ${totalMarks.toFixed(2)}</p>`);
-  html.push(`<p><strong>Right:</strong> ${totalRight} &nbsp; <strong>Wrong:</strong> ${totalWrong} &nbsp; <strong>Unanswered:</strong> ${totalUn}</p>`);
-  html.push(`<h4>Section-wise</h4>`);
-  html.push(`<table style="width:100%;border-collapse:collapse"><thead><tr style="background:#f6f8fb"><th style="padding:8px;border:1px solid #eef6ff">Section</th><th style="padding:8px;border:1px solid #eef6ff">Right</th><th style="padding:8px;border:1px solid #eef6ff">Wrong</th><th style="padding:8px;border:1px solid #eef6ff">Unanswered</th><th style="padding:8px;border:1px solid #eef6ff">Marks</th><th style="padding:8px;border:1px solid #eef6ff">Time</th></tr></thead><tbody>`);
-  ['A','B','C','D'].forEach(s=>{
-    html.push(`<tr><td style="padding:8px;border:1px solid #eef6ff">${sectionLabel(s)}</td><td style="padding:8px;border:1px solid #eef6ff">${stats[s].right}</td><td style="padding:8px;border:1px solid #eef6ff">${stats[s].wrong}</td><td style="padding:8px;border:1px solid #eef6ff">${stats[s].unanswered}</td><td style="padding:8px;border:1px solid #eef6ff">${stats[s].marks.toFixed(2)}</td><td style="padding:8px;border:1px solid #eef6ff">${times[s]}</td></tr>`);
-  });
-  html.push("</tbody></table>");
-  el('scoreSummary').innerHTML = html.join('');
-  el('resultModal').style.display = 'block';
-  persistAll();
+  state.reviewMode = false;
+  saveState();
+  // compute
+  const res = computeResults();
+  showResults(res);
 }
 
-/* Review panel */
-el('openReview').addEventListener('click', ()=> {
-  el('resultModal').style.display = 'none';
-  showReview('A');
-});
-el('closeResult').addEventListener('click', ()=> el('resultModal').style.display = 'none');
-
-function showReview(section){
-  document.querySelectorAll('.review-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.review-tab').forEach(t=>{ if(t.getAttribute('data-sec')===section) t.classList.add('active'); });
-  renderReviewSection(section);
-  el('reviewPanel').style.display = 'block';
-}
-document.querySelectorAll('.review-tab').forEach(tab=>{
-  tab.addEventListener('click', ()=> {
-    document.querySelectorAll('.review-tab').forEach(t=>t.classList.remove('active'));
-    tab.classList.add('active');
-    renderReviewSection(tab.getAttribute('data-sec'));
-  });
-});
-el('backToResult').addEventListener('click', ()=> { el('reviewPanel').style.display='none'; el('resultModal').style.display='block'; });
-el('backToMock').addEventListener('click', ()=> { el('reviewPanel').style.display='none'; el('resultModal').style.display='none'; });
-
-function renderReviewSection(section){
-  const list = questionsOfSection(section);
-  const wrap = el('reviewList'); wrap.innerHTML = '';
-  list.forEach(q=>{
-    const your = state.answers[String(q.id)] || '—';
-    const corr = ANSWER_KEY[String(q.id)] || '—';
-    const row = document.createElement('div');
-    row.style.padding='10px'; row.style.borderBottom='1px solid #eef6ff';
-    const qhtml = `<div style="font-weight:900">Q${q.id}. ${q.q.replace(/\n/g,'<br>')}</div>
-      <div style="margin-top:6px">Your answer: <strong style="color:${your===corr? '#0b8b3f':'#d93025'}">${your}</strong> &nbsp; Correct: <strong style="color:#0b8b3f">${corr}</strong></div>`;
-    row.innerHTML = qhtml;
-    wrap.appendChild(row);
-  });
+/* Display results */
+function showResults(res){
+  el('resultsLayer').style.display = 'block';
+  const container = el('resultsTable'); container.innerHTML = '';
+  // summary
+  const summaryHtml = `
+    <p><strong>Total Marks:</strong> ${res.totalMarks}</p>
+    <p><strong>Correct:</strong> ${res.totalCorrect} &nbsp;&nbsp; <strong>Wrong:</strong> ${res.totalWrong} &nbsp;&nbsp; <strong>Unanswered:</strong> ${res.totalUnanswered}</p>
+    <h4>Section-wise</h4>
+    <table>
+      <thead><tr><th>Section</th><th>Total</th><th>Correct</th><th>Wrong</th><th>Unanswered</th><th>Marks</th><th>Time Spent</th></tr></thead>
+      <tbody>
+      ${Object.keys(res.sectionStats).map(s=>{
+        const st = res.sectionStats[s];
+        const t = formatTime(st && state.timeSpentPerSection[s] ? state.timeSpentPerSection[s] : 0);
+        return `<tr><td>${s}</td><td>${st.total}</td><td>${st.correct}</td><td>${st.wrong}</td><td>${st.unans}</td><td>${st.marks}</td><td>${t}</td></tr>`;
+      }).join('')}
+      </tbody>
+    </table>
+  `;
+  container.innerHTML = summaryHtml;
 }
 
-/* init UI */
-function init(){
-  el('sectionLabel').innerText = sectionLabel(state.currentSection);
-  // set button active classes
-  ['A','B','C','D'].forEach(s=>{
-    const b = document.getElementById('btn'+s);
-    if(s===state.currentSection) b.classList.add('active'); else b.classList.remove('active');
-  });
-  buildLeftGrid();
+/* ================================
+   REVIEW MODE
+   ================================ */
+function openReview(){
+  // show review interface: we will enable review mode and show questions with correct/wrong highlights
+  state.reviewMode = true;
+  state.submitted = true; // ensure inputs remain disabled
+  // hide results layer when reviewing
+  el('resultsLayer').style.display = 'none';
+  // show exam area with review flags; user can navigate but not change answers
+  el('startScreen').style.display = 'none';
+  el('examArea').style.display = 'flex';
+  buildSections();
   renderQuestion();
-  el('timeBox').innerText = formatTime(state.globalTimeLeft);
-  updateSectionSummary();
-  // start timer if exam previously started
-  if(!state.started){ /* not started, wait until user interacts — but we will auto-start when user selects first thing */ }
-  startGlobalTimerIfNeeded();
-  startSectionTime();
 }
 
-/* start timer if not running */
-function startGlobalTimerIfNeeded(){
-  if(!state.started){
-    state.started = true;
-    persistAll();
+/* ================================
+   INIT BINDINGS
+   ================================ */
+function updateTotals(){
+  const total = Object.values(state.answers).filter(Boolean).length;
+  el('totalAnswered').innerText = total;
+  el('footerAnswered').innerText = total;
+}
+
+/* Start exam button */
+el('startBtn').addEventListener('click', ()=> {
+  state.started = true;
+  state.lastSwitchTime = Date.now();
+  el('startScreen').style.display = 'none';
+  el('examArea').style.display = 'flex';
+  buildSections();
+  renderQuestion();
+  startTimer();
+  saveState();
+});
+
+/* Control bindings */
+el('saveNextBtn').addEventListener('click', saveAndNext);
+el('prevBtn').addEventListener('click', goPrev);
+el('clearBtn').addEventListener('click', clearResponse);
+el('markBtn').addEventListener('click', markForReview);
+el('pauseBtn').addEventListener('click', togglePause);
+el('restartBtnTop').addEventListener('click', restartExam);
+el('submitTop').addEventListener('click', doSubmit);
+el('startReviewBtn').addEventListener('click', openReview);
+el('closeResultsBtn').addEventListener('click', ()=> el('resultsLayer').style.display = 'none');
+
+/* Allow closing results and reopening markcard with same data */
+el('startReviewBtn').addEventListener('click', () => {
+  openReview();
+});
+
+/* load saved state if any on page load */
+(function init(){
+  loadState();
+  // ensure per-section time keys exist
+  for (const s of Object.keys(QUESTIONS)) state.timeSpentPerSection[s] = state.timeSpentPerSection[s] || 0;
+  // if previously started and not submitted, resume
+  if (state.started && !state.submitted) {
+    el('startScreen').style.display = 'none';
+    el('examArea').style.display = 'flex';
+    buildSections();
+    renderQuestion();
+    startTimer();
+    // set section active
+    Array.from(document.querySelectorAll('.section-btn')).forEach((b,i)=> {
+      if (i === state.currentSectionIndex) b.classList.add('active'); else b.classList.remove('active');
+    });
+  } else {
+    // initial UI
+    el('startScreen').style.display = 'flex';
+    el('examArea').style.display = 'none';
+    buildSections();
   }
-  // always start interval (it will not tick when paused)
-  startGlobalTimer();
-}
-
-/* ensure radios disabled when paused/submitted on load */
-function applyDisabledState(){
-  document.querySelectorAll('input[type="radio"]').forEach(r=> r.disabled = state.paused || state.submitted);
-}
-
-/* start interval */
-function startGlobalTimer(){
-  if(state.runningInterval) clearInterval(state.runningInterval);
-  state.runningInterval = setInterval(()=>{
-    if(!state.paused && !state.submitted){
-      if(state.globalTimeLeft > 0){
-        state.globalTimeLeft--;
-        el('timeBox').innerText = formatTime(state.globalTimeLeft);
-        persistAll();
-      } else {
-        clearInterval(state.runningInterval);
-        autoSubmit();
-      }
-    }
-  },1000);
-}
-
-/* helpers */
-function persistAll(){ localStorage.setItem(STORAGE_PREFIX+'answers', JSON.stringify(state.answers));
-  localStorage.setItem(STORAGE_PREFIX+'marked', JSON.stringify(state.marked));
-  localStorage.setItem(STORAGE_PREFIX+'skipped', JSON.stringify(state.skipped));
-  localStorage.setItem(STORAGE_PREFIX+'times', JSON.stringify(state.perSectionTime));
-  localStorage.setItem(STORAGE_PREFIX+'timer', String(state.globalTimeLeft));
-  localStorage.setItem(STORAGE_PREFIX+'started', state.started ? '1':'0');
-}
-
-/* start */
-init();
-applyDisabledState();
-
-/* expose debug helpers */
-window._STATE = state;
-window._QUESTIONS = QUESTIONS;
-window._ANSWER_KEY = ANSWER_KEY;
+  el('timeBox').innerText = formatTime(state.timer);
+})();
 
 </script>
 </body>
 </html>
-
