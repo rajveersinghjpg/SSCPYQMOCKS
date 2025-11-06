@@ -2,117 +2,114 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>SSC CGL Tier-I 2025 PYQ Mocks</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSC CGL MOCKS — Home</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <style>
-  :root{
-    --blue:#153d7a;
-    --accent:#1f4d8a;
-    --bg:#f3f6fb;
-  }
+  :root{--blue:#153d7a;--accent:#1f4d8a;--bg:#f3f6fb}
   *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:Inter,Arial,Helvetica,sans-serif;
-    background:var(--bg);
-    color:#17202a;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-  }
-  header{
-    background:linear-gradient(90deg,var(--blue),#2b62b0);
-    color:#fff;
-    padding:20px;
-    text-align:center;
-  }
-  header h1{margin:0;font-size:26px;}
-  header p{margin:4px 0 0;font-weight:600;opacity:.9}
-  main{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding:30px 16px;
-  }
-  .mock-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-    gap:20px;
-    max-width:900px;
-    width:100%;
-  }
-  .mock-card{
-    background:#fff;
-    border-radius:12px;
-    box-shadow:0 6px 18px rgba(16,24,40,0.05);
-    padding:20px;
-    text-align:center;
-    cursor:pointer;
-    transition:transform .15s, box-shadow .15s;
-  }
-  .mock-card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 10px 24px rgba(16,24,40,0.08);
-  }
-  .mock-card h3{margin:0;color:var(--accent);font-size:18px;}
-  .mock-card p{margin:6px 0 0;color:#6b7280;font-size:14px;}
-  footer{
-    text-align:center;
-    padding:16px;
-    font-size:14px;
-    color:#6b7280;
-  }
-  .badge{
-    background:var(--accent);
-    color:#fff;
-    padding:4px 8px;
-    border-radius:6px;
-    font-size:12px;
-    margin-left:6px;
-  }
+  body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:#17202a}
+  header{background:linear-gradient(90deg,var(--blue),#2b62b0);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+  header h1{font-size:18px;margin:0}
+  header .user{font-weight:700}
+  main{padding:18px;max-width:1100px;margin:0 auto}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+  .card{background:#fff;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.04);cursor:pointer}
+  .card h3{margin:0;color:var(--accent);font-size:16px}
+  .card p{margin:8px 0 0;color:#6b7280}
+  .attempts{margin-top:18px;background:#fff;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:8px;border-bottom:1px solid #eef6ff;text-align:left}
+  .btn{padding:8px 12px;border-radius:8px;border:0;background:#fff;color:#fff;cursor:pointer}
+  .logout{background:#fff;color:var(--accent);padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);cursor:pointer;font-weight:700}
+  .small{color:#6b7280;font-size:13px}
+  @media(max-width:720px){ .grid{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
-
 <header>
-  <h1>SSC CGL Tier-I 2025 PYQ Mock Tests</h1>
-  <p>Practice Previous Year Questions | Full Exam Interface</p>
+  <h1>SSC CGL Tier-I 2025 — PYQ Mocks</h1>
+  <div>
+    <span id="welcomeTxt" class="user">Welcome</span>
+    <button id="logoutBtn" class="logout">Logout</button>
+  </div>
 </header>
 
 <main>
-  <div class="mock-grid">
-    <!-- 12 Sep -->
-    <div class="mock-card" onclick="window.location='12sep-shift1.html'">
-      <h3>12 September — Shift 1 <span class="badge">Start</span></h3>
-      <p>General Awareness, Reasoning, Quant, English</p>
+  <section>
+    <h2 style="margin:0 0 10px">Available Mocks</h2>
+    <div class="grid" id="mockGrid">
+      <!-- cards injected by JS -->
     </div>
-    <div class="mock-card" onclick="window.location='12sep-shift2.html'">
-      <h3>12 September — Shift 2 <span class="badge">Start</span></h3>
-      <p>Memory-based PYQ | Tier-I Pattern</p>
-    </div>
+  </section>
 
-    <!-- 13 Sep -->
-    <div class="mock-card" onclick="window.location='13sep-shift1.html'">
-      <h3>13 September — Shift 1 <span class="badge">Start</span></h3>
-      <p>Complete 100-question mock test</p>
-    </div>
-    <div class="mock-card" onclick="window.location='13sep-shift2.html'">
-      <h3>13 September — Shift 2 <span class="badge">Start</span></h3>
-      <p>Latest PYQ with section-wise analysis</p>
-    </div>
-
-    <!-- Example future date -->
-    <div class="mock-card" onclick="window.location='14sep-shift1.html'">
-      <h3>14 September — Shift 1 <span class="badge">Start</span></h3>
-      <p>Coming Soon</p>
-    </div>
-  </div>
+  <section class="attempts" id="attemptsWrap" style="display:none">
+    <h3 style="margin-top:0">Your Past Attempts</h3>
+    <div id="attemptsTable"></div>
+  </section>
 </main>
 
-<footer>
-  © 2025 SSC Mock Portal · Developed for educational practice
-</footer>
+<script>
+/* Keys and helpers */
+const CURRENT_USER_KEY = 'ssc_current_user';
+const ATTEMPTS_KEY = 'ssc_attempts_v1'; // stores attempts per user
+const MOCKS = [
+  {title:'12 Sep 2025 — Shift 1', file:'12sep-shift1.html', id:'12sep-shift1'},
+  {title:'12 Sep 2025 — Shift 2', file:'12sep-shift2.html', id:'12sep-shift2'},
+  {title:'13 Sep 2025 — Shift 1', file:'13sep-shift1.html', id:'13sep-shift1'}
+];
 
+const el = id => document.getElementById(id);
+
+/* auth check */
+const cur = localStorage.getItem(CURRENT_USER_KEY);
+if(!cur){ window.location.href = 'login.html'; throw 'redirecting to login'; }
+el('welcomeTxt').innerText = `Welcome, ${cur}`;
+
+/* build mock cards */
+const grid = el('mockGrid');
+MOCKS.forEach(m=>{
+  const c = document.createElement('div'); c.className='card';
+  c.innerHTML = `<h3>${m.title}</h3><p class="small">Click to open mock</p>`;
+  c.onclick = ()=>{ window.location.href = m.file; };
+  grid.appendChild(c);
+});
+
+/* show past attempts for this user */
+function loadAttempts(){
+  const raw = JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || '{}');
+  return raw;
+}
+function saveAttemptForUser(username, mockId, attemptData){
+  const raw = loadAttempts();
+  if(!raw[username]) raw[username] = {};
+  raw[username][mockId] = attemptData; // latest attempt overwrite; you can store array if you want history
+  localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(raw));
+}
+
+/* display attempts */
+function showAttempts(){
+  const all = loadAttempts();
+  const userAttempts = all[cur] || {};
+  const wrap = el('attemptsWrap'); const tableWrap = el('attemptsTable');
+  const rows = [];
+  for(const m of MOCKS){
+    const att = userAttempts[m.id];
+    if(att){
+      rows.push(`<tr><td>${m.title}</td><td>${att.marks}</td><td>${att.timeTaken}</td><td>${att.date}</td><td><a href="${m.file}">Retake / View</a></td></tr>`);
+    } else {
+      rows.push(`<tr><td>${m.title}</td><td>—</td><td>—</td><td>—</td><td><a href="${m.file}">Take test</a></td></tr>`);
+    }
+  }
+  const tableHtml = `<table><thead><tr><th>Mock</th><th>Marks</th><th>Time</th><th>Date</th><th>Action</th></tr></thead><tbody>${rows.join('')}</tbody></table>`;
+  tableWrap.innerHTML = tableHtml;
+  wrap.style.display = 'block';
+}
+
+/* logout */
+el('logoutBtn').addEventListener('click', ()=> { localStorage.removeItem(CURRENT_USER_KEY); window.location.href='login.html'; });
+
+/* show attempts on load */
+showAttempts();
+</script>
 </body>
 </html>
