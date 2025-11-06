@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>SSC CGL Tier-I 2025 PYQ Mocks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --blue:#153d7a;
+    --accent:#1f4d8a;
+    --bg:#f3f6fb;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:#17202a;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  header{
+    background:linear-gradient(90deg,var(--blue),#2b62b0);
+    color:#fff;
+    padding:20px;
+    text-align:center;
+  }
+  header h1{margin:0;font-size:26px;}
+  header p{margin:4px 0 0;font-weight:600;opacity:.9}
+  main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:30px 16px;
+  }
+  .mock-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:20px;
+    max-width:900px;
+    width:100%;
+  }
+  .mock-card{
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(16,24,40,0.05);
+    padding:20px;
+    text-align:center;
+    cursor:pointer;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .mock-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 24px rgba(16,24,40,0.08);
+  }
+  .mock-card h3{margin:0;color:var(--accent);font-size:18px;}
+  .mock-card p{margin:6px 0 0;color:#6b7280;font-size:14px;}
+  footer{
+    text-align:center;
+    padding:16px;
+    font-size:14px;
+    color:#6b7280;
+  }
+  .badge{
+    background:var(--accent);
+    color:#fff;
+    padding:4px 8px;
+    border-radius:6px;
+    font-size:12px;
+    margin-left:6px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SSC CGL Tier-I 2025 PYQ Mock Tests</h1>
+  <p>Practice Previous Year Questions | Full Exam Interface</p>
+</header>
+
+<main>
+  <div class="mock-grid">
+    <!-- 12 Sep -->
+    <div class="mock-card" onclick="window.location='12sep-shift1.html'">
+      <h3>12 September — Shift 1 <span class="badge">Start</span></h3>
+      <p>General Awareness, Reasoning, Quant, English</p>
+    </div>
+    <div class="mock-card" onclick="window.location='12sep-shift2.html'">
+      <h3>12 September — Shift 2 <span class="badge">Start</span></h3>
+      <p>Memory-based PYQ | Tier-I Pattern</p>
+    </div>
+
+    <!-- 13 Sep -->
+    <div class="mock-card" onclick="window.location='13sep-shift1.html'">
+      <h3>13 September — Shift 1 <span class="badge">Start</span></h3>
+      <p>Complete 100-question mock test</p>
+    </div>
+    <div class="mock-card" onclick="window.location='13sep-shift2.html'">
+      <h3>13 September — Shift 2 <span class="badge">Start</span></h3>
+      <p>Latest PYQ with section-wise analysis</p>
+    </div>
+
+    <!-- Example future date -->
+    <div class="mock-card" onclick="window.location='14sep-shift1.html'">
+      <h3>14 September — Shift 1 <span class="badge">Start</span></h3>
+      <p>Coming Soon</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2025 SSC Mock Portal · Developed for educational practice
+</footer>
+
+</body>
+</html>
