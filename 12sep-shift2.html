@@ -2,263 +2,694 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>12 Sep Shift 1 — Mock</title>
+<title>SSC CGL TIER I 2025 — Mock (12 Sep Shift 1)</title>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <style>
-  :root{--blue:#153d7a;--accent:#1f4d8a;--bg:#f3f6fb;--green:#28a745;--red:#d9534f}
+  :root{
+    --blue:#153d7a; --accent:#1f4d8a; --green:#28a745; --red:#d9534f;
+    --marked:#7b3fb0; --bg:#f6f9fc; --card:#fff; --muted:#6b7280;
+  }
   *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg)}
-  .centerStart{height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
-  .startBtn{padding:18px 28px;font-size:26px;border-radius:12px;background:linear-gradient(90deg,var(--blue),#2b62b0);color:#fff;border:0;cursor:pointer}
-  .topbar{background:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
-  .layout{display:flex;gap:12px;padding:12px;height:calc(100vh - 72px)}
-  aside.left{width:260px;background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.04);overflow:auto}
-  .qgrid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .qnum{width:44px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:#eef6ff;border:0;cursor:pointer;font-weight:700}
+  body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:#15202a}
+  /* top bar (matches image: buttons center top, timer right) */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:linear-gradient(90deg,var(--card),#fbfcff);border-bottom:1px solid #e6eef8;position:sticky;top:0;z-index:50}
+  .top-left{display:flex;align-items:center;gap:12px}
+  .logo{width:36px;height:36px;background:var(--accent);color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900}
+  .title{font-weight:900;font-size:18px}
+  .top-center{display:flex;gap:12px;align-items:center}
+  .control-btn{background:#2b62b0;color:#fff;padding:8px 12px;border-radius:6px;border:0;font-weight:700;cursor:pointer}
+  .control-ghost{background:#fff;color:var(--accent);border:1px solid #dfe7f3;padding:8px 12px;border-radius:6px;cursor:pointer}
+  .right-controls{display:flex;align-items:center;gap:12px}
+  .timer{font-weight:900;color:#b30000;background:#fff;padding:6px 10px;border-radius:6px;border:1px solid #e6eef8}
+  .small-muted{color:var(--muted);font-weight:700}
+
+  /* main layout */
+  .layout{display:flex;gap:14px;padding:12px;height:calc(100vh - 72px)}
+  .left{width:300px;background:var(--card);border-radius:8px;padding:12px;box-shadow:0 8px 20px rgba(16,24,40,0.05);display:flex;flex-direction:column}
+  .tabs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+  .tab{padding:8px 10px;border-radius:6px;background:#0c5fa0;color:#fff;font-weight:800;cursor:pointer}
+  .tab.inactive{background:#e9f0ff;color:var(--accent}
+  .qpanel-title{font-weight:900;color:var(--accent);margin-bottom:8px}
+  .qgrid{display:grid;grid-template-columns:repeat(5,40px);gap:8px}
+  .qnum{height:34px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:#e9f2ff;color:var(--accent);font-weight:800;cursor:pointer;border:0}
   .qnum.answered{background:var(--green);color:#fff}
   .qnum.skipped{background:var(--red);color:#fff}
+  .qnum.marked{background:var(--marked);color:#fff}
+  .section-summary{margin-top:auto;padding-top:12px;border-top:1px dashed #eef6ff;color:var(--muted);font-weight:800}
+
   .main{flex:1;display:flex;flex-direction:column}
-  .controls-row{display:flex;gap:8px;align-items:center;padding:8px;background:#fff;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
-  .btn{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer;font-weight:700}
-  .btn.ghost{background:#fff;color:var(--accent);border:1px solid #e6eef8}
-  .timer{font-weight:900;padding:8px;border-radius:8px;background:#fff;border:1px solid #e6eef8}
-  .qcard{background:#fff;margin-top:12px;border-radius:10px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.04);flex:1;overflow:auto}
-  .opt{border:1px solid #e8eef8;padding:12px;border-radius:8px;display:flex;gap:10px;align-items:center;cursor:pointer;margin-bottom:8px}
-  .overlayPaused{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:9999;color:#fff;font-size:28px}
-  #resultsArea{display:none;padding:18px}
-  table{border-collapse:collapse;width:100%}
-  th,td{border:1px solid #e9eef8;padding:10px;text-align:left}
-  @media(max-width:980px){.layout{flex-direction:column;height:auto}.left{width:100%;order:2}.main{order:1}}
+  .controls-row{display:flex;gap:10px;align-items:center;background:var(--card);padding:10px;border-radius:8px;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
+  .qcard{flex:1;background:var(--card);margin-top:12px;border-radius:8px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.04);overflow:auto}
+  .qheader{font-weight:900;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+  .qtext{font-size:16px;line-height:1.6;margin-bottom:12px}
+  .options{display:flex;flex-direction:column;gap:10px}
+  .opt{border:1px solid #e8eef8;padding:12px;border-radius:8px;display:flex;gap:10px;align-items:center;cursor:pointer}
+  .opt input{transform:scale(1.05)}
+  .footer-actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+  .counts{font-weight:800;color:var(--muted)}
+  .result-card{background:#fff;padding:12px;border-radius:8px;box-shadow:0 8px 20px rgba(16,24,40,0.04)}
+  /* review area */
+  .review-tabs{display:flex;gap:8px;margin-bottom:12px}
+  .review-tab{padding:8px 12px;border-radius:6px;background:#eef6ff;color:var(--accent);cursor:pointer;font-weight:800}
+  .review-tab.active{background:var(--accent);color:#fff}
+  .review-list{max-height:60vh;overflow:auto}
+
+  /* overlays */
+  .overlayPaused{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.4);display:none;align-items:center;justify-content:center;z-index:9999;color:#fff;font-size:28px}
+
+  /* responsive */
+  @media(max-width:980px){
+    .layout{flex-direction:column;height:auto;padding-bottom:80px}
+    .left{width:100%;order:2}
+    .main{order:1}
+  }
 </style>
 </head>
 <body>
 
-<!-- START -->
-<div id="startScreen" class="centerStart">
-  <div style="text-align:center">
-    <div style="font-size:14px;color:#6b7280">SSC CGL TIER I 2025</div>
-    <div style="font-size:20px;font-weight:900">12 Sep — Shift 1 (Demo)</div>
-    <div style="font-size:13px;color:#6b7280;margin-top:6px">Duration: 60 minutes</div>
-  </div>
-  <button id="startBtn" class="startBtn">START EXAM</button>
-  <div style="margin-top:8px;color:#6b7280">Make sure you are logged in at the homepage</div>
-</div>
-
-<!-- APP -->
-<div id="appWrap" style="display:none">
-  <div class="topbar">
-    <div><strong>12 Sep — Shift 1</strong></div>
-    <div style="display:flex;gap:10px;align-items:center">
-      <div class="timer" id="timeBox">60:00</div>
-      <button id="pauseBtn" class="btn">Pause</button>
-      <button id="submitBtn" class="btn">Submit</button>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="top-left">
+    <div class="logo">SSC</div>
+    <div>
+      <div class="title">SSC CGL 2025 - Tier I - 12 Sep Shift 1</div>
+      <div class="small-muted">Single question view · 4 sections · 100 Qs</div>
     </div>
   </div>
 
-  <div class="layout" id="layoutWrap">
-    <aside class="left">
-      <div style="font-weight:900;color:var(--blue)">Question Panel</div>
-      <div class="qgrid" id="qGrid"></div>
-      <div style="margin-top:12px;font-weight:700;color:#6b7280">Answered: <span id="answeredCount">0</span></div>
-    </aside>
-
-    <main class="main">
-      <div class="controls-row">
-        <button id="prevBtn" class="btn ghost">Previous</button>
-        <button id="saveNextBtn" class="btn">Save & Next</button>
-        <div style="margin-left:auto;color:#6b7280">Section Time: <span id="secTime">00:00</span></div>
-      </div>
-
-      <div class="qcard">
-        <div class="qheader" id="qHeader">Question</div>
-        <div class="qtext" id="qText">Loading...</div>
-        <div class="options" id="optsWrap"></div>
-      </div>
-    </main>
+  <div class="top-center">
+    <button id="prevTop" class="control-ghost">Previous</button>
+    <button id="markReviewNext" class="control-btn">Mark for Review & Next</button>
+    <button id="saveNext" class="control-btn">Save & Next</button>
+    <button id="submitTestTop" class="control-btn" style="background:#2f69a8">Submit</button>
   </div>
 
-  <div id="resultsArea">
-    <h2>Marks & Attempt Saved</h2>
-    <div id="markCard"></div>
-    <div style="margin-top:12px"><a href="index.html">Back to Home</a></div>
+  <div class="right-controls">
+    <div style="text-align:right">
+      <div class="small-muted">Total Questions Answered: <span id="totalAnswered">0</span></div>
+      <div style="margin-top:6px;display:flex;gap:8px;align-items:center">
+        <button id="enterFs" class="control-ghost" title="Enter Full Screen">Enter Full Screen</button>
+        <div class="timer" id="timeBox">60:00</div>
+        <button id="pauseBtn" class="control-ghost">Pause</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<div id="pauseOverlay" class="overlayPaused" style="display:none">PAUSED</div>
+<!-- MAIN LAYOUT -->
+<div class="layout" id="mainLayout">
+  <!-- LEFT PANEL -->
+  <aside class="left">
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+      <button id="tabA" class="tab">PART-A</button>
+      <button id="tabB" class="tab inactive">PART-B</button>
+      <button id="tabC" class="tab inactive">PART-C</button>
+      <button id="tabD" class="tab inactive">PART-D</button>
+    </div>
+
+    <div class="qpanel-title">General Intelligence and Reasoning</div>
+    <div class="qgrid" id="qGrid"></div>
+
+    <div class="section-summary">
+      <div>Answered: <span id="secAnswered">0</span></div>
+      <div>Not Answered: <span id="secNotAnswered">0</span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN QUESTION AREA -->
+  <main class="main">
+    <div class="controls-row">
+      <div style="font-weight:800">Question No. <span id="qNo">1</span></div>
+      <div style="flex:1"></div>
+      <div style="color:var(--muted)">Choose Language:
+        <select id="langSel" style="padding:6px;border-radius:6px;border:1px solid #e6eef8">
+          <option>English</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="qcard" id="qCard">
+      <div class="qheader"><div id="qHeaderText">Loading question...</div><div></div></div>
+      <div class="qtext" id="qText">Question text here</div>
+
+      <div class="options" id="optsWrap"></div>
+
+      <div class="footer-actions">
+        <div>
+          <button id="btnMark" class="control-ghost">Mark for Review</button>
+          <button id="btnClear" class="control-ghost">Clear Response</button>
+        </div>
+        <div class="counts">Section Answered: <strong id="footerAnswered">0</strong></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- RESULTS / MARKCARD (hidden until submit) -->
+<div id="resultModal" style="display:none;padding:18px;max-width:1100px;margin:18px auto">
+  <div class="result-card">
+    <h2>Score Card</h2>
+    <div id="scoreSummary"></div>
+    <div style="margin-top:12px">
+      <button id="reviewBtn" class="control-btn">Review Your Answers</button>
+      <button id="backHome" class="control-ghost" style="margin-left:8px">Back / Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW PANEL (hidden until user clicks review) -->
+<div id="reviewPanel" style="display:none;padding:18px;max-width:1100px;margin:18px auto">
+  <div class="result-card">
+    <h2>Review Answers</h2>
+    <div class="review-tabs">
+      <div class="review-tab active" data-section="A">SECTION A</div>
+      <div class="review-tab" data-section="B">SECTION B</div>
+      <div class="review-tab" data-section="C">SECTION C</div>
+      <div class="review-tab" data-section="D">SECTION D</div>
+    </div>
+    <div class="review-list" id="reviewList"></div>
+    <div style="margin-top:12px">
+      <button id="backToResult" class="control-ghost">Back to Scorecard</button>
+      <button id="backToMock" class="control-btn" style="margin-left:8px">Back to Mock</button>
+    </div>
+  </div>
+</div>
+
+<div id="pauseOverlay" class="overlayPaused">PAUSED</div>
 
 <script>
-/* SETTINGS */
-const STORAGE_KEY = 'ssc_12sep_shift1_state_v1'; // unique per shift
-const ATTEMPTS_KEY = 'ssc_attempts_v1';
-const CURRENT_USER_KEY = 'ssc_current_user';
+/* ------------------------------
+  CONFIG: paste QUESTIONS array here
+  Format expected (example for one question):
+  {
+    id: 1,
+    section: 'A',            // 'A' | 'B' | 'C' | 'D'
+    q: "Full question text (word-for-word). Keep newlines with \\n if needed.",
+    options: ["A. option text", "B. option text", "C. option text", "D. option text"]
+  }
+  ------------------------------ */
 
-/* SAMPLE QUESTIONS (replace with your 1..100 later) */
-const QUESTIONS = [
-  {id:1, q:`In the following question, select the related word: Watt : Power :: Pascal : ?`, options:["A. Energy","B. Temperature","C. Pressure","D. Force"]},
-  {id:2, q:`Mekong : Tibet :: Amazon : ?`, options:["A. Chile","B. Peru","C. Colombia","D. Ecuador"]},
-  {id:3, q:`Select the letter-cluster that replaces ? in: CGK, GKO, KOS, OSW, ?`, options:["A. SDA","B. KNB","C. SWA","D. KJH"]},
-  {id:4, q:`Arrange the fractions (3/4), (2/5), (5/7), (3/5) in ascending order.`, options:["A. 2/5, 3/5, 3/4, 5/7","B. 2/5, 3/5, 5/7, 3/4","C. 3/5, 2/5, 5/7, 3/4","D. 2/5, 5/7, 3/5, 3/4"]}
+/* IMPORTANT:
+   Replace the small sample below with your entire 1..100 questions list.
+   To keep the page responsive while testing you can start with 8-12 questions then paste full 100 later.
+*/
+let QUESTIONS = [
+  /* PASTE QUESTIONS HERE - keep the exact structure shown above for every item */
+  // Small sample to test UI (replace with full set)
+  {id:1, section:'A', q:"In the following question, select the related word from the given alternatives.\\nWatt : Power :: Pascal : ?", options:["A. Energy","B. Temperature","C. Pressure","D. Force"]},
+  {id:2, section:'A', q:"Mekong : Tibet :: Amazon : ?", options:["A. Chile","B. Peru","C. Colombia","D. Ecuador"]},
+  {id:3, section:'A', q:"Select the letter-cluster: CGK, GKO, KOS, OSW, ?", options:["A. SDA","B. KNB","C. SWA","D. KJH"]},
+  {id:4, section:'A', q:"MIN, NJM, OKL, PLK, ?", options:["A. QWS","B. HGF","C. QMJ","D. UJH"]},
+  {id:26, section:'B', q:"Which of the following features distinguishes the Elephanta Caves from other rock-cut sites of early India?", options:["A. They are primarily Buddhist caves with large stupas.","B. The caves focus on Shaivite themes and feature sculptural depth through light and shadow.","C. They contain a mix of Jain and Vaishnavite depictions in pillar halls.","D. The caves are entirely monolithic structures from the Mauryan period."]},
+  {id:51, section:'C', q:"Arrange fractions (3/4), (2/5), (5/7), (3/5) in ascending order.", options:["A. 2/5, 3/5, 3/4, 5/7","B. 2/5, 3/5, 5/7, 3/4","C. 3/5, 2/5, 5/7, 3/4","D. 2/5, 5/7, 3/5, 3/4"]},
+  {id:76, section:'D', q:"Select the most appropriate synonym of the given word: PERFIDIOUS", options:["A. Honest","B. Faithful","C. Treacherous","D. Loyal"]}
 ];
 
-/* SAMPLE ANSWER KEY (A/B/C/D) */
-const ANSWER_KEY = {"1":"C","2":"B","3":"C","4":"B"}; 
-
-/* state */
-let state = {
-  index:0,
-  answers:{}, // key: id -> "A"/"B"/...
-  timer:60*60,
-  running:false,
-  paused:false,
-  sectionTime:0
+/* ------------------------------
+  ANSWER_KEY — paste your answer-key JSON here
+  (I already included the key you provided earlier)
+-------------------------------*/
+const ANSWER_KEY = {
+  "1":"C","2":"B","3":"C","4":"C","5":"D","6":"A","7":"C","8":"B","9":"B","10":"C",
+  "11":"A","12":"B","13":"A","14":"A","15":"A","16":"C","17":"C","18":"C","19":"A","20":"D",
+  "21":"D","22":"A","23":"C","24":"B","25":"C","26":"B","27":"A","28":"C","29":"A","30":"B",
+  "31":"C","32":"B","33":"A","34":"C","35":"B","36":"A","37":"C","38":"C","39":"A","40":"C",
+  "41":"B","42":"C","43":"A","44":"A","45":"C","46":"C","47":"C","48":"C","49":"A","50":"C",
+  "51":"B","52":"A","53":"C","54":"B","55":"D","56":"D","57":"A","58":"C","59":"C","60":"A",
+  "61":"C","62":"B","63":"A","64":"C","65":"B","66":"C","67":"A","68":"A","69":"C","70":"A",
+  "71":"B","72":"A","73":"B","74":"C","75":"B","76":"C","77":"B","78":"C","79":"D","80":"A",
+  "81":"C","82":"A","83":"D","84":"B","85":"B","86":"B","87":"D","88":"A","89":"A","90":"C",
+  "91":"B","92":"C","93":"D","94":"C","95":"B","96":"C","97":"A","98":"A","99":"A","100":"A"
 };
 
-/* persistence */
-function loadState(){
-  try{
-    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    Object.assign(state, raw);
-  }catch(e){}
-}
-function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+/* ------------------------------
+  State and helpers
+-------------------------------*/
+const STORAGE_STATE_KEY = 'ssc_mock_state_12sep_shift1';
+const STORAGE_ANSWERS_KEY = 'ssc_mock_answers_12sep_shift1';
+const ATTEMPTS_KEY = 'ssc_attempts_v1';
 
-/* ui helpers */
+let state = {
+  currentSection: 'A', // 'A'|'B'|'C'|'D'
+  sectionOrder: ['A','B','C','D'],
+  currentIndexInSection: 0,
+  // selectedAnswers keyed by question id -> "A"/"B"/"C"/"D"
+  answers: JSON.parse(localStorage.getItem(STORAGE_ANSWERS_KEY) || '{}'),
+  marked: JSON.parse(localStorage.getItem(STORAGE_STATE_KEY) || '{}')?.marked || {},
+  skipped: JSON.parse(localStorage.getItem(STORAGE_STATE_KEY) || '{}')?.skipped || {},
+  perSectionTime: JSON.parse(localStorage.getItem(STORAGE_STATE_KEY) || '{}')?.perSectionTime || {A:0,B:0,C:0,D:0},
+  globalTimer: 60*60, // seconds
+  running: false,
+  paused: false,
+  started: false,
+  sectionStartTimestamp: null
+};
+
 const el = id => document.getElementById(id);
-function formatTime(s){ const m=Math.floor(s/60).toString().padStart(2,'0'); const ss=(s%60).toString().padStart(2,'0'); return `${m}:${ss}`; }
 
-function buildGrid(){
-  const wrap = el('qGrid'); wrap.innerHTML='';
-  QUESTIONS.forEach((q, idx)=>{
+/* Utility: list of questions per section in original order */
+function questionsBySection(section){
+  return QUESTIONS.filter(q => q.section === section).sort((a,b)=> a.id - b.id);
+}
+function allQuestionsSorted(){
+  // full exam questions sorted by id
+  return QUESTIONS.slice().sort((a,b)=> a.id - b.id);
+}
+
+/* Render left grid for current section */
+function buildQGrid(){
+  const wrap = el('qGrid'); wrap.innerHTML = '';
+  const list = questionsBySection(state.currentSection);
+  list.forEach((q, idx)=>{
     const btn = document.createElement('button');
-    btn.className = 'qnum' + (state.answers[q.id] ? ' answered':'');
+    btn.className = 'qnum';
+    const key = String(q.id);
+    if(state.answers[key]) btn.classList.add('answered');
+    if(state.marked[key]) btn.classList.add('marked');
+    if(state.skipped[key]) btn.classList.add('skipped');
     btn.innerText = idx+1;
-    btn.onclick = ()=>{ state.index = idx; renderQuestion(); saveState(); };
+    btn.title = `Q${q.id}`;
+    btn.onclick = ()=> {
+      saveSectionTime(); state.currentIndexInSection = idx; renderCurrentQuestion(); startSectionTimer();
+    };
     wrap.appendChild(btn);
   });
-  el('answeredCount').innerText = Object.keys(state.answers).length;
+  updateSectionSummary();
 }
 
-function renderQuestion(){
-  const q = QUESTIONS[state.index];
-  el('qHeader').innerText = `Q${q.id}`;
-  el('qText').innerHTML = q.q;
-  const optsWrap = el('optsWrap'); optsWrap.innerHTML='';
-  const user = state.answers[q.id] || null;
+/* Update section counts */
+function updateSectionSummary(){
+  const list = questionsBySection(state.currentSection);
+  const answered = list.reduce((acc,q)=> acc + (state.answers[String(q.id)] ? 1 : 0), 0);
+  el('secAnswered').innerText = answered;
+  el('secNotAnswered').innerText = list.length - answered;
+  el('footerAnswered').innerText = answered;
+  // total answered
+  const totalAns = Object.keys(state.answers).length;
+  el('totalAnswered').innerText = totalAns;
+}
+
+/* Render current question */
+function renderCurrentQuestion(){
+  const list = questionsBySection(state.currentSection);
+  if(list.length === 0){
+    el('qNo').innerText = '-';
+    el('qHeaderText').innerText = `No questions in Section ${state.currentSection}`;
+    el('qText').innerText = '';
+    el('optsWrap').innerHTML = '';
+    return;
+  }
+  const q = list[state.currentIndexInSection];
+  el('qNo').innerText = q.id;
+  el('qHeaderText').innerText = `Section ${state.currentSection} — Q${q.id}`;
+  el('qText').innerHTML = q.q.replace(/\n/g,'<br>');
+  const optsWrap = el('optsWrap'); optsWrap.innerHTML = '';
+  const userAns = state.answers[String(q.id)] || null;
   q.options.forEach(opt=>{
-    const letterMatch = opt.trim().match(/^([A-D])\./i);
-    const letter = letterMatch ? letterMatch[1].toUpperCase() : opt.trim().slice(0,1).toUpperCase();
-    const div = document.createElement('div'); div.className='opt';
-    const radio = document.createElement('input'); radio.type='radio'; radio.name='opt';
-    radio.checked = user === letter;
-    radio.onchange = ()=>{ state.answers[q.id] = letter; buildGrid(); saveState(); };
-    div.appendChild(radio);
-    const span = document.createElement('span'); span.innerText = opt;
-    div.appendChild(span);
-    div.onclick = ()=>{ radio.checked = true; radio.onchange(); };
-    optsWrap.appendChild(div);
+    const lab = document.createElement('label');
+    lab.className = 'opt';
+    const radio = document.createElement('input'); radio.type='radio';
+    // detect letter A/B/C/D from option text if it starts with "A." else fallback
+    const match = opt.match(/^\s*([A-D])\s*[\.\)]?\s*(.*)/i);
+    const letter = match ? match[1].toUpperCase() : opt.trim().slice(0,1).toUpperCase();
+    const text = match ? match[0] : opt;
+    radio.name = 'optRad';
+    radio.checked = (userAns === letter);
+    radio.onchange = (e)=> {
+      state.answers[String(q.id)] = letter;
+      // if selected, it's not skipped
+      delete state.skipped[String(q.id)];
+      persistAnswers();
+      buildQGrid(); updateSectionSummary();
+    };
+    lab.onclick = ()=> {
+      if(state.paused) return;
+      radio.checked = true;
+      radio.onchange();
+    };
+    const span = document.createElement('span'); span.innerHTML = opt;
+    lab.appendChild(radio); lab.appendChild(span);
+    optsWrap.appendChild(lab);
   });
 }
 
-/* navigation */
-el('saveNextBtn').addEventListener('click', ()=>{
-  if(state.index < QUESTIONS.length-1) state.index++;
-  else state.index = 0;
-  renderQuestion(); saveState();
-});
-el('prevBtn').addEventListener('click', ()=>{ if(state.index>0) state.index--; renderQuestion(); saveState(); });
-
-/* timer */
-let timerInterval = null;
-function startTimer(){
-  if(timerInterval) clearInterval(timerInterval);
-  state.running = true; state.paused = false;
-  timerInterval = setInterval(()=>{
-    if(state.running && !state.paused){
-      state.timer = Math.max(0,state.timer-1);
-      state.sectionTime++;
-      el('timeBox').innerText = formatTime(state.timer);
-      el('secTime').innerText = formatTime(state.sectionTime);
-      saveState();
-      if(state.timer === 0){ clearInterval(timerInterval); submitExam(); }
-    }
-  }, 1000);
+/* Save answers to localStorage */
+function persistAnswers(){
+  localStorage.setItem(STORAGE_ANSWERS_KEY, JSON.stringify(state.answers));
 }
-function pauseToggle(){
+
+/* Save small state (marks & time) */
+function persistState(){
+  const data = {
+    marked: state.marked,
+    skipped: state.skipped,
+    perSectionTime: state.perSectionTime,
+    globalTimer: state.globalTimer,
+    started: state.started
+  };
+  localStorage.setItem(STORAGE_STATE_KEY, JSON.stringify(data));
+}
+
+/* Navigation top tab click */
+function setActiveTab(section){
+  state.currentSection = section;
+  // update tab classes
+  ['A','B','C','D'].forEach(s=>{
+    const elTab = document.getElementById('tab'+s);
+    if(s === section) { elTab.classList.remove('inactive'); elTab.style.background = 'var(--green)'; elTab.style.color = '#fff'; }
+    else { elTab.classList.add('inactive'); elTab.style.background = '#0c5fa0'; elTab.style.color = '#fff'; }
+  });
+  state.currentIndexInSection = 0;
+  buildQGrid();
+  renderCurrentQuestion();
+  startSectionTimer();
+}
+
+/* Actions */
+el('tabA').addEventListener('click', ()=> { switchSection('A'); });
+el('tabB').addEventListener('click', ()=> { switchSection('B'); });
+el('tabC').addEventListener('click', ()=> { switchSection('C'); });
+el('tabD').addEventListener('click', ()=> { switchSection('D'); });
+
+function switchSection(s){
+  if(state.currentSection === s) return;
+  saveSectionTime();
+  setActiveTab(s);
+  persistState();
+}
+
+/* Mark for review & next */
+el('markReviewNext').addEventListener('click', ()=>{
+  const list = questionsBySection(state.currentSection);
+  const q = list[state.currentIndexInSection];
+  if(!q) return;
+  state.marked[String(q.id)] = true;
+  // advance
+  if(state.currentIndexInSection < list.length-1) state.currentIndexInSection++;
+  else { // move to next section
+    const idx = state.sectionOrder.indexOf(state.currentSection);
+    if(idx < state.sectionOrder.length-1){ switchSection(state.sectionOrder[idx+1]); }
+    else state.currentIndexInSection = 0;
+  }
+  buildQGrid(); renderCurrentQuestion(); persistState();
+});
+
+/* Save & Next */
+el('saveNext').addEventListener('click', ()=>{
+  const list = questionsBySection(state.currentSection);
+  // if no answer, mark as skipped
+  const q = list[state.currentIndexInSection];
+  if(q && !state.answers[String(q.id)]) state.skipped[String(q.id)] = true;
+  // advance
+  if(state.currentIndexInSection < list.length-1) state.currentIndexInSection++;
+  else {
+    const idx = state.sectionOrder.indexOf(state.currentSection);
+    if(idx < state.sectionOrder.length-1) switchSection(state.sectionOrder[idx+1]);
+    else state.currentIndexInSection = 0;
+  }
+  buildQGrid(); renderCurrentQuestion(); persistState(); persistAnswers();
+});
+
+/* Clear response */
+el('btnClear').addEventListener('click', ()=>{
+  const list = questionsBySection(state.currentSection);
+  const q = list[state.currentIndexInSection];
+  if(q){ delete state.answers[String(q.id)]; state.skipped[String(q.id)] = true; persistAnswers(); buildQGrid(); renderCurrentQuestion(); }
+});
+
+/* Mark button (left) */
+el('btnMark').addEventListener('click', ()=>{
+  const list = questionsBySection(state.currentSection);
+  const q = list[state.currentIndexInSection];
+  if(q){ state.marked[String(q.id)] = !state.marked[String(q.id)]; persistState(); buildQGrid(); renderCurrentQuestion(); }
+});
+
+/* Prev top */
+el('prevTop').addEventListener('click', ()=> {
+  const list = questionsBySection(state.currentSection);
+  if(state.currentIndexInSection > 0) state.currentIndexInSection--;
+  else{
+    const idx = state.sectionOrder.indexOf(state.currentSection);
+    if(idx > 0){
+      switchSection(state.sectionOrder[idx-1]);
+      const prevList = questionsBySection(state.currentSection);
+      state.currentIndexInSection = prevList.length - 1;
+    }
+  }
+  renderCurrentQuestion(); buildQGrid(); persistState();
+});
+
+/* Pause toggle */
+el('pauseBtn').addEventListener('click', ()=> {
   state.paused = !state.paused;
   el('pauseOverlay').style.display = state.paused ? 'flex' : 'none';
   el('pauseBtn').innerText = state.paused ? 'Resume' : 'Pause';
-  saveState();
-}
-
-/* submit and scoring */
-function submitExam(){
-  // compute marks: +2 correct, -0.5 wrong, 0 unanswered
-  let marks = 0; let right=0, wrong=0, unanswered=0;
-  QUESTIONS.forEach(q=>{
-    const your = state.answers[q.id] || null;
-    const corr = ANSWER_KEY[q.id.toString()] || null;
-    if(!your) unanswered++;
-    else if(your === corr){ right++; marks += 2; }
-    else { wrong++; marks -= 0.5; }
-  });
-  // save attempt to global attempts storage under current user
-  const user = localStorage.getItem(CURRENT_USER_KEY);
-  if(user){
-    const attemptsRaw = JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || '{}');
-    attemptsRaw[user] = attemptsRaw[user] || {};
-    attemptsRaw[user]['12sep-shift1'] = {
-      marks: marks.toFixed(2),
-      right, wrong, unanswered,
-      timeTaken: formatTime(state.sectionTime),
-      date: new Date().toLocaleString()
-    };
-    localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(attemptsRaw));
-  }
-  // show markcard
-  el('layoutWrap').style.display = 'none';
-  el('resultsArea').style.display = 'block';
-  const mc = el('markCard');
-  mc.innerHTML = `<p><strong>Score:</strong> ${marks.toFixed(2)} &nbsp; (<em>Right: ${right}, Wrong: ${wrong}, Unanswered: ${unanswered}</em>)</p>
-                  <p><strong>Time:</strong> ${formatTime(state.sectionTime)}</p>
-                  <p><strong>Saved for:</strong> ${user || 'not logged in'}</p>
-                  <p><a href="index.html">Back to Home</a></p>`;
-  // clear saved state for this run
-  localStorage.removeItem(STORAGE_KEY);
-}
-
-/* wiring */
-el('startBtn').addEventListener('click', async ()=>{
-  // check logged in
-  const user = localStorage.getItem(CURRENT_USER_KEY);
-  if(!user){ alert('You must login first from the homepage.'); window.location.href='login.html'; return; }
-  document.getElementById('startScreen').style.display='none';
-  document.getElementById('appWrap').style.display='block';
-  // init state from storage if exists
-  loadState();
-  buildGrid();
-  renderQuestion();
-  startTimer();
+  persistState();
 });
-el('pauseBtn').addEventListener('click', ()=>{ pauseToggle(); });
-el('submitBtn').addEventListener('click', ()=>{ if(confirm('Submit exam?')) submitExam(); });
 
-/* restore on page load if had started */
-loadState();
-if(state.running && !state.paused){
-  // show app immediately (useful if reloaded mid-test)
-  document.getElementById('startScreen').style.display='none';
-  document.getElementById('appWrap').style.display='block';
-  buildGrid(); renderQuestion(); startTimer();
-} else if(state.paused){
-  document.getElementById('startScreen').style.display='none';
-  document.getElementById('appWrap').style.display='block';
-  buildGrid(); renderQuestion();
-  el('pauseOverlay').style.display = 'flex';
-  el('pauseBtn').innerText = 'Resume';
+/* Fullscreen */
+el('enterFs').addEventListener('click', ()=> {
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen().catch(()=>{});
+    el('enterFs').innerText = 'Exit Full Screen';
+  } else {
+    document.exitFullscreen().catch(()=>{});
+    el('enterFs').innerText = 'Enter Full Screen';
+  }
+});
+
+/* Timer */
+let timerInterval = null;
+function startGlobalTimer(){
+  if(timerInterval) clearInterval(timerInterval);
+  state.running = true; state.started = true;
+  timerInterval = setInterval(()=> {
+    if(!state.paused && state.running){
+      state.globalTimer = Math.max(0, state.globalTimer - 1);
+      // increment current section time
+      if(state.sectionStartTimestamp) {
+        const now = Date.now();
+        const delta = Math.floor((now - state.sectionStartTimestamp)/1000);
+        // We set perSectionTime in saveSectionTime to persist; keep running count in display
+      }
+      el('timeBox').innerText = formatTime(state.globalTimer);
+      persistState();
+      if(state.globalTimer <= 0){
+        clearInterval(timerInterval);
+        autoSubmit();
+      }
+    }
+  }, 1000);
 }
 
-/* autosave every 2s */
-setInterval(()=>{ saveState(); }, 2000);
+/* track per-section time */
+function startSectionTimer(){
+  state.sectionStartTimestamp = Date.now();
+  persistState();
+}
+function saveSectionTime(){
+  if(!state.sectionStartTimestamp) return;
+  const delta = Math.floor((Date.now() - state.sectionStartTimestamp)/1000);
+  state.perSectionTime[state.currentSection] = (state.perSectionTime[state.currentSection] || 0) + delta;
+  state.sectionStartTimestamp = Date.now();
+  persistState();
+}
+
+/* format time */
+function formatTime(s){
+  const mm = Math.floor(s/60).toString().padStart(2,'0');
+  const ss = (s%60).toString().padStart(2,'0');
+  return `${mm}:${ss}`;
+}
+
+/* Submit (manual top button) */
+el('submitTestTop').addEventListener('click', ()=> {
+  if(confirm('Submit exam now?')) doSubmit();
+});
+
+/* Auto submit */
+function autoSubmit(){
+  alert('Time is up — exam will be submitted now.');
+  doSubmit();
+}
+
+/* Do submit: compute per-section marks and totals, show scorecard and save attempt */
+function doSubmit(){
+  saveSectionTime(); // store final section time
+  // compute marks per section and totals
+  const perSectionStats = {A:{right:0,wrong:0,unanswered:0,marks:0}, B:{right:0,wrong:0,unanswered:0,marks:0}, C:{right:0,wrong:0,unanswered:0,marks:0}, D:{right:0,wrong:0,unanswered:0,marks:0}};
+  QUESTIONS.forEach(q=>{
+    const key = String(q.id);
+    const your = state.answers[key] || null;
+    const corr = ANSWER_KEY[key] || null;
+    const sec = q.section || 'A';
+    if(!your){ perSectionStats[sec].unanswered++; }
+    else if(your === corr){ perSectionStats[sec].right++; perSectionStats[sec].marks += 2; }
+    else { perSectionStats[sec].wrong++; perSectionStats[sec].marks -= 0.5; }
+  });
+  // totalize & build scorecard html
+  let totalMarks = 0, totalRight=0, totalWrong=0, totalUnanswered=0;
+  Object.keys(perSectionStats).forEach(s=>{
+    totalMarks += perSectionStats[s].marks;
+    totalRight += perSectionStats[s].right;
+    totalWrong += perSectionStats[s].wrong;
+    totalUnanswered += perSectionStats[s].unanswered;
+  });
+  const perSectionTimeDisplay = {};
+  Object.keys(state.perSectionTime).forEach(s => perSectionTimeDisplay[s] = formatTime(state.perSectionTime[s] || 0));
+  const scoreHtmlParts = [];
+  scoreHtmlParts.push(`<p><strong>Total Marks:</strong> ${totalMarks.toFixed(2)}</p>`);
+  scoreHtmlParts.push(`<p><strong>Right:</strong> ${totalRight} &nbsp; <strong>Wrong:</strong> ${totalWrong} &nbsp; <strong>Unanswered:</strong> ${totalUnanswered}</p>`);
+  scoreHtmlParts.push(`<h4>Section-wise</h4><table style="width:100%;border-collapse:collapse"><thead><tr><th>Section</th><th>Right</th><th>Wrong</th><th>Unanswered</th><th>Marks</th><th>Time Taken</th></tr></thead><tbody>`);
+  ['A','B','C','D'].forEach(s=>{
+    const st = perSectionStats[s];
+    scoreHtmlParts.push(`<tr><td>${s}</td><td>${st.right}</td><td>${st.wrong}</td><td>${st.unanswered}</td><td>${st.marks.toFixed(2)}</td><td>${perSectionTimeDisplay[s] || '00:00'}</td></tr>`);
+  });
+  scoreHtmlParts.push('</tbody></table>');
+  el('scoreSummary').innerHTML = scoreHtmlParts.join('');
+  document.getElementById('resultModal').style.display = 'block';
+  // Save attempt in attempts storage (grouped by user, but if no login just store under guest)
+  const user = (localStorage.getItem('ssc_current_user') || 'guest');
+  const attempts = JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || '{}');
+  attempts[user] = attempts[user] || {};
+  attempts[user]['12sep-shift1'] = {
+    marks: totalMarks.toFixed(2),
+    right: totalRight, wrong: totalWrong, unanswered: totalUnanswered,
+    perSection: perSectionStats,
+    perSectionTime: state.perSectionTime,
+    date: new Date().toLocaleString()
+  };
+  localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(attempts));
+  // disable further editing
+  state.running = false;
+  persistState(); persistAnswers();
+}
+
+/* Review button */
+el('reviewBtn').addEventListener('click', ()=> {
+  document.getElementById('resultModal').style.display = 'none';
+  showReviewPanel('A');
+});
+
+/* Back/close */
+el('backHome').addEventListener('click', ()=> {
+  document.getElementById('resultModal').style.display = 'none';
+});
+
+/* BACK TO MOCK from review */
+el('backToMock').addEventListener('click', ()=> {
+  document.getElementById('reviewPanel').style.display = 'none';
+  // reopen main layout and let user see their previous selections (disabled editing)
+  document.getElementById('mainLayout').style.display = 'flex';
+});
+
+/* Review show */
+function showReviewPanel(section){
+  document.getElementById('reviewPanel').style.display = 'block';
+  document.getElementById('mainLayout').style.display = 'none';
+  // set active tab style
+  document.querySelectorAll('.review-tab').forEach(elm => elm.classList.remove('active'));
+  document.querySelectorAll(`.review-tab[data-section="${section}"]`).forEach(elm=>elm.classList.add('active'));
+  renderReviewSection(section);
+}
+document.querySelectorAll('.review-tab').forEach(tab=>{
+  tab.addEventListener('click', ()=> {
+    document.querySelectorAll('.review-tab').forEach(elm=>elm.classList.remove('active'));
+    tab.classList.add('active');
+    renderReviewSection(tab.getAttribute('data-section'));
+  });
+});
+function renderReviewSection(section){
+  const list = QUESTIONS.filter(q => q.section === section).sort((a,b)=>a.id-b.id);
+  const wrap = el('reviewList'); wrap.innerHTML = '';
+  list.forEach(q=>{
+    const your = state.answers[String(q.id)] || '—';
+    const corr = ANSWER_KEY[String(q.id)] || '—';
+    const row = document.createElement('div');
+    row.style.padding = '8px';
+    row.style.borderBottom = '1px solid #eef6ff';
+    row.innerHTML = `<div style="font-weight:800">Q${q.id}. ${q.q}</div>
+      <div style="margin-top:6px">Your answer: <strong style="color:${your===corr?'#0b8b3f':'#d93025'}">${your}</strong> &nbsp; Correct: <strong style="color:#0b8b3f">${corr}</strong></div>`;
+    wrap.appendChild(row);
+  });
+}
+
+/* Init: build tabs, grid and question - start in "start" mode until user clicks start */
+function init(){
+  // ensure we have sections clickable look
+  setActiveUI();
+  setActiveTab(state.currentSection);
+  buildQGrid();
+  renderCurrentQuestion();
+  el('timeBox').innerText = formatTime(state.globalTimer);
+  // if already started (reload mid-test) resume
+  if(state.started){
+    document.getElementById('resultModal').style.display = 'none';
+    document.getElementById('reviewPanel').style.display = 'none';
+    document.getElementById('mainLayout').style.display = 'flex';
+    startGlobalTimer();
+    startSectionTimer();
+  } else {
+    // show main layout but exam not started until user starts
+    document.getElementById('mainLayout').style.display = 'flex';
+  }
+}
+
+/* helper UI init */
+function setActiveUI(){
+  ['A','B','C','D'].forEach(s=>{
+    const elTab = document.getElementById('tab'+s);
+    if(s === state.currentSection) { elTab.style.background = 'var(--green)'; elTab.style.color='#fff'; elTab.classList.remove('inactive'); }
+    else { elTab.style.background = '#0c5fa0'; elTab.style.color='#fff'; elTab.classList.add('inactive'); }
+  });
+}
+
+/* Persistence on unload */
+window.addEventListener('beforeunload', ()=> { persistState(); persistAnswers(); });
+
+/* START EXAM: big centered start (we used main layout always visible—call this to begin actual run) */
+function startExam(){
+  if(state.started) return;
+  state.started = true;
+  startGlobalTimer();
+  startSectionTimer();
+  persistState();
+}
+
+/* small UI: button wired */
+const startBtn = document.querySelector('#startBtn');
+if(startBtn){ startBtn.addEventListener('click', ()=> startExam()); }
+
+/* If you want a separate big start screen you can show/hide it - by default page shows main layout and user can begin directly */
+init();
+
+/* helper: quick build on load */
+function quickStartForTesting(){
+  // If you want to auto-start the exam for testing uncomment:
+  // startExam();
+}
+
+/* expose some useful functions to global for debugging */
+window._state = state;
+window._QUESTIONS = QUESTIONS;
+window._ANSWER_KEY = ANSWER_KEY;
+
+/* finally, helper for reading entire list length and auto-jump when using tabs */
+function goToFirstUnansweredInSection(section){
+  const list = questionsBySection(section);
+  for(let i=0;i<list.length;i++){
+    const q = list[i];
+    if(!state.answers[String(q.id)]){ state.currentIndexInSection = i; renderCurrentQuestion(); startSectionTimer(); return; }
+  }
+  // if all answered go to first
+  state.currentIndexInSection = 0; renderCurrentQuestion(); startSectionTimer();
+}
+
+/* wire review/back buttons already above */
+el('backToResult').addEventListener('click', ()=> {
+  document.getElementById('reviewPanel').style.display = 'none';
+  document.getElementById('resultModal').style.display = 'block';
+});
 
 </script>
 </body>
