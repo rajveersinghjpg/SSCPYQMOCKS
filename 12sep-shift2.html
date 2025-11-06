@@ -2,525 +2,264 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>Mock Test — sample</title>
+<title>12 Sep Shift 1 — Mock</title>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <style>
-  :root{--blue:#153d7a;--accent:#1f4d8a;--green:#28a745;--red:#d9534f;--muted:#6b7280;--bg:#f3f6fb}
-  *{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:#17202a}
+  :root{--blue:#153d7a;--accent:#1f4d8a;--bg:#f3f6fb;--green:#28a745;--red:#d9534f}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg)}
   .centerStart{height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
-  .startBtn{padding:20px 34px;font-size:28px;border-radius:12px;background:linear-gradient(90deg,var(--blue),#2b62b0);color:#fff;border:0;cursor:pointer}
-  .smallText{color:var(--muted);font-weight:700}
-  /* layout */
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#fff;box-shadow:0 6px 18px rgba(16,24,40,0.05)}
-  .brand{display:flex;align-items:center;gap:10px}
-  .logo{width:44px;height:44;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
-  .layout{display:flex;gap:12px;padding:12px;height:calc(100vh - 76px)}
-  aside.left{width:300px;background:#fff;border-radius:10px;padding:12px;box-shadow:0 6px 18px rgba(16,24,40,0.04);overflow:auto}
-  .section-btn{display:block;width:100%;text-align:left;padding:8px;border-radius:8px;border:0;background:linear-gradient(90deg,#eef6ff,#fff);margin-bottom:6px;cursor:pointer;font-weight:800}
-  .section-btn.active{background:linear-gradient(90deg,var(--green),#38c26a);color:#fff}
+  .startBtn{padding:18px 28px;font-size:26px;border-radius:12px;background:linear-gradient(90deg,var(--blue),#2b62b0);color:#fff;border:0;cursor:pointer}
+  .topbar{background:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
+  .layout{display:flex;gap:12px;padding:12px;height:calc(100vh - 72px)}
+  aside.left{width:260px;background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.04);overflow:auto}
   .qgrid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .qnum{width:44px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;background:#eef6ff;border:0;cursor:pointer}
+  .qnum{width:44px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:#eef6ff;border:0;cursor:pointer;font-weight:700}
   .qnum.answered{background:var(--green);color:#fff}
   .qnum.skipped{background:var(--red);color:#fff}
   .main{flex:1;display:flex;flex-direction:column}
   .controls-row{display:flex;gap:8px;align-items:center;padding:8px;background:#fff;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
   .btn{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer;font-weight:700}
   .btn.ghost{background:#fff;color:var(--accent);border:1px solid #e6eef8}
-  .timerBox{font-weight:900;padding:8px;border-radius:8px;background:#fff;border:1px solid #e6eef8}
+  .timer{font-weight:900;padding:8px;border-radius:8px;background:#fff;border:1px solid #e6eef8}
   .qcard{background:#fff;margin-top:12px;border-radius:10px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.04);flex:1;overflow:auto}
-  .qheader{font-weight:900;margin-bottom:12px}
-  .qtext{font-size:16px;line-height:1.6}
-  .options{margin-top:12px;display:flex;flex-direction:column;gap:10px}
-  .opt{border:1px solid #e8eef8;padding:12px;border-radius:8px;display:flex;gap:10px;align-items:center;cursor:pointer;background:#fff}
-  .footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+  .opt{border:1px solid #e8eef8;padding:12px;border-radius:8px;display:flex;gap:10px;align-items:center;cursor:pointer;margin-bottom:8px}
   .overlayPaused{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:9999;color:#fff;font-size:28px}
   #resultsArea{display:none;padding:18px}
   table{border-collapse:collapse;width:100%}
   th,td{border:1px solid #e9eef8;padding:10px;text-align:left}
-  .tabs{display:flex;gap:8px;margin-bottom:8px}
-  .tab{padding:8px 12px;border-radius:8px;border:1px solid #e6eef8;background:#fff;cursor:pointer}
-  .tab.active{background:var(--accent);color:#fff}
-  .hidden{display:none}
   @media(max-width:980px){.layout{flex-direction:column;height:auto}.left{width:100%;order:2}.main{order:1}}
 </style>
 </head>
 <body>
 
-<!-- START SCREEN -->
+<!-- START -->
 <div id="startScreen" class="centerStart">
   <div style="text-align:center">
-    <div style="font-size:12px;color:var(--muted)">Exam</div>
-    <div style="font-size:18px;font-weight:900">SSC CGL TIER I 2025 — Demo</div>
+    <div style="font-size:14px;color:#6b7280">SSC CGL TIER I 2025</div>
+    <div style="font-size:20px;font-weight:900">12 Sep — Shift 1 (Demo)</div>
+    <div style="font-size:13px;color:#6b7280;margin-top:6px">Duration: 60 minutes</div>
   </div>
   <button id="startBtn" class="startBtn">START EXAM</button>
-  <div class="smallText">Duration: 60 minutes · Single-question view · No login required</div>
+  <div style="margin-top:8px;color:#6b7280">Make sure you are logged in at the homepage</div>
 </div>
 
-<!-- APP UI -->
-<div id="appWrap" class="hidden">
+<!-- APP -->
+<div id="appWrap" style="display:none">
   <div class="topbar">
-    <div class="brand"><div class="logo">SSC</div><div><div id="examTitle">SSC CGL TIER I 2025 — Demo</div><div style="font-size:12px;color:var(--muted)">Single question view</div></div></div>
-
+    <div><strong>12 Sep — Shift 1</strong></div>
     <div style="display:flex;gap:10px;align-items:center">
-      <div class="timerBox">
-        <span id="timeBox">60:00</span>
-      </div>
-      <button id="fsBtn" class="btn ghost">Enter Fullscreen</button>
+      <div class="timer" id="timeBox">60:00</div>
       <button id="pauseBtn" class="btn">Pause</button>
-      <button id="submitTop" class="btn">Submit</button>
+      <button id="submitBtn" class="btn">Submit</button>
     </div>
   </div>
 
   <div class="layout" id="layoutWrap">
     <aside class="left">
-      <div style="font-weight:900;color:var(--blue);margin-bottom:8px">Sections</div>
-      <div id="sectionList"></div>
-
-      <div style="font-weight:900;color:var(--blue);margin-top:14px">Question Panel</div>
+      <div style="font-weight:900;color:var(--blue)">Question Panel</div>
       <div class="qgrid" id="qGrid"></div>
-
-      <div style="margin-top:12px;font-weight:800;color:var(--muted)">Summary</div>
-      <div style="margin-top:6px">Answered: <span id="secAnswered">0</span></div>
+      <div style="margin-top:12px;font-weight:700;color:#6b7280">Answered: <span id="answeredCount">0</span></div>
     </aside>
 
     <main class="main">
       <div class="controls-row">
         <button id="prevBtn" class="btn ghost">Previous</button>
         <button id="saveNextBtn" class="btn">Save & Next</button>
-
-        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-          <div class="smallText">Answered: <span id="totalAnswered">0</span></div>
-        </div>
+        <div style="margin-left:auto;color:#6b7280">Section Time: <span id="secTime">00:00</span></div>
       </div>
 
-      <div class="qcard" id="qCard">
+      <div class="qcard">
         <div class="qheader" id="qHeader">Question</div>
         <div class="qtext" id="qText">Loading...</div>
         <div class="options" id="optsWrap"></div>
-
-        <div class="footer">
-          <div><button id="clearBtn" class="btn ghost">Clear Response</button></div>
-          <div class="smallText">Section time: <span id="secTime">00:00</span></div>
-        </div>
       </div>
     </main>
   </div>
 
-  <!-- results -->
   <div id="resultsArea">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h2>Results / Markcard</h2>
-      <div><button id="reviewBtn" class="btn ghost">Review Answers</button> <button id="restartBtn" class="btn">Restart</button></div>
-    </div>
-
-    <div id="markCard" style="margin-top:12px"></div>
-
-    <div id="reviewPanel" style="margin-top:12px;display:none">
-      <div class="tabs" id="reviewTabs"></div>
-      <div id="reviewContent"></div>
-      <div style="margin-top:10px"><button id="viewMarkcardBtn" class="btn">View Markcard</button></div>
-    </div>
+    <h2>Marks & Attempt Saved</h2>
+    <div id="markCard"></div>
+    <div style="margin-top:12px"><a href="index.html">Back to Home</a></div>
   </div>
 </div>
 
-<!-- pause overlay -->
-<div id="pauseOverlay" class="overlayPaused hidden">PAUSED</div>
+<div id="pauseOverlay" class="overlayPaused" style="display:none">PAUSED</div>
 
 <script>
-/* SAMPLE QUESTIONS (3-4 sample for testing). Replace later with full set. */
-const QUESTIONS = {
-  "Reasoning": [
-    {id:1, q: `In the following question, select the related word from the given alternatives.<br>Watt : Power :: Pascal : ?`,
-      options:["A. Energy","B. Temperature","C. Pressure","D. Force"]},
-    {id:2, q: `Select the letter-cluster that replaces the ? in: CGK, GKO, KOS, OSW, ?`,
-      options:["A. SDA","B. KNB","C. SWA","D. KJH"]}
-  ],
-  "General Awareness": [
-    {id:3, q: `Which of the following features distinguishes the Elephanta Caves from other rock-cut sites of early India?`,
-      options:["A. They are primarily Buddhist caves with large stupas.","B. The caves focus on Shaivite themes and feature sculptural depth through light and shadow.","C. They contain a mix of Jain and Vaishnavite depictions in pillar halls.","D. The caves are entirely monolithic structures from the Mauryan period."]}
-  ],
-  "Quantitative Aptitude": [
-    {id:4, q:`Arrange the fractions (3/4), (2/5), (5/7), (3/5) in ascending order.`,
-      options:["A. 2/5, 3/5, 3/4, 5/7","B. 2/5, 3/5, 5/7, 3/4","C. 3/5, 2/5, 5/7, 3/4","D. 2/5, 5/7, 3/5, 3/4"]}
-  ]
-};
+/* SETTINGS */
+const STORAGE_KEY = 'ssc_12sep_shift1_state_v1'; // unique per shift
+const ATTEMPTS_KEY = 'ssc_attempts_v1';
+const CURRENT_USER_KEY = 'ssc_current_user';
 
-/* small sample answer key for these sample qs */
-const ANSWER_KEY = {"1":"C","2":"C","3":"B","4":"B"}; // use letters A-D
+/* SAMPLE QUESTIONS (replace with your 1..100 later) */
+const QUESTIONS = [
+  {id:1, q:`In the following question, select the related word: Watt : Power :: Pascal : ?`, options:["A. Energy","B. Temperature","C. Pressure","D. Force"]},
+  {id:2, q:`Mekong : Tibet :: Amazon : ?`, options:["A. Chile","B. Peru","C. Colombia","D. Ecuador"]},
+  {id:3, q:`Select the letter-cluster that replaces ? in: CGK, GKO, KOS, OSW, ?`, options:["A. SDA","B. KNB","C. SWA","D. KJH"]},
+  {id:4, q:`Arrange the fractions (3/4), (2/5), (5/7), (3/5) in ascending order.`, options:["A. 2/5, 3/5, 3/4, 5/7","B. 2/5, 3/5, 5/7, 3/4","C. 3/5, 2/5, 5/7, 3/4","D. 2/5, 5/7, 3/5, 3/4"]}
+];
 
-/* STATE & persistence keys */
-const STORAGE_KEY = 'mock_demo_state_v1';
+/* SAMPLE ANSWER KEY (A/B/C/D) */
+const ANSWER_KEY = {"1":"C","2":"B","3":"C","4":"B"}; 
+
+/* state */
 let state = {
-  sections: Object.keys(QUESTIONS),
-  currentSection: null,
-  index: 0,
-  answers: {},      // key: "Section-id" => "A"/"B"/"C"/"D"
-  skipped: {},
-  timer: 60*60,     // 60 minutes in seconds
-  running: false,
-  paused: false,
-  startTimestamp: null, // epoch when started or resumed
-  sectionTimeAcc: {},   // accumulated seconds per section
-  submitted: false
+  index:0,
+  answers:{}, // key: id -> "A"/"B"/...
+  timer:60*60,
+  running:false,
+  paused:false,
+  sectionTime:0
 };
 
-/* load saved if exists */
+/* persistence */
 function loadState(){
   try{
-    const j = localStorage.getItem(STORAGE_KEY);
-    if(j){
-      const s = JSON.parse(j);
-      // only restore keys we expect (safety)
-      Object.assign(state, s);
-      // make sure any missing keys present
-      state.sections = Object.keys(QUESTIONS);
-      if(!state.sectionTimeAcc) state.sectionTimeAcc = {};
-    }
-  }catch(e){ console.warn('load failed',e); }
+    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    Object.assign(state, raw);
+  }catch(e){}
 }
-
-/* save */
 function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
-/* UI helpers */
+/* ui helpers */
 const el = id => document.getElementById(id);
-function formatTime(sec){ if(sec<0) sec=0; const m=Math.floor(sec/60).toString().padStart(2,'0'); const s=(sec%60).toString().padStart(2,'0'); return `${m}:${s}`; }
+function formatTime(s){ const m=Math.floor(s/60).toString().padStart(2,'0'); const ss=(s%60).toString().padStart(2,'0'); return `${m}:${ss}`; }
 
-/* Timer engine */
-let timerInterval = null;
-function startTimer(){
-  if(timerInterval) clearInterval(timerInterval);
-  state.startTimestamp = Date.now();
-  state.running = true;
-  state.paused = false;
-  saveState();
-  timerInterval = setInterval(()=>{
-    if(!state.running || state.paused) return;
-    // decrease global timer
-    state.timer = Math.max(0, state.timer - 1);
-    // update current section time accumulator
-    const curr = state.currentSection || state.sections[0];
-    state.sectionTimeAcc[curr] = (state.sectionTimeAcc[curr] || 0) + 1;
-    el('timeBox').innerText = formatTime(state.timer);
-    el('secTime').innerText = formatTime(state.sectionTimeAcc[curr] || 0);
-
-    // auto-submit at 0
-    if(state.timer <= 0){
-      clearInterval(timerInterval);
-      doSubmit();
-    }
-    saveState();
-  }, 1000);
-}
-function pauseTimer(){
-  state.paused = true;
-  state.running = false;
-  saveState();
-  el('pauseOverlay').classList.remove('hidden');
-  el('pauseBtn').innerText = 'Resume';
-  // keep timerInterval but it checks running flag
-}
-function resumeTimer(){
-  state.paused = false;
-  state.running = true;
-  state.startTimestamp = Date.now();
-  saveState();
-  el('pauseOverlay').classList.add('hidden');
-  el('pauseBtn').innerText = 'Pause';
-}
-
-/* Build UI */
-function initUI(){
-  // sections
-  const sl = el('sectionList');
-  sl.innerHTML = '';
-  state.sections.forEach((s,i)=>{
-    const b = document.createElement('button');
-    b.className = 'section-btn' + (i===0 ? ' active':'' );
-    b.innerText = s;
-    b.onclick = ()=>{ state.currentSection = s; state.index = 0; renderQuestion(); updateGrid(); saveState(); };
-    sl.appendChild(b);
-  });
-  // questions grid
-  updateGrid();
-
-  // default section
-  if(!state.currentSection) state.currentSection = state.sections[0];
-  renderQuestion();
-
-  el('timeBox').innerText = formatTime(state.timer);
-  // restore paused overlay if paused
-  if(state.paused) el('pauseOverlay').classList.remove('hidden');
-  else el('pauseOverlay').classList.add('hidden');
-
-  // if exam previously running, resume timer
-  if(state.running && !state.submitted && !state.paused){
-    startTimer();
-  }
-}
-
-/* grid */
-function updateGrid(){
-  const wrap = el('qGrid'); wrap.innerHTML = '';
-  const list = QUESTIONS[state.currentSection];
-  list.forEach((q, idx)=>{
-    const key = `${state.currentSection}-${q.id}`;
+function buildGrid(){
+  const wrap = el('qGrid'); wrap.innerHTML='';
+  QUESTIONS.forEach((q, idx)=>{
     const btn = document.createElement('button');
-    btn.className = 'qnum' + (state.answers[key] ? ' answered' : (state.skipped[key] ? ' skipped':''));
+    btn.className = 'qnum' + (state.answers[q.id] ? ' answered':'');
     btn.innerText = idx+1;
     btn.onclick = ()=>{ state.index = idx; renderQuestion(); saveState(); };
     wrap.appendChild(btn);
   });
-  el('secAnswered').innerText = Object.values(state.answers).filter(Boolean).length;
-  el('totalAnswered').innerText = Object.values(state.answers).filter(Boolean).length;
+  el('answeredCount').innerText = Object.keys(state.answers).length;
 }
 
-/* render question (supports review-mode flag when state.reviewMode true) */
 function renderQuestion(){
-  const list = QUESTIONS[state.currentSection];
-  if(!list || list.length===0){ el('qText').innerText = 'No questions'; return; }
-  const q = list[state.index];
-  el('qHeader').innerText = `Section: ${state.currentSection} — Q${q.id}`;
+  const q = QUESTIONS[state.index];
+  el('qHeader').innerText = `Q${q.id}`;
   el('qText').innerHTML = q.q;
-  const optsWrap = el('optsWrap'); optsWrap.innerHTML = '';
-  const key = `${state.currentSection}-${q.id}`;
-  const userAns = state.answers[key] || null;
-  const correct = ANSWER_KEY[q.id.toString()] || null;
-  const inReview = state.reviewing && state.subReviewSection === state.currentSection; // flag to highlight
-
+  const optsWrap = el('optsWrap'); optsWrap.innerHTML='';
+  const user = state.answers[q.id] || null;
   q.options.forEach(opt=>{
-    // derive letter if option starts with "A." else rely on index
-    const optLetterMatch = opt.trim().match(/^([A-D])\s*[\.\)]/i);
-    const optLetter = optLetterMatch ? optLetterMatch[1].toUpperCase() : opt.trim().slice(0,1).toUpperCase();
-    const lab = document.createElement('label'); lab.className = 'opt';
-    const radio = document.createElement('input'); radio.type='radio'; radio.name='optRadio';
-    radio.checked = userAns === optLetter;
-    radio.disabled = state.submitted || state.paused || (state.reviewing && inReview); // disable while paused/submitted or in review
-    radio.onchange = ()=>{
-      if(state.paused || state.submitted) return;
-      state.answers[key] = optLetter;
-      state.skipped[key] = false;
-      updateGrid(); saveState();
-    };
-    // review highlighting
-    if(inReview){
-      if(optLetter === correct){
-        lab.style.borderColor = '#2fa65a'; lab.style.background = 'rgba(47,166,90,0.08)';
-      }
-      if(userAns && userAns === optLetter && userAns !== correct){
-        lab.style.borderColor = '#d9534f'; lab.style.background = 'rgba(217,83,79,0.06)';
-      }
-    }
-    lab.appendChild(radio); const span = document.createElement('span'); span.innerText = opt; lab.appendChild(span);
-    lab.onclick = (e)=>{ if(state.paused || state.submitted || (state.reviewing && inReview)) return; radio.checked=true; radio.onchange(); };
-    optsWrap.appendChild(lab);
+    const letterMatch = opt.trim().match(/^([A-D])\./i);
+    const letter = letterMatch ? letterMatch[1].toUpperCase() : opt.trim().slice(0,1).toUpperCase();
+    const div = document.createElement('div'); div.className='opt';
+    const radio = document.createElement('input'); radio.type='radio'; radio.name='opt';
+    radio.checked = user === letter;
+    radio.onchange = ()=>{ state.answers[q.id] = letter; buildGrid(); saveState(); };
+    div.appendChild(radio);
+    const span = document.createElement('span'); span.innerText = opt;
+    div.appendChild(span);
+    div.onclick = ()=>{ radio.checked = true; radio.onchange(); };
+    optsWrap.appendChild(div);
   });
-
-  // show section time
-  el('secTime').innerText = formatTime(state.sectionTimeAcc[state.currentSection] || 0);
 }
 
 /* navigation */
-function saveNext(){
-  const list = QUESTIONS[state.currentSection];
-  const q = list[state.index];
-  const key = `${state.currentSection}-${q.id}`;
-  if(!state.answers[key]) state.skipped[key] = true;
-  if(state.index < list.length-1) state.index++;
-  else {
-    // go to next section
-    const si = state.sections.indexOf(state.currentSection);
-    if(si < state.sections.length-1){ state.currentSection = state.sections[si+1]; state.index = 0; }
-  }
-  renderQuestion(); updateGrid(); saveState();
-}
-function goPrev(){
-  if(state.index>0){ state.index--; renderQuestion(); saveState(); return; }
-  const si = state.sections.indexOf(state.currentSection);
-  if(si>0){ state.currentSection = state.sections[si-1]; state.index = QUESTIONS[state.currentSection].length-1; renderQuestion(); saveState(); }
-}
-function clearResponse(){
-  const list = QUESTIONS[state.currentSection];
-  const q = list[state.index];
-  const key = `${state.currentSection}-${q.id}`;
-  delete state.answers[key]; state.skipped[key]=true; renderQuestion(); updateGrid(); saveState();
-}
+el('saveNextBtn').addEventListener('click', ()=>{
+  if(state.index < QUESTIONS.length-1) state.index++;
+  else state.index = 0;
+  renderQuestion(); saveState();
+});
+el('prevBtn').addEventListener('click', ()=>{ if(state.index>0) state.index--; renderQuestion(); saveState(); });
 
-/* submit */
-function doSubmit(){
-  state.submitted = true;
-  state.running = false;
-  state.paused = false;
+/* timer */
+let timerInterval = null;
+function startTimer(){
   if(timerInterval) clearInterval(timerInterval);
+  state.running = true; state.paused = false;
+  timerInterval = setInterval(()=>{
+    if(state.running && !state.paused){
+      state.timer = Math.max(0,state.timer-1);
+      state.sectionTime++;
+      el('timeBox').innerText = formatTime(state.timer);
+      el('secTime').innerText = formatTime(state.sectionTime);
+      saveState();
+      if(state.timer === 0){ clearInterval(timerInterval); submitExam(); }
+    }
+  }, 1000);
+}
+function pauseToggle(){
+  state.paused = !state.paused;
+  el('pauseOverlay').style.display = state.paused ? 'flex' : 'none';
+  el('pauseBtn').innerText = state.paused ? 'Resume' : 'Pause';
   saveState();
-  // compute score section-wise
-  const sections = state.sections;
-  const result = [];
-  let totalMarks = 0;
-  sections.forEach(sec=>{
-    const list = QUESTIONS[sec] || [];
-    let secMarks = 0; let right=0, wrong=0, unanswered=0;
-    list.forEach(q=>{
-      const key = `${sec}-${q.id}`;
-      const your = state.answers[key] || null;
-      const corr = ANSWER_KEY[q.id.toString()] || null;
-      if(!your) unanswered++;
-      else if(your === corr){ right++; secMarks += 2; }
-      else { wrong++; secMarks -= 0.5; }
-    });
-    totalMarks += secMarks;
-    const timeTaken = state.sectionTimeAcc[sec] || 0;
-    result.push({section:sec,right,wrong,unanswered,marks:secMarks,timeTaken});
-  });
+}
 
-  // hide main app layout, show results area
+/* submit and scoring */
+function submitExam(){
+  // compute marks: +2 correct, -0.5 wrong, 0 unanswered
+  let marks = 0; let right=0, wrong=0, unanswered=0;
+  QUESTIONS.forEach(q=>{
+    const your = state.answers[q.id] || null;
+    const corr = ANSWER_KEY[q.id.toString()] || null;
+    if(!your) unanswered++;
+    else if(your === corr){ right++; marks += 2; }
+    else { wrong++; marks -= 0.5; }
+  });
+  // save attempt to global attempts storage under current user
+  const user = localStorage.getItem(CURRENT_USER_KEY);
+  if(user){
+    const attemptsRaw = JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || '{}');
+    attemptsRaw[user] = attemptsRaw[user] || {};
+    attemptsRaw[user]['12sep-shift1'] = {
+      marks: marks.toFixed(2),
+      right, wrong, unanswered,
+      timeTaken: formatTime(state.sectionTime),
+      date: new Date().toLocaleString()
+    };
+    localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(attemptsRaw));
+  }
+  // show markcard
   el('layoutWrap').style.display = 'none';
   el('resultsArea').style.display = 'block';
-  // build markcard
-  const mc = el('markCard'); mc.innerHTML = '';
-  const h = document.createElement('div'); h.innerHTML = `<strong>Total Score:</strong> ${totalMarks.toFixed(2)}<br/><strong>Timer finished at:</strong> ${formatTime(state.timer)}`;
-  mc.appendChild(h);
-  // table
-  const table = document.createElement('table');
-  table.innerHTML = `<thead><tr><th>Section</th><th>Right</th><th>Wrong</th><th>Unanswered</th><th>Marks</th><th>Time (mm:ss)</th></tr></thead>`;
-  const tbody = document.createElement('tbody');
-  result.forEach(r=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${r.section}</td><td>${r.right}</td><td>${r.wrong}</td><td>${r.unanswered}</td><td>${r.marks.toFixed(2)}</td><td>${formatTime(r.timeTaken)}</td>`;
-    tbody.appendChild(tr);
-  });
-  table.appendChild(tbody);
-  mc.appendChild(table);
-
-  // show review controls
-  el('reviewPanel').style.display = 'block';
-  // create tabs for sections
-  const tabs = el('reviewTabs'); tabs.innerHTML = '';
-  state.sections.forEach(s=>{
-    const t = document.createElement('button'); t.className='tab'; t.innerText=s;
-    t.onclick = ()=>{ renderReviewSection(s); Array.from(tabs.children).forEach(x=>x.classList.remove('active')); t.classList.add('active'); };
-    tabs.appendChild(t);
-  });
-
-  // hide pause overlay if any
-  el('pauseOverlay').classList.add('hidden');
-}
-
-/* review */
-state.reviewing = false; state.subReviewSection = null;
-function renderReviewSection(sectionName){
-  state.reviewing = true; state.subReviewSection = sectionName;
-  const content = el('reviewContent'); content.innerHTML = '';
-  const qlist = QUESTIONS[sectionName] || [];
-  const table = document.createElement('table');
-  table.innerHTML = `<thead><tr><th>Q.No</th><th>Your Answer</th><th>Correct</th><th>Marks</th></tr></thead>`;
-  const tbody = document.createElement('tbody');
-  qlist.forEach(q=>{
-    const key = `${sectionName}-${q.id}`;
-    const your = state.answers[key] || '';
-    const corr = ANSWER_KEY[q.id.toString()] || '';
-    let marks = 0; if(!your) marks=0; else if(your===corr) marks=2; else marks=-0.5;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td style="cursor:pointer;color:var(--accent)">Q${q.id}</td><td>${your||'—'}</td><td>${corr}</td><td>${marks}</td>`;
-    tr.querySelector('td').onclick = ()=>{
-      // jump back to mock view, render the question in review highlighting mode
-      el('resultsArea').style.display = 'none';
-      el('layoutWrap').style.display = 'flex';
-      state.currentSection = sectionName;
-      state.index = qlist.findIndex(x=>x.id===q.id);
-      renderQuestion();
-      // mark review flags so renderQuestion highlights
-      // We'll draw highlight by letting renderQuestion know we're in review by checking state.reviewing && state.subReviewSection.
-    };
-    tbody.appendChild(tr);
-  });
-  table.appendChild(tbody);
-  content.appendChild(table);
-}
-
-/* restore on load if previously started */
-loadState();
-
-/* UI wiring */
-el('startBtn').addEventListener('click', async ()=>{
-  // hide start screen, show app
-  el('startScreen').style.display='none'; el('appWrap').classList.remove('hidden');
-  el('layoutWrap').style.display = 'flex';
-  // enter fullscreen for the document
-  try{
-    if(document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
-  }catch(e){}
-  // start or restore timer
-  if(!state.running && !state.submitted){
-    // if not started previously, set timer and zero per-section times
-    if(!state.startTimestamp){
-      state.sectionTimeAcc = {}; state.timer = 60*60;
-      state.startTimestamp = Date.now();
-    }
-    startTimer();
-  }
-  initUI();
-});
-
-/* fullscreen toggle */
-el('fsBtn').addEventListener('click', async ()=>{
-  if(document.fullscreenElement){
-    await document.exitFullscreen();
-    el('fsBtn').innerText = 'Enter Fullscreen';
-  } else {
-    await document.documentElement.requestFullscreen();
-    el('fsBtn').innerText = 'Exit Fullscreen';
-  }
-});
-
-/* pause resume */
-el('pauseBtn').addEventListener('click', ()=>{
-  if(state.paused){
-    resumeTimer();
-  } else {
-    pauseTimer();
-  }
-});
-
-/* nav buttons */
-el('saveNextBtn').addEventListener('click', ()=>{ saveNext(); });
-el('prevBtn').addEventListener('click', ()=>{ goPrev(); });
-el('clearBtn').addEventListener('click', ()=>{ clearResponse(); });
-
-/* submit */
-el('submitTop').addEventListener('click', ()=>{ if(confirm('Submit exam?')) doSubmit(); });
-
-/* review button */
-el('reviewBtn').addEventListener('click', ()=>{ el('markCard').scrollIntoView({behavior:'smooth'}); });
-
-el('viewMarkcardBtn').addEventListener('click', ()=>{
-  el('reviewPanel').style.display='none'; el('markCard').scrollIntoView({behavior:'smooth'});
-});
-
-/* restart (clear localStorage for demo) */
-el('restartBtn').addEventListener('click', ()=>{
-  if(!confirm('Restart exam (this clears progress)?')) return;
+  const mc = el('markCard');
+  mc.innerHTML = `<p><strong>Score:</strong> ${marks.toFixed(2)} &nbsp; (<em>Right: ${right}, Wrong: ${wrong}, Unanswered: ${unanswered}</em>)</p>
+                  <p><strong>Time:</strong> ${formatTime(state.sectionTime)}</p>
+                  <p><strong>Saved for:</strong> ${user || 'not logged in'}</p>
+                  <p><a href="index.html">Back to Home</a></p>`;
+  // clear saved state for this run
   localStorage.removeItem(STORAGE_KEY);
-  location.reload();
-});
-
-/* restore UI if state indicates exam in-progress or submitted */
-if(state.startTimestamp || state.running || state.submitted){
-  // show app (but don't auto-enter fullscreen)
-  el('startScreen').style.display='none';
-  el('appWrap').classList.remove('hidden');
-  if(state.submitted){
-    // directly show results
-    el('layoutWrap').style.display='none';
-    el('resultsArea').style.display='block';
-    doSubmit(); // will generate markcard
-  } else {
-    initUI();
-  }
 }
 
-/* save periodically */
-setInterval(()=>{ if(!state.submitted) saveState(); }, 2000);
+/* wiring */
+el('startBtn').addEventListener('click', async ()=>{
+  // check logged in
+  const user = localStorage.getItem(CURRENT_USER_KEY);
+  if(!user){ alert('You must login first from the homepage.'); window.location.href='login.html'; return; }
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('appWrap').style.display='block';
+  // init state from storage if exists
+  loadState();
+  buildGrid();
+  renderQuestion();
+  startTimer();
+});
+el('pauseBtn').addEventListener('click', ()=>{ pauseToggle(); });
+el('submitBtn').addEventListener('click', ()=>{ if(confirm('Submit exam?')) submitExam(); });
+
+/* restore on page load if had started */
+loadState();
+if(state.running && !state.paused){
+  // show app immediately (useful if reloaded mid-test)
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('appWrap').style.display='block';
+  buildGrid(); renderQuestion(); startTimer();
+} else if(state.paused){
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('appWrap').style.display='block';
+  buildGrid(); renderQuestion();
+  el('pauseOverlay').style.display = 'flex';
+  el('pauseBtn').innerText = 'Resume';
+}
+
+/* autosave every 2s */
+setInterval(()=>{ saveState(); }, 2000);
+
 </script>
 </body>
 </html>
