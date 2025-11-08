@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SSC CGL — 26 Sep Shift 1 </title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --blue:#153d7a;
+      --accent:#1f4d8a;
+      --green:#28a745;
+      --red:#d9534f;
+      --marked:#7b3fb0;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --bg:#f3f6fb;
+      --correct:#dff5e0;
+      --wrong:#fff0f0;
+      --highlight:#e8f2ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:#17202a}
+    .topbar{background:linear-gradient(90deg,var(--blue),#2b62b0);color:#fff;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;position:relative}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .logo{width:44px;height:44px;border-radius:8px;background:#fff;color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:900}
+    .brand h1{margin:0;font-size:18px;letter-spacing:0.2px}
+    .controls{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:700}
+    .btn.ghost{background:#fff;color:var(--accent);border:1px solid #dfe7f3}
+    .timer{font-weight:800;background:#ffdede;color:#b30000;padding:6px 10px;border-radius:6px}
+    .layout{display:flex;gap:16px;padding:16px;height:calc(100vh - 72px);align-items:flex-start}
+    /* left panel */
+    .left{width:320px;background:var(--card);border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(16,24,40,0.06);display:flex;flex-direction:column;gap:12px;overflow:auto}
+    .sections{display:flex;flex-direction:column;gap:8px}
+    .section-btn{background:var(--accent);color:#fff;border:0;padding:8px;border-radius:6px;text-align:left;cursor:pointer;font-weight:800}
+    .section-btn.active{background:var(--green)}
+    .qgrid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .qnum{width:44px;height:38px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;background:var(--accent);color:#fff;cursor:pointer;border:0}
+    .qnum.answered{background:var(--green)}
+    .qnum.skipped{background:var(--red)}
+    .qnum.marked{background:var(--marked)}
+    .summary{margin-top:auto;background:#f6f9ff;padding:10px;border-radius:8px;color:var(--muted);font-weight:700}
+    /* main area */
+    .main{flex:1;display:flex;flex-direction:column;height:100%}
+    .controls-row{background:var(--card);padding:12px;border-radius:10px;display:flex;gap:8px;align-items:center;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
+    .qcard{flex:1;background:var(--card);margin-top:12px;border-radius:10px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.04);overflow:auto;min-height:300px}
+    .qheader{font-weight:800;margin-bottom:12px}
+    .qtext{font-size:15px;line-height:1.6}
+    .options{margin-top:12px;display:flex;flex-direction:column;gap:10px}
+    .opt{border:1px solid #e8eef8;padding:12px;border-radius:8px;display:flex;gap:10px;align-items:center;cursor:pointer;background:#fff}
+    .opt.disabled{opacity:0.6;pointer-events:none}
+    .opt.correct{background:var(--correct);border-color:rgba(40,162,69,0.25)}
+    .opt.wrong{background:var(--wrong);border-color:rgba(217,83,79,0.2)}
+    .opt input{transform:scale(1.0);margin-right:8px}
+    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:10px 4px}
+    .small{color:var(--muted);font-weight:700}
+    /* results & review */
+    #resultsArea{display:none;padding:18px}
+    .results{padding:20px;background:var(--card);border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
+    table{border-collapse:collapse;width:100%}
+    th,td{border:1px solid #e9eef8;padding:10px;text-align:left}
+    .overlay{
+      position:fixed;inset:0;background:rgba(10,10,10,0.45);display:flex;align-items:center;justify-content:center;z-index:50;
+    }
+    .start-card{background:#fff;padding:36px;border-radius:12px;box-shadow:0 10px 40px rgba(16,24,40,0.3);text-align:center}
+    .start-card h1{margin:0 0 12px 0;font-size:28px}
+    .start-card p{color:#666;margin:6px 0 18px}
+    .small-muted{font-size:12px;color:#6b7280}
+    .paused-badge{position:fixed;top:84px;right:26px;background:rgba(0,0,0,0.6);color:#fff;padding:8px 12px;border-radius:8px;font-weight:800;display:none;z-index:60}
+    .review-tabs{display:flex;gap:8px;margin-bottom:12px}
+    .tab{padding:8px 10px;border-radius:8px;background:#f3f6fb;cursor:pointer;font-weight:800}
+    .tab.active{background:var(--accent);color:#fff}
+    .review-list{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+    .rev-q{padding:8px;border-radius:6px;background:#fff;border:1px solid #e6eef8;cursor:pointer;text-align:center}
+    /* responsive */
+    @media(max-width:980px){
+      .layout{flex-direction:column;height:auto}
+      .left{width:100%;display:flex;order:2}
+      .main{order:1}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">SSC</div>
+      <div>
+        <h1 id="examTitle">SSC CGL — 26 Sep Shift 1</h1>
+        <div style="font-size:12px;color:rgba(255,255,255,0.9)">Full Mock — 60 minutes · Single-question view</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div style="text-align:right">
+        <div class="small" style="color:#fff">Total Answered: <span id="totalAnswered">0</span></div>
+        <div style="margin-top:6px;display:flex;gap:8px;align-items:center">
+          <div class="timer" id="timeBox">60:00</div>
+          <button id="fsBtn" class="btn ghost" title="Toggle Fullscreen">Full screen</button>
+        </div>
+      </div>
+      <button id="submitTop" class="btn" title="Submit exam">Submit</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- LEFT PANEL -->
+    <aside class="left">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-weight:800;font-size:16px;color:var(--blue)">Sections</div>
+      </div>
+
+      <div class="sections" id="sectionList">
+        <!-- JS populates sections -->
+      </div>
+
+      <div style="font-weight:800;color:var(--blue);margin-top:6px">Question Panel</div>
+      <div class="qgrid" id="qGrid"><!-- populated by JS --></div>
+
+      <div class="summary">
+        <div>Section Summary</div>
+        <div style="margin-top:8px">Answered: <span id="secAnswered">0</span></div>
+        <div>Not Answered: <span id="secNotAnswered">0</span></div>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <main class="main">
+      <div class="controls-row">
+        <button id="prevBtn" class="btn ghost">Previous</button>
+        <button id="clearBtn" class="btn ghost">Clear Response</button>
+        <button id="markBtn" class="btn ghost" style="background:#fff;color:var(--marked);border:1px solid #e9def7">Mark for Review</button>
+        <button id="saveNextBtn" class="btn">Save & Next</button>
+
+        <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
+          <button id="pauseBtn" class="btn ghost">Pause</button>
+          <button id="restartBtn" class="btn ghost" style="background:#cfcfcf;color:#111">Restart Exam</button>
+        </div>
+      </div>
+
+      <div class="qcard" id="qCard">
+        <div class="qheader" id="qHeader">Question</div>
+        <div class="qtext" id="qText">Loading...</div>
+
+        <div class="options" id="optsWrap"></div>
+
+        <div class="footer">
+          <div>
+            <button id="reviewAnswersBtn" class="btn ghost" style="display:none">Review Answers</button>
+          </div>
+          <div class="small">Questions answered: <strong id="footerAnswered">0</strong></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- RESULTS / REVIEW AREA -->
+  <div id="resultsArea" style="display:none;padding:18px">
+    <div class="results" id="resultsCard">
+      <h2>Markcard & Review</h2>
+      <div id="markcardSummary"></div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+        <div class="review-tabs" id="reviewTabs"></div>
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <button id="viewMarkcardBtn" class="btn">View Markcard</button>
+          <button id="backToExamBtn" class="btn ghost">Back to Exam</button>
+        </div>
+      </div>
+
+      <div id="reviewContent" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <!-- START OVERLAY -->
+  <div id="startOverlay" class="overlay">
+    <div class="start-card">
+      <h1>Start Exam</h1>
+      <p class="small-muted">SSC CGL — 26 Sep Shift 1 &nbsp;•&nbsp; Duration: 60 minutes</p>
+      <div style="margin-top:18px">
+        <button id="startBtn" class="btn" style="font-size:18px;padding:14px 22px">Start Exam</button>
+      </div>
+      <p style="margin-top:14px;color:#666;font-size:13px">Click start to enter full-screen and begin.</p>
+    </div>
+  </div>
+
+  <div id="pausedBadge" class="paused-badge">PAUSED</div>
+
+<script>
+/* -------------------------
+  QUESTIONS: SHIFT 2 (1-100)
+  (User provided full text; included here as array per section)
+   Sections:
+     A - Reasoning (1-25)
+     B - General Awareness (26-50)
+     C - Quantitative Aptitude (51-75)
+     D - English Comprehension (76-100)
+   Answer key embedded below.
+--------------------------*/
+
+const ANSWER_KEY = {
+  {"1":"B","2":"A","3":"A","4":"B","5":"C","6":"A","7":"C","8":"D","9":"A","10":"D","11":"A","12":"A","13":"A","14":"B","15":"C","16":"C","17":"B","18":"A","19":"B","20":"C","21":"A","22":"D","23":"A","24":"B","25":"B","26":"D","27":"B","28":"D","29":"B","30":"C","31":"B","32":"C","33":"A","34":"C","35":"B","36":"B","37":"C","38":"A","39":"B","40":"B","41":"A","42":"C","43":"B","44":"C","45":"A","46":"C","47":"C","48":"C","49":"A","50":"C","51":"D","52":"B","53":"D","54":"B","55":"D","56":"A","57":"D","58":"B","59":"D","60":"A","61":"D","62":"D","63":"B","64":"A","65":"A","66":"B","67":"A","68":"A","69":"A","70":"A","71":"D","72":"B","73":"A","74":"A","75":"C","76":"B","77":"B","78":"B","79":"C","80":"B","81":"A","82":"A","83":"B","84":"A","85":"B","86":"B","87":"B","88":"C","89":"D","90":"B","91":"B","92":"C","93":"B","94":"B","95":"B","96":"D","97":"C","98":"A","99":"C","100":"D"
+};
+
+/* QUESTIONS array. For brevity I include the text exactly as you provided (trimmed where needed).
+   Each question object: {id, q, options:[...]}.
+   Note: Some OCR lines had minor duplicate or formatting. I preserved user text content.
+*/
+
+const SECTIONS = [
+  { key: 'A', name: 'General Intelligence and Reasoning', items: [
+    {"id":1,"q":"Q.No: 1\nBengaluru event: 5th October, Hyderabad: 15th October. Chennai event date is a perfect cube between them. What's the date?","options":["A. 1st October","B. 8th October","C. 9th October","D. 14th October"]},
+    {"id":2,"q":"Q.No: 2\nChoose the address that is exactly the same as the one given below.\n\nOriginal: House No. 18, Sector 17, Chandigarh - 160017","options":["A. House No. 18, Sector 17, Chandigarh - 160017","B. House No. 18, Sector 17, Chandlgarh - 160017","C. House No. 18, Sector 17, Chandigrah - 160017","D. House No. 18, Sector 17, Chandigerh - 160017"]},
+    {"id":3,"q":"Q.No: 3\nIn the following question, select the missing number from the given series.\n169, 196, 225, 256, ?","options":["A. 289","B. 343","C. 441","D. 384"]},
+    {"id":4,"q":"Q.No: 4\nIf 9@3 = 12, 5@2 = 7, 8@1 = 9, then 7@4 = ?","options":["A. 10","B. 11","C. 12","D. 13"]},
+    {"id":5,"q":"Q.No: 5\nIf H = 17, I = 19, J = 21, then M = ?","options":["A. 23","B. 25","C. 27","D. 29"]},
+    {"id":6,"q":"Q.No: 6\nWhich roll number is a perfect cube?","options":["A. 216","B. 225","C. 243","D. 256"]},
+    {"id":7,"q":"Q.No: 7\nWhich one is not like the others?","options":["A. Curtain","B. Pillow","C. Brain","D. Mattress"]},
+    {"id":8,"q":"Q.No: 8\nBy rearranging the letters of 'AEGORST' we get a meaningful English word of seven letters. Each letter is denoted with a different number as shown in the table 1–7.\nThe combination of the numbers for a meaningful word is:","options":["A. 1234567","B. 5412367","C. 3245671","D. 6745132"]},
+    {"id":9,"q":"Q.No: 9\nSolve the letter series: BG : DJ : FM : ?","options":["A. HP","B. GQ","C. IR","D. GO"]},
+    {"id":10,"q":"Q.No: 10\nFind the missing number: 10 : 21 :: 12 : ?","options":["A. 20","B. 21","C. 24","D. 25"]},
+    {"id":11,"q":"Q.No: 11\nRead the following statement carefully and identify the action that follows.\n\nStatement: A company is facing frequent data breaches.\n\nCourse of Action:\n\n1. Hire a cybersecurity team.\n2. Shut down the IT infrastructure.","options":["A. Only 1 follows","B. Only 2 follows","C. Both follow","D. Neither follows"]},
+    {"id":12,"q":"Q.No: 12\nDirection: Read the information given below and answer the question that follows.\n\nThere are offices of eight companies — Airtel, Amazon, Facebook, Flipkart, Google, HCL, Infosys and Jio — on different floors of an 8-storey building. The bottommost floor is numbered 1 while the topmost floor is numbered 8. At least two companies have offices above the office of Flipkart. Neither Facebook nor Google has an office adjacent to the office of HCL. The office of Flipkart is two floors above the office of Jio. The office of Airtel is on an even-numbered floor. The office of HCL is on the 7th floor and is not adjacent to the office of Airtel. The office of Infosys is neither on any even-numbered floor nor on any prime-numbered floor. There is one floor between the office of Facebook and Google.\n\nQuestion: How many floors are above the office of Google?","options":["A. Cannot be determined","B. Two","C. Three","D. One"]},
+    {"id":13,"q":"Q.No: 13\nRead the following statement carefully and identify the conclusion that follows.\n\nStatement:\nSome stars are planets. No planet is a comet.\n\nConclusions:\nI. Some stars are not comets.\nII. All comets are planets.","options":["A. Only I follows","B. Only II follows","C. Both I and II follow","D. Neither I nor II follows"]},
+    {"id":14,"q":"Q.No: 14\nRead the following statement carefully and identify the conclusion that follows.\n\nStatement:\nAll poets are writers. Some writers are thinkers. All thinkers are critics.\n\nConclusions:\nI. Some poets are critics.\nII. Some writers are critics.","options":["A. Only I follows","B. Only II follows","C. Both I and II follow","D. Neither I nor II follows"]},
+    {"id":15,"q":"Q.No: 15\nFind the odd one out:\nPython, Java, HTML, C++, Ruby","options":["A. Python","B. Java","C. HTML","D. Ruby"]},
+    {"id":16,"q":"Q.No: 16\nWhat is the next number in the series?\n1, 3, 9, 27, _","options":["A. 72","B. 80","C. 81","D. 90"]},
+    {"id":17,"q":"Q.No: 17\nWhat comes next in the series?\nM, N, P, S, W, ?","options":["A. Z","B. B","C. D","D. Y"]},
+    {"id":18,"q":"Q.No: 18\nIn a code language, CHAIR becomes BGBHQ. What is the code for STOOL?","options":["A. RSPNK","B. RSPML","C. RSQMK","D. RSPKN"]},
+    {"id":19,"q":"Q.No: 19\nWhat comes next? PL, OK, NJ, ?","options":["A. LH","B. MI","C. KG","D. JF"]},
+    {"id":20,"q":"Q.No: 20\nIf MAP is coded as 13116, what is the code for LAP?","options":["A. 12114","B. 12115","C. 12116","D. 12117"]},
+    {"id":21,"q":"Q.No: 21\nComplete the series.\n7, 14, 12, 24, 22, ?","options":["A. 44","B. 40","C. 45","D. 42"]},
+    {"id":22,"q":"Q.No: 22\nYou're a municipal officer and a factory dumps waste in the river at night. What should you prioritize?","options":["A. Wait for higher authorities to act.","B. Fine the factory after 3 months.","C. Secretly record the act and leak it.","D. Take legal action and inform the environment department."]},
+    {"id":23,"q":"Q.No: 23\nA man buys 3 pens and 2 notebooks for ₹76. If a pen costs ₹12, what is the cost of a notebook?","options":["A. ₹20","B. ₹22","C. ₹23","D. ₹25"]},
+    {"id":24,"q":"Q.No: 24\nFRIEND is coded as HUMJTK. How is CANDLE written in that code?","options":["A. EDOFMG","B. EDRIRL","C. DCPEMG","D. DCQFME"]},
+    {"id":25,"q":"Q.No: 25\nAlphanumeric Series: W%AKVP117E0&29AFZN4*@U?M\nWhat is the second element from the right of the 7th element from the left?","options":["A. A","B. ?","C. 2","D. M"]}
+  ]},
+
+  { key: 'B', name: 'General Awareness', items: [
+    {"id":26,"q":"Q.No: 26\nWho gave the scarcity definition of economics?","options":["A. Adam Smith","B. P. A. Samuelson","C. Alfred Marshall","D. Lionel Robbins"]},
+    {"id":27,"q":"Q.No: 27\nWhat is the significance of the Bharatiya Antariksh Station?","options":["A. It will be India's first lunar base","B. It will be India's space station in orbit","C. It is a deep-space observatory","D. It aims to mine asteroids"]},
+    {"id":28,"q":"Q.No: 28\nWhich among the following was NOT a Mughal provincial capital?","options":["A. Lahore","B. Allahabad","C. Ajmer","D. Bidar"]},
+    {"id":29,"q":"Q.No: 29\nWhich government scheme aims to provide financial assistance to women Self-Help Groups (SHGs)?","options":["A. Rashtriya Mahila Kosh (RMK)","B. Deendayal Antyodaya Yojana — National Rural Livelihoods Mission (DAY-NRLM)","C. Pradhan Mantri Jan Dhan Yojana (PMJDY)","D. Mahila E-Haat"]},
+    {"id":30,"q":"Q.No: 30\nA sound wave travels from air into water. How do its speed and wavelength change?","options":["A. Speed increases, wavelength decreases","B. Speed decreases, wavelength increases","C. Speed increases, wavelength increases","D. Speed decreases, wavelength decreases"]},
+    {"id":31,"q":"Q.No: 31\nWhat is the term for a successful shot in basketball where the ball goes directly through the hoop without touching the rim?","options":["A. Slam dunk","B. Swish","C. Layup","D. Alley-oop"]},
+    {"id":32,"q":"Q.No: 32\nWhich of the following Mughal emperors was responsible for the construction of the Red Fort in Delhi?","options":["A. Babur","B. Akbar","C. Shah Jahan","D. Aurangzeb"]},
+    {"id":33,"q":"Q.No: 33\nAll eukaryotic cells are supported structurally by an internal network of proteins known as:","options":["A. Cytoskeleton","B. Nucleus","C. Mitochondria","D. Ribosomes"]},
+    {"id":34,"q":"Q.No: 34\nIn which year was the National Anti-Doping Agency (NADA) in India formed?","options":["A. 2000","B. 2005","C. 2009","D. 2012"]},
+    {"id":35,"q":"Q.No: 35\nPolicies of Lord Curzon as Viceroy of India (1899–1905) are often viewed as a mix of progressive reforms and measures aimed at consolidating British control. Which of the following best exemplifies a policy primarily intended to strengthen British administration and strategic interests?","options":["A. The establishment of the Imperial Department of Agriculture to promote agricultural research and education.","B. The reorganization of the police and the establishment of the Criminal Investigation Department (CID).","C. The introduction of reforms in the education system, including the Universities Act of 1904.","D. The preservation of ancient monuments and the establishment of the Archaeological Survey of India."]},
+    {"id":36,"q":"Q.No: 36\nWhich of the following is the objective of the Bharatiya Sakshya Adhiniyam?","options":["A. Reduce the role of evidence in trials","B. Ensure admissibility of modern evidence","C. Make only physical evidence valid","D. Allow anonymous evidence without checks"]},
+    {"id":37,"q":"Q.No: 37\nWho was the Solicitor General of India in 2024, re-appointed in 2023?","options":["A. Ranjit Kumar","B. Mukul Rohatgi","C. Tushar Mehta","D. K. K. Venugopal"]},
+    {"id":38,"q":"Q.No: 38\n\"Yakshagana\" is a traditional folk dance from which state?","options":["A. Karnataka","B. Gujarat","C. Odisha","D. West Bengal"]},
+    {"id":39,"q":"Q.No: 39\nWho was the first Tirthankara of Jainism?","options":["A. Parshvanath","B. Rishabhadev","C. Sambhavanath","D. Chandraprabha"]},
+    {"id":40,"q":"Q.No: 40\nWhich of the following statements is/are INCORRECT regarding road density in India?\n\nStatements:\nA. Level of economic development and terrain are determinants of road density in a region.\nB. Road density is higher in the North-Eastern states than in the Southern states of India.\nC. Road density of Kerala is higher than the average national road density.","options":["A. A only","B. B only","C. C only","D. Both B and C"]},
+    {"id":41,"q":"Q.No: 41\nWhat is the proportion of 'Juvenile Population' (0–14 years) in India, as per the 2011 Census?","options":["A. 29.33% of total population","B. 30.76% of total population","C. 27.64% of total population","D. 33.54% of total population"]},
+    {"id":42,"q":"Q.No: 42\nWhich river, called the Lion's Mouth or Singi Khamban in Tibet, flows northwest between Ladakh and Zaskar, cuts a gorge near Gilgit, and enters Pakistan near Nanga Parbat?","options":["A. Shayok River","B. Sutlej River","C. Indus River","D. Galwan River"]},
+    {"id":43,"q":"Q.No: 43\n\"Jinnah: His Successes, Failures and Role in History\" was authored by?","options":["A. H. M. Seervai","B. Ishtiaq Ahmed","C. Maulana Azad","D. Rafiq Zakaria"]},
+    {"id":44,"q":"Q.No: 44\nConsider the following details about the 36th National Games of India:\n\n1. It was held in 2022 in Gujarat across six cities.\n2. Ahmedabad, Gandhinagar, Surat, Vadodara, Rajkot, and Bhavnagar hosted the events.\n\nWhich of the statements is/are correct?","options":["A. Only statement 1 is correct","B. Only statement 2 is correct","C. Both statements 1 and 2 are correct","D. Neither 1 nor 2 is correct"]},
+    {"id":45,"q":"Q.No: 45\nTo which level of government do taxes on railway fares and freights accrue?","options":["A. Union","B. State","C. Municipal Corporation","D. Panchayat"]},
+    {"id":46,"q":"Q.No: 46\nRani Gaidinliu was known as a Naga spiritual and political leader who led a fierce armed rebellion against the British in which region of Northeast India?","options":["A. Arunachal Pradesh (Naga Hills)","B. Meghalaya (Khasi Hills)","C. Manipur (Naga Hills)","D. Mizoram (Lushai Hills)"]},
+    {"id":47,"q":"Q.No: 47\nWhich two gases dominate Earth’s surface atmosphere?","options":["A. O₂ & Ar","B. N₂ & Ne","C. N₂ & O₂","D. O₂ & Ne"]},
+    {"id":48,"q":"Q.No: 48\nWhat was the main focus of India’s Sixth Five-Year Plan (1980–1985)?","options":["A. Heavy industrialization and capital goods","B. Food self-sufficiency through agriculture","C. Poverty alleviation and modernization of technology","D. Economic liberalization and globalization"]},
+    {"id":49,"q":"Q.No: 49\nFDI is a part of which reform pillar?","options":["A. Liberalisation","B. Privatisation","C. Globalisation","D. Nationalisation"]},
+    {"id":50,"q":"Q.No: 50\nWhich Article provides the President with the power to declare Financial Emergency?","options":["A. Article 352","B. Article 356","C. Article 360","D. Article 365"]}
+  ]},
+
+  { key: 'C', name: 'Quantitative Aptitude', items: [
+    {"id":51,"q":"Q.No: 51\nSolve: (34.12)^2 − 7396","options":["A. 6231.8256","B. −9251.8256","C. 9251.8256","D. −6231.8256"]},
+    {"id":52,"q":"Q.No: 52\nThe production of bottles rose to 26,000 from 16,000 in 2 years. Find the rate of growth per annum.","options":["A. 26.47%","B. 28.47%","C. 37.47%","D. 24.47%"]},
+    {"id":53,"q":"Q.No: 53\nRs. 1500 is lent out at 6% per annum simple interest for 3 years. Find the amount after 3 years.","options":["A. Rs. 1900","B. Rs. 2000","C. Rs. 1600","D. Rs. 1770"]},
+    {"id":54,"q":"Q.No: 54\nSuraj travels at a speed of 30 kmph. Find the distance covered by him in 72 seconds.","options":["A. 650 m","B. 600 m","C. 450 m","D. 700 m"]},
+    {"id":55,"q":"Q.No: 55\nA rectangular parallelepiped has dimensions in arithmetic progression. If the sum of its dimensions is 21 cm and the volume is 168 cm^3, find its dimensions.","options":["A. 4 cm, 7 cm, 10 cm","B. 3 cm, 7 cm, 11 cm","C. 5 cm, 6 cm, 10 cm","D. 2 cm, 7 cm, 12 cm"]},
+    {"id":56,"q":"Q.No: 56\nThe angle subtended by an arc at the center is 72°, and its length is 22 cm. Find the radius of the circle.","options":["A. 17.5 cm","B. 11 cm","C. 10 cm","D. 8.75 cm"]},
+    {"id":57,"q":"Q.No: 57\nA man spends 30% of his salary on rent, 20% on groceries, and 25% on other expenses. If he saves Rs. 9,000, what is his salary?","options":["A. Rs. 24,000","B. Rs. 27,000","C. Rs. 30,000","D. Rs. 36,000"]},
+    {"id":58,"q":"Q.No: 58\nA store offers a \"25% off\" discount but charges 5% VAT on the discounted price. If the marked price is Rs. 1600, what is the final amount paid?","options":["A. Rs. 1200","B. Rs. 1260","C. Rs. 1275","D. Rs. 1320"]},
+    {"id":59,"q":"Q.No: 59\nA car covers three equal distances at speeds of 30 km/h, 45 km/h, and 90 km/h, respectively. What is the average speed of the car for the entire journey?","options":["A. 50 km/h","B. 48 km/h","C. 60 km/h","D. 45 km/h"]},
+    {"id":60,"q":"Q.No: 60\nA 40-litre mixture of acid and water contains acid and water in the ratio 3:1. 8 litres of this mixture is removed and replaced with another solution of acid and water in the ratio 1:3. What is the final ratio of acid to water in the resulting mixture?","options":["A. 13:7","B. 13:5","C. 5:3","D. 3:1"]},
+    {"id":61,"q":"Q.No: 61\nLalit can finish a work in 15 days. Laxman can finish the same work in 25 days. They work together for 5 days. If the rest of the work is finished by Lalit and Deven in 4 days, then in how many days can Deven alone finish the work?","options":["A. 30 days","B. 25 days","C. 21 days","D. 20 days"]},
+    {"id":62,"q":"Q.No: 62\nThe volumes of two right circular cylinders have a ratio of 2:3. If the radii of these cylinders are in the ratio of 1:2, what is the ratio of their heights?","options":["A. 1:3","B. 3:4","C. 4:3","D. 8:3"]},
+    {"id":63,"q":"Q.No: 63\nIf a prism's height is tripled while the base area remains constant, what happens to the volume?","options":["A. Doubled","B. Tripled","C. Quadrupled","D. Remains same"]},
+    {"id":64,"q":"Q.No: 64\nA cone is melted and recast into another cone with half the radius. Find the new height if the original height was 12 cm.","options":["A. 48 cm","B. 36 cm","C. 24 cm","D. 18 cm"]},
+    {"id":65,"q":"Q.No: 65\nIn ΔABC, right-angled at C, if sin A = 3/5, then cos B = ?","options":["A. 3/5","B. 4/5","C. 5/3","D. 0"]},
+    {"id":66,"q":"Q.No: 66\nConvert 3°10' to radians.","options":["A. (3π/180)","B. (19π/1080)","C. (π/60)","D. (31π/360)"]},
+    {"id":67,"q":"Q.No: 67\nIf A + B = 90° and sin A = 3/5, then what is cos B?","options":["A. 3/5","B. 4/5","C. 5/3","D. 0"]},
+    {"id":68,"q":"Q.No: 68\nAt an intersection of two lines, two angles are vertically opposite. If one of the angles measures 45°, what is the measure of the other angle?","options":["A. 45°","B. 90°","C. 135°","D. 180°"]},
+    {"id":69,"q":"Q.No: 69\nThe incenter of a triangle is located at (3, 4). The length of the perpendicular from the incenter to side AB is 2 units. What is the radius of the triangle's incircle?","options":["A. 2 units","B. 3 units","C. 4 units","D. 5 units"]},
+    {"id":70,"q":"Q.No: 70\nGiven x = (√3), what is (x + 1)^2 + (x - 1)^2 ?","options":["A. 2(x^2 + 1)","B. 4","C. 6","D. 3"]},
+    {"id":71,"q":"Q.No: 71\nIn triangle ABC, DE || AB and AD/DB = 2:1, and AE = 5 cm, then EC is:","options":["A. 25 cm","B. 2.5 cm","C. 5 cm","D. 10 cm"]},
+    {"id":72,"q":"Q.No: 72\nChord AB and chord CD are equal and subtend angles of 50° and x° at the center respectively. Find x.","options":["A. 25°","B. 50°","C. 75°","D. 100°"]},
+    {"id":73,"q":"Q.No: 73\nWhat is the area of the segment formed by a chord in a circle of radius 10 cm, if the angle subtended at the center is 90°?","options":["A. 25(π) - 50","B. 50(π) - 50","C. 100(π) - 50","D. 25(π) - 25"]},
+    {"id":74,"q":"Q.No: 74\nIf tan A = 3/4, find sin A.","options":["A. 3/5","B. 4/5","C. 5/3","D. 1/2"]},
+    {"id":75,"q":"Q.No: 75\nA can complete a task in 30 days, and B can complete the same task in 40 days. They work together for 10 days, and then C joins them and completes the remaining work in 5 days. How long will C alone take to complete the task?","options":["A. 25 days","B. 26 days","C. 40 days","D. 27 days"]}
+  ]},
+
+  { key: 'D', name: 'English Comprehension', items: [
+    {"id":76,"q":"Q.No: 76\nRead the passage and answer the question:\n\nEarly prototypes, such as horse-drawn wagonways in 16th-century Europe, represented rudimentary precursors to modern trains...\n\nIdentify the tense and voice used in the sentence above.","options":["A. Past Perfect Passive","B. Simple Past Active","C. Present Perfect Active","D. Past Continuous Passive"]},
+    {"id":77,"q":"Q.No: 77\nWhat grammatical function does the phrase \"utilizing wooden rails to minimize friction\" serve in the sentence:\n\n\"Early prototypes, such as horse-drawn wagonways in 16th-century Europe, represented rudimentary precursors to modern trains, utilizing wooden rails to minimize friction and facilitate the movement of goods...\"\n","options":["A. Adjective clause modifying \"wagonways\"","B. Adverbial phrase explaining the manner","C. Noun clause functioning as object","D. Gerund phrase acting as the subject"]},
+    {"id":78,"q":"Q.No: 78\nIn the passage, what is the closest meaning of the word \"superseded\"?","options":["A. Upgraded","B. Replaced","C. Abandoned","D. Destroyed"]},
+    {"id":79,"q":"Q.No: 79\nWhat is the meaning of the word \"epochal\" as used in the context: \"...each epochal shift reflects broader socio-technological metamorphoses.\"?","options":["A. Ancient","B. Minor","C. Highly significant or defining","D. Predictable"]},
+    {"id":80,"q":"Q.No: 80\nWhich of the following best captures the overall tone of the passage about railway innovation?","options":["A. Nostalgic and critical","B. Analytical and celebratory","C. Indifferent and factual","D. Cautionary and skeptical"]},
+    {"id":81,"q":"Q.No: 81\nWhat does the idiom mean: \"There is no gainsaying the fact that the country is in difficulties\"?","options":["A. There is no denying that the country is facing challenges.","B. The country is making significant progress.","C. The country is refusing to acknowledge its problems.","D. The country is avoiding difficult situations."]},
+    {"id":82,"q":"Q.No: 82\nFill in the blank with the correctly spelled word.\n\nThe scientist was awarded for her work in chemistry.","options":["A. organometallic","B. organomettalic","C. organomettallik","D. organometalic"]},
+    {"id":83,"q":"Q.No: 83\nWhich spelling is correct for a word meaning 'deeply thoughtful or melancholy in tone'?","options":["A. Pensieve","B. Pensive","C. Pensiff","D. Feneive"]},
+    {"id":84,"q":"Q.No: 84\nSelect the most appropriate synonym of the given word: CONFLAGRATION","options":["A. Fire","B. Explosion","C. Storm","D. Flood"]},
+    {"id":85,"q":"Q.No: 85\nSelect the most appropriate antonym of the given word: Esoteric","options":["A. Obscure","B. Straightforward","C. Cryptic","D. Abstract"]},
+    {"id":86,"q":"Q.No: 86\nChoose the correct meaning of the idiom: \"Kicked up a row\"","options":["A. Created chaos with calculated logic","B. Reacted aggressively in a social setting","C. Silently withdrew from a discussion","D. Avoided confrontation altogether"]},
+    {"id":87,"q":"Q.No: 87\nChoose the correct one-word substitute for: 'The study of coins and medals'.","options":["A. Cartography","B. Numismatics","C. Epigraphy","D. Cryptography"]},
+    {"id":88,"q":"Q.No: 88\nSpot the correct spelling of heat-energy physics.","options":["A. Thermodinamics","B. Thermdynamics","C. Thermodynamics","D. Thermodynemics"]},
+    {"id":89,"q":"Q.No: 89\nChoose the correct one-word substitute for: 'Fear of open spaces.'","options":["A. Xenophobia","B. Claustrophobia","C. Acrophobia","D. Agoraphobia"]},
+    {"id":90,"q":"Q.No: 90\nChoose the correct phrasal verb:\n\nAfter months of negotiation, the two sides finally _____ an agreement acceptable to both parties.","options":["A. arrived to","B. arrived at","C. arrived on","D. arrived with"]},
+    {"id":91,"q":"Q.No: 91\nFind the part of the sentence that contains an error:\n\nThe workshop aims at providing entrepreneurs (1) with practical advices (2) on scaling operations (3) in emerging markets. (4)","options":["A. (1)","B. (2)","C. (3)","D. (4)"]},
+    {"id":92,"q":"Q.No: 92\nChange the following from active to passive:\n\nThey had sent the invitations by courier.","options":["A. The invitations were sent by courier.","B. The invitations have been sent by courier.","C. The invitations had been sent by courier.","D. The invitations had been being sent by courier."]},
+    {"id":93,"q":"Q.No: 93\nSelect the sentence containing the homonym of the highlighted word \"current\":","options":["A. The current debate involves key economic issues.","B. The swimmer fought against the current.","C. The current trends favor decentralization.","D. The minister spoke on current policy."]},
+    {"id":94,"q":"Q.No: 94\nConvert the sentence provided below from its passive voice structure to an active voice structure:\n\nThe machinery was known to have been operated manually during the testing phase.","options":["A. Manual operators were known to test the machinery.","B. Someone was known to operate the machinery manually during testing.","C. It was known that the machinery had been manually tested.","D. It is known that someone manually operated the machinery during testing."]},
+    {"id":95,"q":"Q.No: 95\nChoose the most suitable option to replace the highlighted part of the sentence:\n\nThey discussed the problem in details.","options":["A. discusses in detail","B. discussed the problem in detail","C. discussed detailly","D. discussed with details"]},
+    {"id":96,"q":"Q.No: 96\nChoose the most suitable option to replace the highlighted part of the sentence:\n\nThe book is more better than the previous one.","options":["A. much better than","B. better from","C. more good than","D. better than"]},
+    {"id":97,"q":"Q.No: 97\nA sentence is provided in indirect speech. From the four given options, choose the one that most accurately conveys the sentence in its corresponding direct speech.\n\nIndirect: The envoy reported that the negotiations were languishing because neither party would concede procedural precedence.","options":["A. The envoy reported, \"The negotiations languish because neither party would concede procedural precedence.\"","B. The envoy said, \"The negotiations are languishing because neither party will be conceding procedural precedence.\"","C. The envoy said, \"The negotiations are languishing because neither party will concede procedural precedence.\"","D. The envoy said, \"Negotiations languished, no party conceding precedence.\""]},
+    {"id":98,"q":"Q.No: 98\nA sentence is provided in direct speech. From the four given options, choose the one that most accurately conveys the sentence in its corresponding indirect speech.\n\nDirect: She said, \"I was very tired yesterday.\"","options":["A. She said she had been very tired the day before.","B. She said she was very tired yesterday.","C. She said she had been very tired yesterday.","D. She said she is very tired the day before."]},
+    {"id":99,"q":"Q.No: 99\nRearrange the following sentences in correct order to make a logical passage:\n\n1. Data from multiple sources was compiled for the report.\n2. The data was analyzed to derive logical insights.\n3. The insights were used to make strategic decisions.\n4. A report was generated to present the findings.","options":["A. 3-2-1-4","B. 1-3-2-4","C. 1-2-4-3","D. 2-4-1-3"]},
+    {"id":100,"q":"Q.No: 100\nRearrange the following sentences to form a meaningful passage:\n\n1. Scientists had long theorized the existence of gravitational waves.\n2. Their detection confirmed a major prediction of Einstein’s theory.\n3. They were eventually observed by LIGO in 2015.\n4. The event opened new avenues in astrophysics.","options":["A. 3-2-4-1","B. 2-3-1-4","C. 3-2-1-4","D. 1-3-2-4"]}
+  ]}
+];
+
+/* ---------- State ---------- */
+const STATE_KEY = 'ssc_shift2_state_v1';
+
+let state = {
+  currentSectionIndex: 0, // 0-3
+  currentQuestionIndex: 0,
+  answers: {},            // key: "id" -> option letter ("A"/"B"/"C"/"D")
+  marked: {},             // id -> true
+  skipped: {},            // id -> true
+  timerSeconds: 60*60,    // 60 minutes
+  running: false,
+  paused: false,
+  submitted: false,
+  sectionTimes: { A:0, B:0, C:0, D:0 }, // seconds
+  sectionActiveStart: null // timestamp when section became active (for accumulating)
+};
+
+/* ---------- Helpers ---------- */
+const el = id => document.getElementById(id);
+const formatTime = s => {
+  if(s < 0) s = 0;
+  const mm = String(Math.floor(s/60)).padStart(2,'0');
+  const ss = String(s%60).padStart(2,'0');
+  return `${mm}:${ss}`;
+};
+const secToHMS = s => {
+  const hh = Math.floor(s/3600); const mm = Math.floor((s%3600)/60); const ss = s%60;
+  return `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+};
+const saveState = () => localStorage.setItem(STATE_KEY, JSON.stringify(state));
+const loadState = () => {
+  const raw = localStorage.getItem(STATE_KEY);
+  if(raw) {
+    try { Object.assign(state, JSON.parse(raw)); } catch(e){ console.warn('load failed',e); }
+  }
+};
+
+/* ---------- Timer ---------- */
+let timerInterval = null;
+function startGlobalTimer(){
+  if(timerInterval) clearInterval(timerInterval);
+  state.running = true;
+  timerInterval = setInterval(()=>{
+    if(state.paused || !state.running) return;
+    state.timerSeconds--;
+    // accumulate section active time if a section is active
+    if(state.sectionActiveStart) {
+      // we accumulate when switching sections, not every tick to avoid heavy writes; but keep state up to date
+    }
+    if(state.timerSeconds <= 0){
+      clearInterval(timerInterval);
+      state.timerSeconds = 0;
+      doSubmit();
+    }
+    renderTime();
+    saveState();
+  }, 1000);
+}
+function stopGlobalTimer(){
+  if(timerInterval) clearInterval(timerInterval);
+  state.running = false;
+}
+
+/* ---------- UI init ---------- */
+
+function buildSectionButtons(){
+  const wrap = el('sectionList'); wrap.innerHTML = '';
+  SECTIONS.forEach((sec, idx) => {
+    const b = document.createElement('button');
+    b.className = 'section-btn' + (idx === state.currentSectionIndex ? ' active' : '');
+    b.innerText = `${sec.name} (${sec.items.length})`;
+    b.onclick = () => switchSection(idx);
+    wrap.appendChild(b);
+  });
+}
+
+function buildGrid(){
+  const wrap = el('qGrid'); wrap.innerHTML = '';
+  const sec = SECTIONS[state.currentSectionIndex];
+  sec.items.forEach((q, idx) => {
+    const key = String(q.id);
+    const btn = document.createElement('button');
+    btn.className = 'qnum';
+    if(state.marked[key]) btn.classList.add('marked');
+    else if(state.skipped[key]) btn.classList.add('skipped');
+    else if(state.answers[key]) btn.classList.add('answered');
+    btn.innerText = idx + 1;
+    btn.title = `Q${q.id}`;
+    btn.onclick = () => { state.currentQuestionIndex = idx; renderQuestion(); };
+    wrap.appendChild(btn);
+  });
+  updateSectionSummary();
+}
+
+function updateSectionSummary(){
+  const sec = SECTIONS[state.currentSectionIndex];
+  const answered = sec.items.reduce((a,q)=> a + (state.answers[String(q.id)]?1:0),0);
+  el('secAnswered').innerText = answered;
+  el('secNotAnswered').innerText = sec.items.length - answered;
+}
+
+function updateTotals(){
+  const total = Object.keys(state.answers).length;
+  el('totalAnswered').innerText = total;
+  el('footerAnswered').innerText = total;
+}
+
+/* ---------- Render question ---------- */
+function renderQuestion(reviewMode=false){
+  const sec = SECTIONS[state.currentSectionIndex];
+  if(!sec) return;
+  const q = sec.items[state.currentQuestionIndex];
+  el('qHeader').innerText = `Section: ${sec.name} — Q${q.id}`;
+  el('qText').innerHTML = q.q.replace(/\n/g,'<br>');
+  const optsWrap = el('optsWrap'); optsWrap.innerHTML = '';
+  const key = String(q.id);
+  const letters = ['A','B','C','D'];
+  q.options.forEach((optText, i) => {
+    const letter = letters[i] || String.fromCharCode(65+i);
+    const lab = document.createElement('label');
+    lab.className = 'opt';
+    const radio = document.createElement('input');
+    radio.type = 'radio'; radio.name = 'optRadio';
+    radio.disabled = state.paused || state.submitted;
+    radio.checked = state.answers[key] === letter;
+    radio.onchange = () => {
+      if(state.paused || state.submitted) return;
+      state.answers[key] = letter;
+      state.skipped[key] = false;
+      saveState(); buildGrid(); updateTotals();
+    };
+    const txt = document.createElement('span'); txt.innerText = `${letter}. ${optText}`;
+    lab.appendChild(radio); lab.appendChild(txt);
+
+    // click on whole label selects
+    lab.onclick = (e) => {
+      if(state.paused || state.submitted) return;
+      state.answers[key] = letter;
+      state.skipped[key] = false;
+      saveState(); buildGrid(); updateTotals();
+      radio.checked = true;
+    };
+
+    // review highlighting
+    if(state.submitted){
+      const correct = ANSWER_KEY[key];
+      if(correct === letter) lab.classList.add('correct');
+      if(state.answers[key] && state.answers[key] === letter && state.answers[key] !== correct) lab.classList.add('wrong');
+      // disable interactions
+      radio.disabled = true;
+    }
+
+    if(state.paused){ lab.classList.add('disabled'); radio.disabled = true; }
+
+    optsWrap.appendChild(lab);
+  });
+  updateTotals();
+  buildGrid();
+  updateSectionSummary();
+}
+
+/* ---------- Navigation ---------- */
+function saveAndNext(){
+  const sec = SECTIONS[state.currentSectionIndex];
+  const q = sec.items[state.currentQuestionIndex];
+  const key = String(q.id);
+  if(!state.answers[key]) state.skipped[key] = true;
+  else state.skipped[key] = false;
+  if(state.currentQuestionIndex < sec.items.length - 1) state.currentQuestionIndex++;
+  else if(state.currentSectionIndex < SECTIONS.length - 1){
+    switchSection(state.currentSectionIndex + 1);
+    state.currentQuestionIndex = 0;
+  }
+  renderQuestion();
+  saveState();
+}
+
+function goPrev(){
+  if(state.currentQuestionIndex > 0){ state.currentQuestionIndex--; renderQuestion(); return; }
+  if(state.currentSectionIndex > 0){
+    switchSection(state.currentSectionIndex - 1);
+    state.currentQuestionIndex = SECTIONS[state.currentSectionIndex].items.length - 1;
+    renderQuestion();
+  }
+}
+
+function clearResponse(){
+  const sec = SECTIONS[state.currentSectionIndex];
+  const q = sec.items[state.currentQuestionIndex];
+  const key = String(q.id);
+  delete state.answers[key];
+  state.skipped[key] = true;
+  saveState(); buildGrid(); updateTotals(); renderQuestion();
+}
+
+function markForReview(){
+  const sec = SECTIONS[state.currentSectionIndex];
+  const q = sec.items[state.currentQuestionIndex];
+  const key = String(q.id);
+  state.marked[key] = true;
+  // move next
+  saveAndNext();
+  saveState();
+}
+
+/* ---------- Section switch & per-section time tracking ---------- */
+function switchSection(newIndex){
+  if(newIndex === state.currentSectionIndex) return;
+  // accumulate time for current active section
+  accumulateSectionTime();
+  // change current section
+  state.currentSectionIndex = newIndex;
+  // reset question index if out of bounds
+  state.currentQuestionIndex = 0;
+  // set new section active start if running and not paused
+  if(!state.paused && state.running){
+    state.sectionActiveStart = Date.now();
+  } else {
+    state.sectionActiveStart = null;
+  }
+  buildSectionButtons();
+  buildGrid();
+  renderQuestion();
+  saveState();
+}
+
+function accumulateSectionTime(){
+  const idx = state.currentSectionIndex;
+  const secKey = SECTIONS[idx].key;
+  if(state.sectionActiveStart){
+    const elapsed = Math.floor((Date.now() - state.sectionActiveStart)/1000);
+    if(!isNaN(elapsed) && elapsed > 0) {
+      state.sectionTimes[secKey] = (state.sectionTimes[secKey] || 0) + elapsed;
+    }
+    state.sectionActiveStart = null;
+  }
+}
+
+/* ---------- Pause / Resume ---------- */
+function setPaused(on){
+  state.paused = on;
+  el('pauseBtn').innerText = on ? 'Resume' : 'Pause';
+  // show badge
+  el('pausedBadge').style.display = on ? 'block' : 'none';
+  // when pausing, stop accumulating section active time
+  if(on){
+    // accumulate current active
+    accumulateSectionTime();
+  } else {
+    // resume section active timing
+    if(state.running){
+      state.sectionActiveStart = Date.now();
+    }
+  }
+  renderQuestion();
+  saveState();
+}
+
+/* ---------- Fullscreen ---------- */
+async function toggleFullscreen(){
+  try{
+    if(!document.fullscreenElement){
+      await document.documentElement.requestFullscreen();
+      el('fsBtn').innerText = 'Exit full-screen';
+    } else {
+      await document.exitFullscreen();
+      el('fsBtn').innerText = 'Full screen';
+    }
+  }catch(e){ console.warn('fs',e); }
+}
+
+/* ---------- Submit / Scoring ---------- */
+function doSubmit(){
+  if(state.submitted) return;
+  // finalize timers
+  accumulateSectionTime();
+  // stop timer
+  stopGlobalTimer();
+  state.submitted = true;
+  // compute score
+  const result = computeResults();
+  // show result area and review
+  showResults(result);
+  saveState();
+}
+
+function computeResults(){
+  let totalCorrect = 0, totalAttempted = 0;
+  const perSection = {};
+  SECTIONS.forEach(sec=>{
+    const key = sec.key;
+    perSection[key] = { correct:0, attempted:0, total: sec.items.length, time: state.sectionTimes[key] || 0 };
+    sec.items.forEach(q=>{
+      const ans = state.answers[String(q.id)];
+      if(ans) perSection[key].attempted++;
+      if(ans && ANSWER_KEY[String(q.id)] === ans) perSection[key].correct++;
+    });
+    totalCorrect += perSection[key].correct;
+    totalAttempted += perSection[key].attempted;
+  });
+  const totalMarks = totalCorrect; // simple 1 mark per correct — change if needed
+  const totalQuestions = SECTIONS.reduce((a,s)=>a+s.items.length,0);
+  return { perSection, totalCorrect, totalAttempted, totalMarks, totalQuestions };
+}
+
+function showResults(result){
+  el('resultsArea').style.display = 'block';
+  // build markcard summary
+  const container = el('markcardSummary');
+  container.innerHTML = '';
+  const table = document.createElement('table');
+  const thead = document.createElement('thead');
+  thead.innerHTML = `<tr><th>Section</th><th>Total Qs</th><th>Attempted</th><th>Correct</th><th>Wrong</th><th>Time Spent</th></tr>`;
+  const tbody = document.createElement('tbody');
+  for(const sec of SECTIONS){
+    const info = result.perSection[sec.key];
+    const wrong = info.attempted - info.correct;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${sec.name}</td><td>${info.total}</td><td>${info.attempted}</td><td>${info.correct}</td><td>${wrong}</td><td>${secToHMS(info.time)}</td>`;
+    tbody.appendChild(tr);
+  }
+  const totalRow = document.createElement('tr');
+  totalRow.innerHTML = `<th>Total</th><th>${result.totalQuestions}</th><th>${result.totalAttempted}</th><th>${result.totalCorrect}</th><th>${result.totalAttempted - result.totalCorrect}</th><th>-</th>`;
+  tbody.appendChild(totalRow);
+  table.appendChild(thead); table.appendChild(tbody);
+  container.appendChild(table);
+
+  // build review tabs
+  const reviewTabs = el('reviewTabs'); reviewTabs.innerHTML = '';
+  SECTIONS.forEach((sec, idx)=>{
+    const b = document.createElement('div');
+    b.className = 'tab' + (idx===0?' active':'');
+    b.innerText = `${sec.name}`;
+    b.onclick = () => {
+      // set active
+      Array.from(reviewTabs.children).forEach(c=>c.classList.remove('active'));
+      b.classList.add('active');
+      renderReviewSection(idx);
+    };
+    reviewTabs.appendChild(b);
+  });
+
+  // initial content
+  renderReviewSection(0);
+  // show view markcard button visible
+  el('viewMarkcardBtn').style.display = 'inline-block';
+}
+
+/* ---------- Review rendering ---------- */
+function renderReviewSection(secIndex){
+  const content = el('reviewContent'); content.innerHTML = '';
+  const sec = SECTIONS[secIndex];
+  // list question tiles with status right/wrong
+  const listWrap = document.createElement('div');
+  listWrap.className = 'review-list';
+  sec.items.forEach((q, idx) => {
+    const id = String(q.id);
+    const div = document.createElement('div');
+    div.className = 'rev-q';
+    const ans = state.answers[id];
+    const correct = ANSWER_KEY[id];
+    const status = (!ans) ? 'Unattempted' : (ans === correct ? 'Correct' : 'Wrong');
+    div.innerHTML = `<div style="font-weight:800">Q${q.id}</div><div style="font-size:12px;color:#666;margin-top:6px">${status}</div>`;
+    if(status === 'Correct') div.style.background = '#e9f7ef';
+    if(status === 'Wrong') div.style.background = '#fff3f3';
+    div.onclick = () => {
+      // show this question in review display below
+      renderReviewQuestion(secIndex, idx);
+    };
+    listWrap.appendChild(div);
+  });
+  content.appendChild(listWrap);
+  // show first question by default
+  renderReviewQuestion(secIndex, 0);
+}
+
+function renderReviewQuestion(secIndex, qIndex){
+  const sec = SECTIONS[secIndex];
+  const q = sec.items[qIndex];
+  const content = el('reviewContent');
+  // create detail view
+  const detail = document.createElement('div');
+  detail.style.marginTop = '12px';
+  detail.style.background = '#fff';
+  detail.style.padding = '12px';
+  detail.style.borderRadius = '8px';
+  detail.style.border = '1px solid #e6eef8';
+  detail.innerHTML = `<div style="font-weight:800;margin-bottom:8px">${sec.name} — Q${q.id}</div><div style="margin-bottom:10px">${q.q.replace(/\n/g,'<br>')}</div>`;
+  // options with highlighting
+  const letters = ['A','B','C','D'];
+  const ul = document.createElement('div');
+  q.options.forEach((opt, i)=>{
+    const letter = letters[i];
+    const optDiv = document.createElement('div');
+    optDiv.style.padding='8px'; optDiv.style.borderRadius='6px'; optDiv.style.marginBottom='6px'; optDiv.style.border='1px solid #eef6ff';
+    const correct = ANSWER_KEY[String(q.id)];
+    if(letter === correct) optDiv.style.background = 'var(--correct)';
+    if(state.answers[String(q.id)] === letter && state.answers[String(q.id)] !== correct) optDiv.style.background = 'var(--wrong)';
+    optDiv.innerText = `${letter}. ${opt}`;
+    detail.appendChild(optDiv);
+  });
+  // show your choice and correct
+  const your = state.answers[String(q.id)] || 'Unattempted';
+  const correct = ANSWER_KEY[String(q.id)];
+  const footer = document.createElement('div');
+  footer.style.marginTop='10px';
+  footer.innerHTML = `<strong>Your answer:</strong> ${your} &nbsp;&nbsp; <strong>Correct:</strong> ${correct}`;
+  detail.appendChild(footer);
+  // add button to view markcard
+  const btnWrap = document.createElement('div'); btnWrap.style.marginTop='12px';
+  const viewMark = document.createElement('button'); viewMark.className='btn'; viewMark.innerText='View Markcard';
+  viewMark.onclick = () => {
+    // scroll to markcard summary
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  btnWrap.appendChild(viewMark);
+  detail.appendChild(btnWrap);
+
+  // replace old detailed area
+  // keep the list, append detail after it
+  // remove any existing detail nodes
+  // find listWrap and append
+  const listWrap = content.querySelector('.review-list');
+  // remove any existing detail nodes after listWrap
+  while(listWrap.nextSibling) listWrap.parentNode.removeChild(listWrap.nextSibling);
+  listWrap.parentNode.appendChild(detail);
+}
+
+/* ---------- Restart ---------- */
+function restartExam(){
+  if(!confirm('Restart exam? This will clear all saved progress.')) return;
+  // clear localStorage and reset state
+  localStorage.removeItem(STATE_KEY);
+  location.reload();
+}
+
+/* ---------- Persistence load ---------- */
+function initFromStorage(){
+  loadState();
+  // if submitted in storage, show results immediately
+  buildSectionButtons();
+  buildGrid();
+  renderQuestion();
+  renderTime();
+  updateTotals();
+  if(state.submitted){
+    startGlobalTimer(); // not running but maintain functions
+    stopGlobalTimer();
+    const res = computeResults();
+    showResults(res);
+  } else {
+    // resume timer if running
+    if(state.running && !state.paused){
+      // set sectionActiveStart to now to resume accumulation
+      state.sectionActiveStart = Date.now();
+      startGlobalTimer();
+    } else {
+      renderTime();
+    }
+  }
+}
+
+/* ---------- Render time ---------- */
+function renderTime(){
+  el('timeBox').innerText = formatTime(state.timerSeconds);
+}
+
+/* ---------- Start exam flow ---------- */
+async function onStartClick(){
+  // enter fullscreen
+  try{
+    if(!document.fullscreenElement) await document.documentElement.requestFullscreen();
+  }catch(e){ console.warn('fs failed', e); }
+  // initialize state
+  state.timerSeconds = 60 * 60; // 60 minutes
+  state.running = true;
+  state.paused = false;
+  state.submitted = false;
+  state.answers = {};
+  state.marked = {};
+  state.skipped = {};
+  state.sectionTimes = { A:0, B:0, C:0, D:0 };
+  state.sectionActiveStart = Date.now();
+  state.currentSectionIndex = 0;
+  state.currentQuestionIndex = 0;
+  saveState();
+  el('startOverlay').style.display = 'none';
+  buildSectionButtons();
+  buildGrid();
+  renderQuestion();
+  startGlobalTimer();
+}
+
+/* ---------- Event bindings ---------- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  // wire buttons
+  el('startBtn').onclick = onStartClick;
+  el('fsBtn').onclick = toggleFullscreen;
+  el('pauseBtn').onclick = () => {
+    setPaused(!state.paused);
+    saveState();
+  };
+  el('restartBtn').onclick = restartExam;
+  el('saveNextBtn').onclick = () => { saveAndNext(); };
+  el('prevBtn').onclick = goPrev;
+  el('clearBtn').onclick = clearResponse;
+  el('markBtn').onclick = markForReview;
+  el('submitTop').onclick = () => {
+    if(!confirm('Submit exam now?')) return;
+    doSubmit();
+  };
+  el('viewMarkcardBtn').onclick = () => {
+    // scroll to markcard summary
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  el('backToExamBtn').onclick = () => {
+    // hide results area and show exam UI (scroll)
+    el('resultsArea').style.display = 'none';
+    // allow navigating back to exam UI: if exam not submitted, allow
+    // If exam submitted and user wants to revisit exam screen, we still keep submitted true and review UI will be read-only
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  // reviewAnswersBtn (hidden during exam) — show after submit
+  el('reviewAnswersBtn').onclick = () => {
+    const res = computeResults();
+    showResults(res);
+    el('resultsArea').scrollIntoView({behavior:'smooth'});
+  };
+
+  // handle visibility change: if user switches tab, pause accumulation & timer continues but we track sectionActiveStart properly
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden){
+      // accumulate current section time chunk
+      accumulateSectionTime();
+    } else {
+      if(!state.paused && state.running){
+        state.sectionActiveStart = Date.now();
+      }
+    }
+  });
+
+  // load saved state if present
+  initFromStorage();
+});
+
+/* Save state periodically */
+setInterval(()=>saveState(), 5000);
+
+</script>
+</body>
+</html>
