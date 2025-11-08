@@ -188,7 +188,7 @@
 
 <script>
 /* -------------------------
-  QUESTIONS: SHIFT 2 (1-100)
+  QUESTIONS: SHIFT 1 (1-100)
   (User provided full text; included here as array per section)
    Sections:
      A - Reasoning (1-25)
@@ -199,16 +199,106 @@
 --------------------------*/
 
 const ANSWER_KEY = {
-  "1":"C","2":"C","3":"D","4":"A","5":"A","6":"A","7":"B","8":"A","9":"B","10":"B",
-  "11":"A","12":"A","13":"B","14":"D","15":"D","16":"B","17":"C","18":"C","19":"A","20":"A",
-  "21":"A","22":"A","23":"B","24":"C","25":"B","26":"A","27":"C","28":"D","29":"A","30":"B",
-  "31":"C","32":"A","33":"B","34":"A","35":"C","36":"C","37":"B","38":"C","39":"B","40":"B",
-  "41":"C","42":"C","43":"D","44":"B","45":"A","46":"B","47":"D","48":"B","49":"D","50":"C",
-  "51":"C","52":"B","53":"A","54":"B","55":"B","56":"B","57":"B","58":"D","59":"C","60":"B",
-  "61":"B","62":"A","63":"B","64":"B","65":"D","66":"A","67":"A","68":"A","69":"C","70":"A",
-  "71":"A","72":"C","73":"B","74":"A","75":"B","76":"C","77":"B","78":"A","79":"C","80":"A",
-  "81":"A","82":"A","83":"C","84":"B","85":"C","86":"D","87":"C","88":"B","89":"B","90":"C",
-  "91":"C","92":"C","93":"C","94":"C","95":"A","96":"C","97":"A","98":"C","99":"A","100":"A"
+  "1": "B",
+  "2": "A",
+  "3": "A",
+  "4": "B",
+  "5": "C",
+  "6": "A",
+  "7": "C",
+  "8": "D",
+  "9": "A",
+  "10": "D",
+  "11": "A",
+  "12": "A",
+  "13": "A",
+  "14": "B",
+  "15": "C",
+  "16": "C",
+  "17": "B",
+  "18": "A",
+  "19": "B",
+  "20": "C",
+  "21": "A",
+  "22": "D",
+  "23": "A",
+  "24": "B",
+  "25": "B",
+  "26": "D",
+  "27": "B",
+  "28": "D",
+  "29": "B",
+  "30": "C",
+  "31": "B",
+  "32": "C",
+  "33": "A",
+  "34": "C",
+  "35": "B",
+  "36": "B",
+  "37": "C",
+  "38": "A",
+  "39": "B",
+  "40": "B",
+  "41": "A",
+  "42": "C",
+  "43": "B",
+  "44": "C",
+  "45": "A",
+  "46": "C",
+  "47": "C",
+  "48": "C",
+  "49": "A",
+  "50": "C",
+  "51": "D",
+  "52": "B",
+  "53": "D",
+  "54": "B",
+  "55": "D",
+  "56": "A",
+  "57": "D",
+  "58": "B",
+  "59": "D",
+  "60": "A",
+  "61": "D",
+  "62": "D",
+  "63": "B",
+  "64": "A",
+  "65": "A",
+  "66": "B",
+  "67": "A",
+  "68": "A",
+  "69": "A",
+  "70": "A",
+  "71": "D",
+  "72": "B",
+  "73": "A",
+  "74": "A",
+  "75": "C",
+  "76": "B",
+  "77": "B",
+  "78": "B",
+  "79": "C",
+  "80": "B",
+  "81": "A",
+  "82": "A",
+  "83": "B",
+  "84": "A",
+  "85": "B",
+  "86": "B",
+  "87": "B",
+  "88": "C",
+  "89": "D",
+  "90": "B",
+  "91": "B",
+  "92": "C",
+  "93": "B",
+  "94": "B",
+  "95": "B",
+  "96": "D",
+  "97": "C",
+  "98": "A",
+  "99": "C",
+  "100": "D"
 };
 
 /* QUESTIONS array. For brevity I include the text exactly as you provided (trimmed where needed).
@@ -302,31 +392,130 @@ const SECTIONS = [
   ]},
 
   { key: 'D', name: 'English Comprehension', items: [
-    {"id":76,"q":"Q.No: 76\nRead the passage and answer the question:\n\nEarly prototypes, such as horse-drawn wagonways in 16th-century Europe, represented rudimentary precursors to modern trains...\n\nIdentify the tense and voice used in the sentence above.","options":["A. Past Perfect Passive","B. Simple Past Active","C. Present Perfect Active","D. Past Continuous Passive"]},
-    {"id":77,"q":"Q.No: 77\nWhat grammatical function does the phrase \"utilizing wooden rails to minimize friction\" serve in the sentence:\n\n\"Early prototypes, such as horse-drawn wagonways in 16th-century Europe, represented rudimentary precursors to modern trains, utilizing wooden rails to minimize friction and facilitate the movement of goods...\"\n","options":["A. Adjective clause modifying \"wagonways\"","B. Adverbial phrase explaining the manner","C. Noun clause functioning as object","D. Gerund phrase acting as the subject"]},
-    {"id":78,"q":"Q.No: 78\nIn the passage, what is the closest meaning of the word \"superseded\"?","options":["A. Upgraded","B. Replaced","C. Abandoned","D. Destroyed"]},
-    {"id":79,"q":"Q.No: 79\nWhat is the meaning of the word \"epochal\" as used in the context: \"...each epochal shift reflects broader socio-technological metamorphoses.\"?","options":["A. Ancient","B. Minor","C. Highly significant or defining","D. Predictable"]},
-    {"id":80,"q":"Q.No: 80\nWhich of the following best captures the overall tone of the passage about railway innovation?","options":["A. Nostalgic and critical","B. Analytical and celebratory","C. Indifferent and factual","D. Cautionary and skeptical"]},
-    {"id":81,"q":"Q.No: 81\nWhat does the idiom mean: \"There is no gainsaying the fact that the country is in difficulties\"?","options":["A. There is no denying that the country is facing challenges.","B. The country is making significant progress.","C. The country is refusing to acknowledge its problems.","D. The country is avoiding difficult situations."]},
-    {"id":82,"q":"Q.No: 82\nFill in the blank with the correctly spelled word.\n\nThe scientist was awarded for her work in chemistry.","options":["A. organometallic","B. organomettalic","C. organomettallik","D. organometalic"]},
-    {"id":83,"q":"Q.No: 83\nWhich spelling is correct for a word meaning 'deeply thoughtful or melancholy in tone'?","options":["A. Pensieve","B. Pensive","C. Pensiff","D. Feneive"]},
-    {"id":84,"q":"Q.No: 84\nSelect the most appropriate synonym of the given word: CONFLAGRATION","options":["A. Fire","B. Explosion","C. Storm","D. Flood"]},
-    {"id":85,"q":"Q.No: 85\nSelect the most appropriate antonym of the given word: Esoteric","options":["A. Obscure","B. Straightforward","C. Cryptic","D. Abstract"]},
-    {"id":86,"q":"Q.No: 86\nChoose the correct meaning of the idiom: \"Kicked up a row\"","options":["A. Created chaos with calculated logic","B. Reacted aggressively in a social setting","C. Silently withdrew from a discussion","D. Avoided confrontation altogether"]},
-    {"id":87,"q":"Q.No: 87\nChoose the correct one-word substitute for: 'The study of coins and medals'.","options":["A. Cartography","B. Numismatics","C. Epigraphy","D. Cryptography"]},
-    {"id":88,"q":"Q.No: 88\nSpot the correct spelling of heat-energy physics.","options":["A. Thermodinamics","B. Thermdynamics","C. Thermodynamics","D. Thermodynemics"]},
-    {"id":89,"q":"Q.No: 89\nChoose the correct one-word substitute for: 'Fear of open spaces.'","options":["A. Xenophobia","B. Claustrophobia","C. Acrophobia","D. Agoraphobia"]},
-    {"id":90,"q":"Q.No: 90\nChoose the correct phrasal verb:\n\nAfter months of negotiation, the two sides finally _____ an agreement acceptable to both parties.","options":["A. arrived to","B. arrived at","C. arrived on","D. arrived with"]},
-    {"id":91,"q":"Q.No: 91\nFind the part of the sentence that contains an error:\n\nThe workshop aims at providing entrepreneurs (1) with practical advices (2) on scaling operations (3) in emerging markets. (4)","options":["A. (1)","B. (2)","C. (3)","D. (4)"]},
-    {"id":92,"q":"Q.No: 92\nChange the following from active to passive:\n\nThey had sent the invitations by courier.","options":["A. The invitations were sent by courier.","B. The invitations have been sent by courier.","C. The invitations had been sent by courier.","D. The invitations had been being sent by courier."]},
-    {"id":93,"q":"Q.No: 93\nSelect the sentence containing the homonym of the highlighted word \"current\":","options":["A. The current debate involves key economic issues.","B. The swimmer fought against the current.","C. The current trends favor decentralization.","D. The minister spoke on current policy."]},
-    {"id":94,"q":"Q.No: 94\nConvert the sentence provided below from its passive voice structure to an active voice structure:\n\nThe machinery was known to have been operated manually during the testing phase.","options":["A. Manual operators were known to test the machinery.","B. Someone was known to operate the machinery manually during testing.","C. It was known that the machinery had been manually tested.","D. It is known that someone manually operated the machinery during testing."]},
-    {"id":95,"q":"Q.No: 95\nChoose the most suitable option to replace the highlighted part of the sentence:\n\nThey discussed the problem in details.","options":["A. discusses in detail","B. discussed the problem in detail","C. discussed detailly","D. discussed with details"]},
-    {"id":96,"q":"Q.No: 96\nChoose the most suitable option to replace the highlighted part of the sentence:\n\nThe book is more better than the previous one.","options":["A. much better than","B. better from","C. more good than","D. better than"]},
-    {"id":97,"q":"Q.No: 97\nA sentence is provided in indirect speech. From the four given options, choose the one that most accurately conveys the sentence in its corresponding direct speech.\n\nIndirect: The envoy reported that the negotiations were languishing because neither party would concede procedural precedence.","options":["A. The envoy reported, \"The negotiations languish because neither party would concede procedural precedence.\"","B. The envoy said, \"The negotiations are languishing because neither party will be conceding procedural precedence.\"","C. The envoy said, \"The negotiations are languishing because neither party will concede procedural precedence.\"","D. The envoy said, \"Negotiations languished, no party conceding precedence.\""]},
-    {"id":98,"q":"Q.No: 98\nA sentence is provided in direct speech. From the four given options, choose the one that most accurately conveys the sentence in its corresponding indirect speech.\n\nDirect: She said, \"I was very tired yesterday.\"","options":["A. She said she had been very tired the day before.","B. She said she was very tired yesterday.","C. She said she had been very tired yesterday.","D. She said she is very tired the day before."]},
-    {"id":99,"q":"Q.No: 99\nRearrange the following sentences in correct order to make a logical passage:\n\n1. Data from multiple sources was compiled for the report.\n2. The data was analyzed to derive logical insights.\n3. The insights were used to make strategic decisions.\n4. A report was generated to present the findings.","options":["A. 3-2-1-4","B. 1-3-2-4","C. 1-2-4-3","D. 2-4-1-3"]},
-    {"id":100,"q":"Q.No: 100\nRearrange the following sentences to form a meaningful passage:\n\n1. Scientists had long theorized the existence of gravitational waves.\n2. Their detection confirmed a major prediction of Einstein’s theory.\n3. They were eventually observed by LIGO in 2015.\n4. The event opened new avenues in astrophysics.","options":["A. 3-2-4-1","B. 2-3-1-4","C. 3-2-1-4","D. 1-3-2-4"]}
+    {
+      "id": 76,
+      "q": "Passage:\n\nThe genesis of railway transportation marks one of humanity’s most transformative engineering feats, profoundly reshaping industrial, social, and economic landscapes. Early prototypes, such as horse-drawn wagonways in 16th-century Europe, represented rudimentary precursors to modern trains, utilizing wooden rails to minimize friction and facilitate the movement of goods across short distances.\n\nThe true revolution, however, ignited in the early 19th century with the advent of steam locomotives. Pioneers like George Stephenson, whose famous Rocket epitomized technological prowess, demonstrated the unprecedented potential of steam power to move both people and cargo efficiently. This innovation catalyzed the Industrial Revolution, knitting distant regions into cohesive economic fabrics and accelerating urbanization at an unparalleled pace.\n\nThroughout the 20th century, the ascendancy of diesel and electric locomotives superseded steam technology, offering greater efficiency, reliability, and environmental benefits. Bullet trains, inaugurated in Japan as the Shinkansen in 1964, redefined expectations regarding speed, safety, and technological sophistication, inspiring global high-speed rail networks. In the contemporary era, magnetic levitation (maglev) trains and hyperloop prototypes promise to further erode the barriers of distance and time, potentially rendering conventional rail obsolete.\n\nYet, amid this rapid evolution, trains remain emblematic not merely of mechanical ingenuity but of societal progression—testaments to human ambition to connect, accelerate, and transcend physical limitations. The trajectory of railway innovation encapsulates a narrative of relentless adaptation, one wherein each epochal shift reflects broader socio-technological metamorphoses.\n\nQ: Identify the tense and voice used in the sentence: \"Early prototypes, such as horse-drawn wagonways in 16th-century Europe, represented rudimentary precursors to modern trains, utilizing wooden rails to minimize friction and facilitate the movement of goods across short distances.\"",
+      "options": ["Past Perfect Passive", "Simple Past Active", "Present Perfect Active", "Past Continuous Passive"]
+    },
+    {
+      "id": 77,
+      "q": "What grammatical function does the phrase \"utilizing wooden rails to minimize friction\" serve in the sentence:\n\n\"Early prototypes, such as horse-drawn wagonways in 16th-century Europe, represented rudimentary precursors to modern trains, utilizing wooden rails to minimize friction and facilitate the movement of goods across short distances.\"",
+      "options": ["Adjective clause modifying \"wagonways\"", "Adverbial phrase explaining the manner", "Noun clause functioning as object", "Gerund phrase acting as the subject"]
+    },
+    {
+      "id": 78,
+      "q": "In the passage, what is the closest meaning of the word \"superseded\" as used in: \"Throughout the 20th century, the ascendancy of diesel and electric locomotives superseded steam technology\"?",
+      "options": ["Upgraded", "Replaced", "Abandoned", "Destroyed"]
+    },
+    {
+      "id": 79,
+      "q": "What is the meaning of the word \"epochal\" as used in the context: \"...one wherein each epochal shift reflects broader socio-technological metamorphoses.\"?",
+      "options": ["Ancient", "Minor", "Highly significant or defining", "Predictable"]
+    },
+    {
+      "id": 80,
+      "q": "Which of the following best captures the overall tone of the passage about railway innovation?",
+      "options": ["Nostalgic and critical", "Analytical and celebratory", "Indifferent and factual", "Cautionary and skeptical"]
+    },
+    {
+      "id": 81,
+      "q": "What does the idiom mean: \"There is no gainsaying the fact that the country is in difficulties\"?",
+      "options": ["There is no denying that the country is facing challenges.", "The country is making significant progress.", "The country is refusing to acknowledge its problems.", "The country is avoiding difficult situations."]
+    },
+    {
+      "id": 82,
+      "q": "Fill in the blank with the correctly spelled word.\n\nThe scientist was awarded for her work in chemistry.",
+      "options": ["organometallic", "organomettalic", "organomettallik", "organometalic"]
+    },
+    {
+      "id": 83,
+      "q": "Which spelling is correct for a word meaning 'deeply thoughtful or melancholy in tone'?",
+      "options": ["Pensieve", "Pensive", "Pensiff", "Feneive"]
+    },
+    {
+      "id": 84,
+      "q": "Select the most appropriate synonym of the given word: CONFLAGRATION",
+      "options": ["Fire", "Explosion", "Storm", "Flood"]
+    },
+    {
+      "id": 85,
+      "q": "Select the most appropriate antonym of the given word: Esoteric",
+      "options": ["Obscure", "Straightforward", "Cryptic", "Abstract"]
+    },
+    {
+      "id": 86,
+      "q": "Choose the correct meaning of the idiom: \"Kicked up a row\"",
+      "options": ["Created chaos with calculated logic", "Reacted aggressively in a social setting", "Silently withdrew from a discussion", "Avoided confrontation altogether"]
+    },
+    {
+      "id": 87,
+      "q": "Choose the correct one-word substitute for: 'The study of coins and medals'.",
+      "options": ["Cartography", "Numismatics", "Epigraphy", "Cryptography"]
+    },
+    {
+      "id": 88,
+      "q": "Spot the correct spelling of heat-energy physics.",
+      "options": ["Thermodinamics", "Thermdynamics", "Thermodynamics", "Thermodynemics"]
+    },
+    {
+      "id": 89,
+      "q": "Choose the correct one-word substitute for: 'Fear of open spaces.'",
+      "options": ["Xenophobia", "Claustrophobia", "Acrophobia", "Agoraphobia"]
+    },
+    {
+      "id": 90,
+      "q": "Choose the correct phrasal verb:\n\nAfter months of negotiation, the two sides finally _____ an agreement acceptable to both parties.",
+      "options": ["arrived to", "arrived at", "arrived on", "arrived with"]
+    },
+    {
+      "id": 91,
+      "q": "Find the part of the sentence that contains an error:\n\nThe workshop aims at providing entrepreneurs (1) with practical advices (2) on scaling operations (3) in emerging markets. (4)",
+      "options": ["(1)", "(2)", "(3)", "(4)"]
+    },
+    {
+      "id": 92,
+      "q": "Change the following from active to passive:\n\nThey had sent the invitations by courier.",
+      "options": ["The invitations were sent by courier.", "The invitations have been sent by courier.", "The invitations had been sent by courier.", "The invitations had been being sent by courier."]
+    },
+    {
+      "id": 93,
+      "q": "Select the sentence containing the homonym of the highlighted word \"current\":",
+      "options": ["The current debate involves key economic issues.", "The swimmer fought against the current.", "The current trends favor decentralization.", "The minister spoke on current policy."]
+    },
+    {
+      "id": 94,
+      "q": "Convert the sentence provided below from its passive voice structure to an active voice structure:\n\nThe machinery was known to have been operated manually during the testing phase.",
+      "options": ["Manual operators were known to test the machinery.", "Someone was known to operate the machinery manually during testing.", "Sources were suggesting an operation compromise.", "It is known that someone manually operated the machinery during testing."]
+    },
+    {
+      "id": 95,
+      "q": "Choose the most suitable option to replace the highlighted part of the sentence:\n\nThey discussed the problem in details.",
+      "options": ["discusses in detail", "discussed the problem in detail", "discussed detailly", "discussed with details"]
+    },
+    {
+      "id": 96,
+      "q": "Choose the most suitable option to replace the highlighted part of the sentence:\n\nThe book is more better than the previous one.",
+      "options": ["much better than", "better from", "more good than", "better than"]
+    },
+    {
+      "id": 97,
+      "q": "A sentence is provided in indirect speech. From the four given options, choose the one that most accurately conveys the sentence in its corresponding direct speech.\n\nIndirect: The envoy reported that the negotiations were languishing because neither party would concede procedural precedence.",
+      "options": ["The envoy reported, \"The negotiations languish because neither party would concede procedural precedence.\"", "The envoy said, \"The negotiations are languishing because neither party will be conceding procedural precedence.\"", "The envoy said, \"The negotiations are languishing because neither party will concede procedural precedence.\"", "The envoy said, \"Negotiations languished, no party conceding precedence.\""]
+    },
+    {
+      "id": 98,
+      "q": "A sentence is provided in direct speech. From the four given options, choose the one that most accurately conveys the sentence in its corresponding indirect speech.\n\nDirect: She said, \"I was very tired yesterday.\"",
+      "options": ["She said she had been very tired the day before.", "She said she was very tired yesterday.", "She said she had been very tired yesterday.", "She said she is very tired the day before."]
+    },
+    {
+      "id": 99,
+      "q": "Rearrange the following sentences in correct order to make a logical passage:\n\n1. Data from multiple sources was compiled for the report.\n2. The data was analyzed to derive logical insights.\n3. The insights were used to make strategic decisions.\n4. A report was generated to present the findings.",
+      "options": ["3-2-1-4", "1-3-2-4", "1-2-4-3", "2-4-1-3"]
+    },
+    {
+      "id": 100,
+      "q": "Rearrange the following sentences to form a meaningful passage:\n\n1. Scientists had long theorized the existence of gravitational waves.\n2. Their detection confirmed a major prediction of Einstein’s theory.\n3. They were eventually observed by LIGO in 2015.\n4. The event opened new avenues in astrophysics.",
+      "options": ["3-2-4-1", "2-3-1-4", "3-2-1-4", "1-3-2-4"]}
   ]}
 ];
 
