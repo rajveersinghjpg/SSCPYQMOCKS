@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SSC CGL — 23 Sep Shift 3 </title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --blue:#153d7a;
+      --accent:#1f4d8a;
+      --green:#28a745;
+      --red:#d9534f;
+      --marked:#7b3fb0;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --bg:#f3f6fb;
+      --correct:#dff5e0;
+      --wrong:#fff0f0;
+      --highlight:#e8f2ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:#17202a}
+    .topbar{background:linear-gradient(90deg,var(--blue),#2b62b0);color:#fff;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;position:relative}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .logo{width:44px;height:44px;border-radius:8px;background:#fff;color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:900}
+    .brand h1{margin:0;font-size:18px;letter-spacing:0.2px}
+    .controls{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:700}
+    .btn.ghost{background:#fff;color:var(--accent);border:1px solid #dfe7f3}
+    .timer{font-weight:800;background:#ffdede;color:#b30000;padding:6px 10px;border-radius:6px}
+    .layout{display:flex;gap:16px;padding:16px;height:calc(100vh - 72px);align-items:flex-start}
+    /* left panel */
+    .left{width:320px;background:var(--card);border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(16,24,40,0.06);display:flex;flex-direction:column;gap:12px;overflow:auto}
+    .sections{display:flex;flex-direction:column;gap:8px}
+    .section-btn{background:var(--accent);color:#fff;border:0;padding:8px;border-radius:6px;text-align:left;cursor:pointer;font-weight:800}
+    .section-btn.active{background:var(--green)}
+    .qgrid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .qnum{width:44px;height:38px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;background:var(--accent);color:#fff;cursor:pointer;border:0}
+    .qnum.answered{background:var(--green)}
+    .qnum.skipped{background:var(--red)}
+    .qnum.marked{background:var(--marked)}
+    .summary{margin-top:auto;background:#f6f9ff;padding:10px;border-radius:8px;color:var(--muted);font-weight:700}
+    /* main area */
+    .main{flex:1;display:flex;flex-direction:column;height:100%}
+    .controls-row{background:var(--card);padding:12px;border-radius:10px;display:flex;gap:8px;align-items:center;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
+    .qcard{flex:1;background:var(--card);margin-top:12px;border-radius:10px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.04);overflow:auto;min-height:300px}
+    .qheader{font-weight:800;margin-bottom:12px}
+    .qtext{font-size:15px;line-height:1.6}
+    .options{margin-top:12px;display:flex;flex-direction:column;gap:10px}
+    .opt{border:1px solid #e8eef8;padding:12px;border-radius:8px;display:flex;gap:10px;align-items:center;cursor:pointer;background:#fff}
+    .opt.disabled{opacity:0.6;pointer-events:none}
+    .opt.correct{background:var(--correct);border-color:rgba(40,162,69,0.25)}
+    .opt.wrong{background:var(--wrong);border-color:rgba(217,83,79,0.2)}
+    .opt input{transform:scale(1.0);margin-right:8px}
+    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:10px 4px}
+    .small{color:var(--muted);font-weight:700}
+    /* results & review */
+    #resultsArea{display:none;padding:18px}
+    .results{padding:20px;background:var(--card);border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
+    table{border-collapse:collapse;width:100%}
+    th,td{border:1px solid #e9eef8;padding:10px;text-align:left}
+    .overlay{
+      position:fixed;inset:0;background:rgba(10,10,10,0.45);display:flex;align-items:center;justify-content:center;z-index:50;
+    }
+    .start-card{background:#fff;padding:36px;border-radius:12px;box-shadow:0 10px 40px rgba(16,24,40,0.3);text-align:center}
+    .start-card h1{margin:0 0 12px 0;font-size:28px}
+    .start-card p{color:#666;margin:6px 0 18px}
+    .small-muted{font-size:12px;color:#6b7280}
+    .paused-badge{position:fixed;top:84px;right:26px;background:rgba(0,0,0,0.6);color:#fff;padding:8px 12px;border-radius:8px;font-weight:800;display:none;z-index:60}
+    .review-tabs{display:flex;gap:8px;margin-bottom:12px}
+    .tab{padding:8px 10px;border-radius:8px;background:#f3f6fb;cursor:pointer;font-weight:800}
+    .tab.active{background:var(--accent);color:#fff}
+    .review-list{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+    .rev-q{padding:8px;border-radius:6px;background:#fff;border:1px solid #e6eef8;cursor:pointer;text-align:center}
+    /* responsive */
+    @media(max-width:980px){
+      .layout{flex-direction:column;height:auto}
+      .left{width:100%;display:flex;order:2}
+      .main{order:1}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">SSC</div>
+      <div>
+        <h1 id="examTitle">SSC CGL — 23 Sep Shift 3</h1>
+        <div style="font-size:12px;color:rgba(255,255,255,0.9)">Full Mock — 60 minutes · Single-question view</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div style="text-align:right">
+        <div class="small" style="color:#fff">Total Answered: <span id="totalAnswered">0</span></div>
+        <div style="margin-top:6px;display:flex;gap:8px;align-items:center">
+          <div class="timer" id="timeBox">60:00</div>
+          <button id="fsBtn" class="btn ghost" title="Toggle Fullscreen">Full screen</button>
+        </div>
+      </div>
+      <button id="submitTop" class="btn" title="Submit exam">Submit</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- LEFT PANEL -->
+    <aside class="left">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-weight:800;font-size:16px;color:var(--blue)">Sections</div>
+      </div>
+
+      <div class="sections" id="sectionList">
+        <!-- JS populates sections -->
+      </div>
+
+      <div style="font-weight:800;color:var(--blue);margin-top:6px">Question Panel</div>
+      <div class="qgrid" id="qGrid"><!-- populated by JS --></div>
+
+      <div class="summary">
+        <div>Section Summary</div>
+        <div style="margin-top:8px">Answered: <span id="secAnswered">0</span></div>
+        <div>Not Answered: <span id="secNotAnswered">0</span></div>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <main class="main">
+      <div class="controls-row">
+        <button id="prevBtn" class="btn ghost">Previous</button>
+        <button id="clearBtn" class="btn ghost">Clear Response</button>
+        <button id="markBtn" class="btn ghost" style="background:#fff;color:var(--marked);border:1px solid #e9def7">Mark for Review</button>
+        <button id="saveNextBtn" class="btn">Save & Next</button>
+
+        <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
+          <button id="pauseBtn" class="btn ghost">Pause</button>
+          <button id="restartBtn" class="btn ghost" style="background:#cfcfcf;color:#111">Restart Exam</button>
+        </div>
+      </div>
+
+      <div class="qcard" id="qCard">
+        <div class="qheader" id="qHeader">Question</div>
+        <div class="qtext" id="qText">Loading...</div>
+
+        <div class="options" id="optsWrap"></div>
+
+        <div class="footer">
+          <div>
+            <button id="reviewAnswersBtn" class="btn ghost" style="display:none">Review Answers</button>
+          </div>
+          <div class="small">Questions answered: <strong id="footerAnswered">0</strong></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- RESULTS / REVIEW AREA -->
+  <div id="resultsArea" style="display:none;padding:18px">
+    <div class="results" id="resultsCard">
+      <h2>Markcard & Review</h2>
+      <div id="markcardSummary"></div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+        <div class="review-tabs" id="reviewTabs"></div>
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <button id="viewMarkcardBtn" class="btn">View Markcard</button>
+          <button id="backToExamBtn" class="btn ghost">Back to Exam</button>
+        </div>
+      </div>
+
+      <div id="reviewContent" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <!-- START OVERLAY -->
+  <div id="startOverlay" class="overlay">
+    <div class="start-card">
+      <h1>Start Exam</h1>
+      <p class="small-muted">SSC CGL — 23 Sep Shift 3 &nbsp;•&nbsp; Duration: 60 minutes</p>
+      <div style="margin-top:18px">
+        <button id="startBtn" class="btn" style="font-size:18px;padding:14px 22px">Start Exam</button>
+      </div>
+      <p style="margin-top:14px;color:#666;font-size:13px">Click start to enter full-screen and begin.</p>
+    </div>
+  </div>
+
+  <div id="pausedBadge" class="paused-badge">PAUSED</div>
+
+<script>
+/* -------------------------
+  QUESTIONS: SHIFT 1 (1-100)
+  (User provided full text; included here as array per section)
+   Sections:
+     A - Reasoning (1-25)
+     B - General Awareness (26-50)
+     C - Quantitative Aptitude (51-75)
+     D - English Comprehension (76-100)
+   Answer key embedded below.
+--------------------------*/
+
+const ANSWER_KEY = {
+  "1": "C", 
+  "2": "C",
+  "3": "D",
+  "4": "C", 
+  "5": "A",
+  "6": "D",
+  "7": "A",
+  "8": "D",
+  "9": "A",
+  "10": "B",
+  "11": "D",
+  "12": "D",
+  "13": "D",
+  "14": "D",
+  "15": "B",
+  "16": "C",
+  "17": "C", 
+  "18": "D",
+  "19": "A",
+  "20": "B",
+  "21": "A",
+  "22": "A",
+  "23": "A",
+  "24": "A",
+  "25": "B",
+  "26": "D", 
+  "27": "A",
+  "28": "A",
+  "29": "B",
+  "30": "B",
+  "31": "A",
+  "32": "A",
+  "33": "B",
+  "34": "A",
+  "35": "A",
+  "36": "B",
+  "37": "A",
+  "38": "C",
+  "39": "C",
+  "40": "B",
+  "41": "C",
+  "42": "A",
+  "43": "A",
+  "44": "D",
+  "45": "B",
+  "46": "C",
+  "47": "C",
+  "48": "B",
+  "49": "B",
+  "50": "A",
+  "51": "B",
+  "52": "C",
+  "53": "A",
+  "54": "D",
+  "55": "A",
+  "56": "C",
+  "57": "B",
+  "58": "A",
+  "59": "A",
+  "60": "B",
+  "61": "D",
+  "62": "B",
+  "63": "D",
+  "64": "B",
+  "65": "D",
+  "66": "A",
+  "67": "A",
+  "68": "B",
+  "69": "C",
+  "70": "D",
+  "71": "B",
+  "72": "D",
+  "73": "C",
+  "74": "C",
+  "75": "C",
+  "76": "D",
+  "77": "A",
+  "78": "D",
+  "79": "B",
+  "80": "B",
+  "81": "C",
+  "82": "B",
+  "83": "B",
+  "84": "A",
+  "85": "C",
+  "86": "A",
+  "87": "A",
+  "88": "B",
+  "89": "A",
+  "90": "A",
+  "91": "C",
+  "92": "D",
+  "93": "C",
+  "94": "C",
+  "95": "C",
+  "96": "C",
+  "97": "C",
+  "98": "A",
+  "99": "A",
+  "100": "B"
+};
+
+/* QUESTIONS array. For brevity I include the text exactly as you provided (trimmed where needed).
+   Each question object: {id, q, options:[...]}.
+   Note: Some OCR lines had minor duplicate or formatting. I preserved user text content.
+*/
+
+const SECTIONS = [
+  {
+    key: 'A',
+    name: 'General Intelligence and Reasoning',
+    items: [
+      {"id":1,"q":"Which letter lies exactly between H and P in the English alphabet?","options":["A) I","B) J","C) K","D) L"]},
+      {"id":2,"q":"Choose the address that is the same as the one given below:\nvilla No. 5, Green Meadows, Bannerghatta Road, Bengaluru, Karnataka – 560076","options":["A) villa No. 5, Green Meadows, Bannerghatta Road, Bengaluru, Andhra Pradesh – 560076","B) villa No. 5, Green Meadows, Bannerghatta Road, Bengaluru, Tamil Nadu – 560076","C) villa No. 5, Green Meadows, Bannerghatta Road, Bengaluru, Karnataka – 560076","D) villa No. 5, Green Meadows, Bannerghatta Road, Bengaluru, Kerala – 560076"]},
+      {"id":3,"q":"The seminar in Nashik was held two days after the one in Surat. Indore’s seminar was three days before the one in Surat.\nIf the seminar in Indore was on 8 April, when did the seminar in Nashik happen?","options":["A) 12 April","B) 13 April","C) 14 April","D) 15 April"]},
+      {"id":4,"q":"What should come in place of the question mark ‘?’ in the following number series?\n9, 14, 24, 39, 59, ?, 114","options":["A) 69","B) 70","C) 89","D) 84"]},
+      {"id":5,"q":"Read the given statement and conclusions carefully. Decide which of the given conclusions is/are definitely true.\nStatement: P > Q < S < T = R ≥ U > V\nConclusions:\nI. V < S\nII. P > T","options":["A) Only Conclusion II is true","B) Both Conclusions I and II are true","C) Only Conclusion I is true","D) Neither Conclusion I nor II is true"]},
+      {"id":6,"q":"Identify the different island.","options":["A) Sicily","B) Corsica","C) Sardinia","D) Iceland"]},
+      {"id":7,"q":"A is the brother of B. B is the son of C. How is A related to C?","options":["A) Son","B) Nephew","C) Uncle","D) Cousin"]},
+      {"id":8,"q":"Find the missing number: 6 : 42 :: 9 : ?","options":["A) 92","B) 88","C) 86","D) 90"]},
+      {"id":9,"q":"Read the following statement carefully and identify the conclusion that follows.\nStatement: Some cats are dogs. All dogs are animals.\nConclusions:\nI. Some cats are animals.\nII. All cats are animals.","options":["A) Only I follows","B) Only II follows","C) Both I and II follow","D) Neither I nor II follows"]},
+      {"id":10,"q":"What comes next?\n2, 4, 3, 6, 4, 8, ?","options":["A) 5","B) 9","C) 6","D) 10"]},
+      {"id":11,"q":"If “EUROPE” is coded as “AQNKLA”, how is “RUSSIA” coded?","options":["A) NOWOFU","B) NUUMHX","C) OVTTEV","D) NQOOEW"]},
+      {"id":12,"q":"Which letter trio does NOT follow the ascending order?","options":["A) ABC","B) BCD","C) CDE","D) DFE"]},
+      {"id":13,"q":"What comes next?\nCG, EJ, GK, ?","options":["A) IL","B) KO","C) MP","D) NQ"]},
+      {"id":14,"q":"Find the odd one out.","options":["A) K2","B) Nanda Devi","C) Kangchenjunga","D) Doddabetta"]},
+      {"id":15,"q":"What should come at the place of question mark? 101, 94, 87, 80, 73, ?","options":["A) 70","B) 66","C) 67","D) 64"]},
+      {"id":16,"q":"The price of an item first increases by 20% and then decreases by 20% from the new price. What is the net percentage change in the original price?","options":["A) +0.04%","B) –0.04%","C) –4%","D) 0%"]},
+      {"id":17,"q":"If 5 $ 2 = 27 and 7 $ 3 = 64, what is 6 $ 4?","options":["A) 10","B) 12","C) 8","D) 16"]},
+      {"id":18,"q":"In a certain code, MOBILE is written as NQCKNG. How will TABLET be written?","options":["A) UDCMFU","B) UECMDS","C) UCCNGV","D) UFCMGV"]},
+      {"id":19,"q":"In a certain code, if ‘FISH’ is coded as ‘6-9-19-8’, how will ‘HSIF’ be coded?","options":["A) 8-19-9-6","B) 15-22-18-3","C) 8-8-19-10","D) 4-12-5-7"]},
+      {"id":20,"q":"If @ = –, % = ×, # = +, then 10 % 2 @ 4 # 3 = ?","options":["A) 17","B) 21","C) 23","D) 25"]},
+      {"id":21,"q":"Statements: Some stars are planets. Some planets are moons.\nConclusions:\nI. Some moons are stars.\nII. All planets being stars is a possibility.","options":["A) Only Conclusion II follows","B) Only Conclusion I follows","C) Both I and II follow","D) Neither I nor II follow"]},
+      {"id":22,"q":"What is the product of all digits from 0 to 9?","options":["A) 0","B) 9!","C) 362880","D) 326.592"]},
+      {"id":23,"q":"What is the sum of all digits in the telephone dial (0 to 9)?","options":["A) 45","B) 40","C) 55","D) 50"]},
+      {"id":24,"q":"If THRIVE is coded as UISJWF, how is UISJWF coded?","options":["A) VITKXG","B) VITLXG","C) VKTKXG","D) VITKXH"]},
+      {"id":25,"q":"If MONKEY is written as XDJMNL, then how is TIGER written in that code?","options":["A) ZMHDR","B) ZMHFS","C) ZMHDS","D) YMHFR"]}
+    ]
+  },
+  {
+    key: 'B',
+    name: 'General Awareness',
+    items: [
+      {"id":26,"q":"What is a key architectural feature of the Sun Temple at Modhera?","options":["A) It faces east towards the rising sun.","B) It is built entirely in marble.","C) It has no Garbhagriha (sanctum).","D) stepped tank"]},
+      {"id":27,"q":"The traditional folk festival ‘Phuldei’, marked by floral offerings and cultural rituals, is primarily observed in which Indian state?","options":["A) Uttarakhand","B) Assam","C) West Bengal","D) Himachal Pradesh"]},
+      {"id":28,"q":"Which of the following sculptures does not originate from the Mathura region’s Kushana-period artistic production?","options":["A) Buddha of Sultanganj","B) Katra Keshav Dev fragment","C) Govindnagar Yaksha","D) Standing Buddha from Govindnagar"]},
+      {"id":29,"q":"Which type of weapons were commonly used by Mesolithic people for hunting?","options":["A) Stone axes","B) Bows and arrows","C) Iron spears","D) Wooden clubs"]},
+      {"id":30,"q":"In the context of Gupta dynasty’s urban administration, which of the following statements about the Adhisthanadhikarana is correct?","options":["A) It was a village-level body for revenue collection.","B) It was a local court dealing with town administration.","C) It was a military council responsible for urban defense.","D) It was a guild of merchants regulating trade routes."]},
+      {"id":31,"q":"Statements about Indian Athletics:\nMilkha Singh was the first Indian athlete to win an individual Commonwealth Games gold medal.\n\nAt the 1984 Olympics PT Usha missed a bronze in 400m hurdles by one hundredth of a second at age 20.\n\nThe National Institute of Sports is located in Pune.\nWhich of these statements are correct?","options":["A) 1 and 2 only","B) 1 and 3 only","C) 2 and 3 only","D) 1, 2 and 3"]},
+      {"id":32,"q":"Which fourteenth-century traveller described how Indian chieftains fortified themselves using bamboo groves and rugged terrains for defence?","options":["A) Ibn Battuta","B) Marco Polo","C) Al-Biruni","D) Domingo Paes"]},
+      {"id":33,"q":"Fill in the blank: Pitt’s India Act 1784 created a six-member body called the ______ to supervise Company politics.","options":["A) Board of Revenue","B) Board of Control","C) Court of Directors","D) Council of India"]},
+      {"id":34,"q":"In a Grand Slam men's singles match, when is a fifth-set tiebreak played under current rules?","options":["A) Always after 6–6 in the fifth set","B) Only in US Open matches","C) Never — final set must be won by two games","D) Only if both players agree before match start"]},
+      {"id":35,"q":"Match the Water Polo terms with their correct definitions:\nA) Center forward —\nB) Driver —\nC) Center back —\nD) Dead-time —\nDefensive player countering the opposition’s main attacker\n\nPlayer swimming quickly into goal-scoring position without the ball\n\nMain attacking player positioned near opponent’s goal between 2m and 4m lines\n\nTime between foul whistle and play restart","options":["A) A–3, B–2, C–1, D–4","B) A–2, B–3, C–1, D–4","C) A–4, B–3, C–2, D–1","D) A–3, B–1, C–4, D–2"]},
+      {"id":36,"q":"Who is the author of the book The Elephant Paradigm?","options":["A) Amartya Sen","B) Gurcharan Das","C) R.K. Narayan","D) Shashi Tharoor"]},
+      {"id":37,"q":"What is the central theme of the book The Tatas by Girish Kubera and Vikrant Pande?","options":["A) The industrial and philanthropic legacy of the Tata family","B) The rise of India’s steel industry","C) The story of Indian independence through business","D) The corporate rivalry between Tata and Reliance"]},
+      {"id":38,"q":"Where was the Katakkar Trophy’s All India Inter-Club Winter Water Polo League (2024–25) held?","options":["A) Bengaluru","B) Hyderabad","C) Pune","D) Mumbai"]},
+      {"id":39,"q":"Which of the following accurately reflects the constitutional provisions and historical application of Financial Emergency under Article 360?","options":["A) It has been proclaimed once in Indian history.","B) It has been proclaimed twice in Indian history.","C) It has never been proclaimed in India.","D) It automatically extends to states after six months."]},
+      {"id":40,"q":"What is the audible frequency range for the human ear?","options":["A) 10–10,000 Hz","B) 20–20,000 Hz","C) 100–10,000 Hz","D) 50–25,000 Hz"]},
+      {"id":41,"q":"Assertion (A): The Bharatiya Sakshya Adhiniyam recognizes electronic records as primary evidence.\nReason (R): Section 62 states that electronic records are secondary unless accompanied by a printed certificate.","options":["A) Both A and R are true, and R is the correct explanation of A.","B) Both A and R are true, but R is not the correct explanation of A.","C) A is true, but R is false.","D) A is false, but R is true."]},
+      {"id":42,"q":"Consider the statements about the folk dance ‘Dumhal’:\nExclusively Wattal men plant a banner before dancing.\n\nIt celebrates apple harvests in southern Kashmir.\nWhich of the statements is/are correct?","options":["A) Only 1","B) Only 2","C) Both 1 and 2","D) Neither 1 nor 2"]},
+      {"id":43,"q":"Why are grants for asset creation still considered revenue expenditure?","options":["A) Because they are recorded under revenue head though they create assets indirectly.","B) Because they are one-time capital disbursements.","C) Because they yield direct income to the government.","D) Because they are funded by long-term borrowings."]},
+      {"id":44,"q":"Assertion (A): CRR (Cash Reserve Ratio) and SLR requirements increase the lending capacity of banks.\nReason (R): These requirements reduce the amount of money banks can lend to the public.","options":["A) Both A and R are true, and R is the correct explanation of A.","B) Both A and R are true, but R is not the correct explanation of A.","C) A is true, but R is false.","D) A is false, but R is true."]},
+      {"id":45,"q":"The UN Sustainable Development Report 2024 primarily tracks progress towards which global goals?","options":["A) Millennium Development Goals (MDGs)","B) Sustainable Development Goals (SDGs)","C) Global Climate Accords","D) Paris Climate Commitments"]},
+      {"id":46,"q":"The Chapekar Brothers (Damodar, Balkrishna, and Vasudeo) are remembered for assassinating a British official in response to injustices during the plague epidemic in which Indian city?","options":["A) Delhi","B) Bombay","C) Pune","D) Nagpur"]},
+      {"id":47,"q":"Assertion (A): Rani Gaidinliu continued the Heraka movement after the death of Jadonang.\nReason (R): She aimed to convert the movement into a mass literacy campaign among Nagas.","options":["A) Both A and R are true, and R is the correct explanation of A.","B) Both A and R are true, but R is not the correct explanation of A.","C) A is true, but R is false.","D) A is false, but R is true."]},
+      {"id":48,"q":"The rolling plan concept was introduced during which Prime Minister’s tenure?","options":["A) Jawaharlal Nehru","B) Morarji Desai","C) Indira Gandhi","D) Rajiv Gandhi"]},
+      {"id":49,"q":"What was the central theme of the Industrial Policy Resolution of 1956?","options":["A) Strengthening the private sector","B) Expanding the role of the public sector","C) Reducing state control on industries","D) Liberalization of the foreign trade system"]},
+      {"id":50,"q":"What was the major short-term objective of the stabilization measures in the 1991 reforms?","options":["A) To curb inflation and restore fiscal balance","B) To boost foreign exchange reserves immediately","C) To privatize state-owned enterprises","D) To increase agricultural production"]}
+    ]
+  },
+  {
+    key: 'C',
+    name: 'Quantitative Aptitude',
+    items: [
+      {"id":51,"q":"A sum of money doubles itself at compound interest in 15 years. In how many years will it become eight times?","options":["A) 30 years","B) 45 years","C) 60 years","D) 90 years"]},
+      {"id":52,"q":"Which of these numbers is neither rational nor an integer?","options":["A) –4","B) 15","C) √2","D) 7"]},
+      {"id":53,"q":"A train starts from Mumbai at 6 a.m. and arrives at Kolhapur at 2:30 p.m. on the same day. If the speed of the train is 60 km per hour, find the distance travelled by the train.","options":["A) 450 km","B) 480 km","C) 510 km","D) 500 km"]},
+      {"id":54,"q":"A spherical tank is filled with water. The radius of the sphere is 6 metres. The tank is used to fill cylindrical containers, each with a radius of 1 metre and a height of 12 metres. How many containers can be filled?","options":["A) 12","B) 14","C) 16","D) 18"]},
+      {"id":55,"q":"A perfect cube with side length 8 cm has the largest possible sphere fitted inside it. What is the volume of the empty space within the cube?","options":["A) 512 – 364 cm³","B) 512 – 268 cm³","C) 512 – 256 cm³","D) 512 – 333 cm³"]},
+      {"id":56,"q":"A and B entered a joint venture. A brought ₹1,50,000 and B ₹2,00,000. A also contributed skilled labour equivalent to ₹50,000. At the end of the year, they earned ₹1,20,000 in profit. If they agreed to divide the profit in proportion to their effective contributions, what was A’s share?","options":["A) ₹55,000","B) ₹60,000","C) ₹62,500","D) ₹65,000"]},
+      {"id":57,"q":"A banner is shaped like a trapezium with bases 5 m and 3 m, and height 4 m. If printing costs ₹250 per m², what is the total cost?","options":["A) ₹4,000","B) ₹5,000","C) ₹6,000","D) ₹8,000"]},
+      {"id":58,"q":"A farmer’s land is two adjoining trapezoids:\nT₁ with bases 70 m and 50 m, height 20 m;\nT₂ with bases 50 m and 30 m, height 15 m.\nLand costs ₹60 per m². What is the total land cost?","options":["A) ₹1,58,000","B) ₹1,08,000","C) ₹98,000","D) ₹1,26,000"]},
+      {"id":59,"q":"The ratio of areas of two regular polygons with the same number of sides is 4:9. What is the ratio of their side lengths?","options":["A) 2:3","B) 3:2","C) 4:5","D) 5:6"]},
+      {"id":60,"q":"A student scored 80% in one subject and 60% in another. Both subjects have equal maximum marks. What is the overall percentage?","options":["A) 68%","B) 70%","C) 72%","D) 75%"]},
+      {"id":61,"q":"A seller offers a combo deal: “Buy 3 shirts for the price of 2.” If each shirt costs him ₹300, what is the effective loss percentage?","options":["A) 20%","B) 25.33%","C) 30%","D) 33.33%"]},
+      {"id":62,"q":"The price of a product is decreased by x% and then increased by x%. The final price becomes 10% less than the original. What is the approximate value of x?","options":["A) 30.6","B) 31.6","C) 33.6","D) 39.6"]},
+      {"id":63,"q":"The average of 5 different numbers is 24. If the smallest number is 15, what is the average of the remaining four numbers?","options":["A) 24.5","B) 25.5","C) 26.25","D) 27.25"]},
+      {"id":64,"q":"A prism with a parallelogram base has an area of 80 cm² and height 12 cm. If its lateral surface area is 384 cm², what is the perimeter of the base?","options":["A) 24 cm","B) 32 cm","C) 36 cm","D) 40 cm"]},
+      {"id":65,"q":"The average score of 25 students in a test is 68. The top 5 scorers had an average of 80, and the lowest 5 had an average of 50. What is the average of the remaining 15 students?","options":["A) 66","B) 68","C) 70","D) 72"]},
+      {"id":66,"q":"A wholesaler offers a bulk order deal where a 10% discount is applied to orders above ₹15,000, and a 5% additional seasonal discount is available. What is the effective price for an order worth ₹20,000?","options":["A) ₹16,800","B) ₹17,000","C) ₹17,100","D) ₹17,500"]},
+      {"id":67,"q":"If sin A = x, then what is the value of tan A in terms of x?","options":["A) x / √(1 – x²)","B) 1 / x²","C) √(1 – x²) / x","D) 1 / √(1 – x²)"]},
+      {"id":68,"q":"If sin A = 3/5 and A lies in the 2nd quadrant, what is the value of tan A?","options":["A) 4/3","B) –4/3","C) 3/4","D) –3/4"]},
+      {"id":69,"q":"The angle of a sector is π/3 radians, and the radius of the circle is 8 cm. What is the area of the sector?","options":["A) 16π cm²","B) 32π cm²","C) 64π/3 cm²","D) 128π/3 cm²"]},
+      {"id":70,"q":"If sin x = cos(2x – 10°), find the value of x.","options":["A) 25°","B) 30°","C) 35°","D) 40°"]},
+      {"id":71,"q":"Two circles have radii of 8 cm and 3 cm. The distance between their centers is 15 cm. What is the length of a direct common tangent?","options":["A) 10 cm","B) 10√2 cm","C) 12 cm","D) 12√2 cm"]},
+      {"id":72,"q":"A line from the center of a circle bisects a chord. What is the angle between this line and the chord?","options":["A) 30°","B) 45°","C) 60°","D) 90°"]},
+      {"id":73,"q":"A chord divides a circle into two arcs. The angle subtended by the major arc at the circumference is 110°. What is the central angle subtended by the major arc?","options":["A) 55°","B) 110°","C) 220°","D) 270°"]},
+      {"id":74,"q":"In a circle, chord AB subtends an angle of 50° at a point C on the circle. What is the angle subtended by the same chord AB at another point D on the same arc as C?","options":["A) 40°","B) 45°","C) 50°","D) 55°"]},
+      {"id":75,"q":"From an outside point P, two tangents PA and PB are drawn to a circle. A third tangent to the circle at point Q intersects PA and PB at R and S respectively. If PA = 10 cm, what is the perimeter of quadrilateral APRS?","options":["A) 10 cm","B) 15 cm","C) 20 cm","D) 30 cm"]}
+    ]
+  },
+  {
+    key: 'D',
+    name: 'English Comprehension',
+    items: [
+      {"id":76,"q":"Fill in the blank with the correctly spelt word.\nThe phenomenon could be explained by __________ fluctuations.","options":["A) thermodinamick","B) thermadynamic","C) thermodynnamic","D) thermodynamic"]},
+      {"id":77,"q":"Select the most appropriate synonym of the given word: IRREPRESSIBLE","options":["A) Uncontrollable","B) Unbearable","C) Avoidable","D) Manageable"]},
+      {"id":78,"q":"Select the most appropriate antonym of the given word: Redolent","options":["A) Fragrant","B) Evocative","C) Odorous","D) Unscented"]},
+      {"id":79,"q":"Choose the correct meaning of the idiom: Play gooseberry","options":["A) Act as mediator in a dispute","B) Be an unwanted third person with a courting couple","C) Tell jokes badly","D) Refuse commitment"]},
+      {"id":80,"q":"Select the correct spelling for a word meaning “an internal split or division.”","options":["A) Shism","B) Schism","C) Scism","D) Shcism"]},
+      {"id":81,"q":"Choose the correct one-word substitute for:\n“A government ruled by a single person with absolute power.”","options":["A) Oligarchy","B) Democracy","C) Autocracy","D) Anarchy"]},
+      {"id":82,"q":"Choose the correct one-word substitute for:\n“A person who doubts the sincerity or goodness of others.”","options":["A) Optimist","B) Cynic","C) Realist","D) Pessimist"]},
+      {"id":83,"q":"Passage:\nThe pursuit of global equity in the Anthropocene is less a matter of distributive justice and more a theatre of ontological misrecognition. While the Global North presents technocratic solutions as universally applicable, such solutions often encode assumptions of temporal supremacy and civilizational [1]. Climate finance, for instance, masquerades as benevolence while entrenching hierarchies of surveillance and dependence. The epistemes of the South, rather than being engaged on their own terms, are often reconfigured through extractive logics of “capacity building,” a term whose etymology betrays its colonial [2]. Embedded within these discourses is the idea that certain populations must be “readied” for modernity—thus reproducing a pedagogical asymmetry that masks itself as aid. Meanwhile, planetary imaginaries are increasingly framed through cartographies of emergency. The language of “tipping points” and “irreversible loss” evokes a moral urgency that, paradoxically, facilitates a form of ecological [3], wherein radical structural reform is substituted by incremental techno-fixes. Carbon offsets, biodiversity credits, and green financialization proliferate not as correctives, but as symptoms of an underlying refusal to dislodge anthropocentric capitalism. In such a milieu, protest is not silence-breaking but often met with strategic [4], where rhetorical accommodation obscures institutional inertia. Civil society is co-opted, not crushed. The subaltern voice is archived, not amplified. Thus, to reclaim ecological justice is not merely to demand inclusion, but to interrogate the ontologies that define inclusion itself. Absent this, the dream of planetary stewardship will remain a ceremonial [5]—rich in symbolism, barren in substance.","options":["(passage for Q83–87; see Q83–87)"]},
+      {"id":84,"q":"What should come in place of blank number [1]?","options":["A) Inferiority","B) Preeminence","C) Orthodoxy","D) Intelligibility"]},
+      {"id":85,"q":"What should come in place of blank number [2]?","options":["A) Genealogy","B) Imperative","C) Origin","D) Ethos"]},
+      {"id":86,"q":"What should come in place of blank number [3]?","options":["A) Mobilization","B) Desist","C) Containment","D) Disruption"]},
+      {"id":87,"q":"What should come in place of blank number [4]?","options":["A) Co-optation","B) Indifference","C) Disdain","D) Surveillance"]},
+      {"id":88,"q":"What should come in place of blank number [5]?","options":["A) Pageantry","B) Deliverance","C) Placation","D) Mimicry"]},
+      {"id":89,"q":"Fill in the correct degree of comparison:\nOf all the solutions proposed, this one is by far the ______.","options":["A) More cost-effective","B) Most cost-effective","C) Cost-effectiver","D) Much cost-effective"]},
+      {"id":90,"q":"Select the correct option:\nTheir approach proved ______ effective that competitors quickly emulated it.","options":["A) So","B) Very","C) Too","D) Such"]},
+      {"id":91,"q":"Find the part of the sentence that contains an error:\nThe new encryption protocol is capable for thwarting (1) / sophisticated cyber intrusions that were previously considered (2) / impervious to defensive measures (3) / according to recent white-paper findings (4).","options":["A) (1)","B) (2)","C) (3)","D) (4)"]},
+      {"id":92,"q":"Find the part of the sentence that contains an error:\nHad he not deferred the proposal for weeks (1) / the board would have had a better chance (2) / to evaluating the project’s long-term viability (3) / before the deadline lapsed (4).","options":["A) (1)","B) (2)","C) (3)","D) (4)"]},
+      {"id":93,"q":"Change the following from active to passive:\nDo the experts regard this compound as hazardous?","options":["A) Has this compound been regarded as hazardous by the experts?","B) Is this compound being regarded as hazardous by the experts?","C) Was this compound regarded as hazardous by the experts?","D) Is this compound regarded as hazardous by the experts?"]},
+      {"id":94,"q":"Select the sentence containing the homonym of the highlighted word:\nThe priest lifted the chalice during the Eucharist.","options":["A) The forger crafted a silver chalice with vine engravings.","B) The noble toasted with a jeweled chalice.","C) The investor discussed the chalice of currency debasement.","D) The altar server held the golden chalice reverently."]},
+      {"id":95,"q":"Convert the sentence from passive to active voice:\nThe guests must have been informed about the delay by the coordinator.","options":["A) The coordinator might inform the guests about the delay.","B) The coordinator had informed the guests about the delay.","C) The coordinator must have informed the guests about the delay.","D) The coordinator must be informing the guests about the delay."]},
+      {"id":96,"q":"Choose the most suitable option to replace the highlighted part of the sentence:\nThis building is built from bricks.","options":["A) Is made by bricks","B) Has built of bricks","C) Is built of bricks","D) Is constructed with bricks"]},
+      {"id":97,"q":"Choose the most suitable option to replace the highlighted part of the sentence:\nWe must prevent him to go there.","options":["A) For going there","B) From to go there","C) From going there","D) Not go there"]},
+      {"id":98,"q":"A sentence is provided in indirect speech. Choose the correct direct speech.\nHe wondered why the lights had been left on all night.","options":["A) He said, “Why were the lights left on all night?”","B) He said, “Why are the lights left on all night?”","C) He said, “Why have the lights been left on all night?”","D) He said, “Why had the lights been left on all night?”"]},
+      {"id":99,"q":"A sentence is provided in direct speech. Choose the correct indirect speech.\nI said, “Why are you crying?”","options":["A) I asked why he was crying.","B) I said why are you crying.","C) I told why you cried.","D) I asked why he cried."]},
+      {"id":100,"q":"Rearrange the following sentences to form a meaningful passage:\nInternational space law governs satellite placement and liability.\n\nTreaties emerged during the Cold War to prevent militarization.\n\nNew challenges include space debris and commercial mining.\n\nRegulation needs adaptation to current realities.","options":["A) 2-1-3-4","B) 1-3-4-2","C) 1-2-3-4","D) 3-2-1-4"]}
+    ]}
+];
+ 
+/* ---------- State ---------- */
+const STATE_KEY = 'ssc_shift2_state_v1';
+
+let state = {
+  currentSectionIndex: 0, // 0-3
+  currentQuestionIndex: 0,
+  answers: {},            // key: "id" -> option letter ("A"/"B"/"C"/"D")
+  marked: {},             // id -> true
+  skipped: {},            // id -> true
+  timerSeconds: 60*60,    // 60 minutes
+  running: false,
+  paused: false,
+  submitted: false,
+  sectionTimes: { A:0, B:0, C:0, D:0 }, // seconds
+  sectionActiveStart: null // timestamp when section became active (for accumulating)
+};
+
+/* ---------- Helpers ---------- */
+const el = id => document.getElementById(id);
+const formatTime = s => {
+  if(s < 0) s = 0;
+  const mm = String(Math.floor(s/60)).padStart(2,'0');
+  const ss = String(s%60).padStart(2,'0');
+  return `${mm}:${ss}`;
+};
+const secToHMS = s => {
+  const hh = Math.floor(s/3600); const mm = Math.floor((s%3600)/60); const ss = s%60;
+  return `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+};
+const saveState = () => localStorage.setItem(STATE_KEY, JSON.stringify(state));
+const loadState = () => {
+  const raw = localStorage.getItem(STATE_KEY);
+  if(raw) {
+    try { Object.assign(state, JSON.parse(raw)); } catch(e){ console.warn('load failed',e); }
+  }
+};
+
+/* ---------- Timer ---------- */
+let timerInterval = null;
+function startGlobalTimer(){
+  if(timerInterval) clearInterval(timerInterval);
+  state.running = true;
+  timerInterval = setInterval(()=>{
+    if(state.paused || !state.running) return;
+    state.timerSeconds--;
+    // accumulate section active time if a section is active
+    if(state.sectionActiveStart) {
+      // we accumulate when switching sections, not every tick to avoid heavy writes; but keep state up to date
+    }
+    if(state.timerSeconds <= 0){
+      clearInterval(timerInterval);
+      state.timerSeconds = 0;
+      doSubmit();
+    }
+    renderTime();
+    saveState();
+  }, 1000);
+}
+function stopGlobalTimer(){
+  if(timerInterval) clearInterval(timerInterval);
+  state.running = false;
+}
+
+/* ---------- UI init ---------- */
+
+function buildSectionButtons(){
+  const wrap = el('sectionList'); wrap.innerHTML = '';
+  SECTIONS.forEach((sec, idx) => {
+    const b = document.createElement('button');
+    b.className = 'section-btn' + (idx === state.currentSectionIndex ? ' active' : '');
+    b.innerText = `${sec.name} (${sec.items.length})`;
+    b.onclick = () => switchSection(idx);
+    wrap.appendChild(b);
+  });
+}
+
+function buildGrid(){
+  const wrap = el('qGrid'); wrap.innerHTML = '';
+  const sec = SECTIONS[state.currentSectionIndex];
+  sec.items.forEach((q, idx) => {
+    const key = String(q.id);
+    const btn = document.createElement('button');
+    btn.className = 'qnum';
+    if(state.marked[key]) btn.classList.add('marked');
+    else if(state.skipped[key]) btn.classList.add('skipped');
+    else if(state.answers[key]) btn.classList.add('answered');
+    btn.innerText = idx + 1;
+    btn.title = `Q${q.id}`;
+    btn.onclick = () => { state.currentQuestionIndex = idx; renderQuestion(); };
+    wrap.appendChild(btn);
+  });
+  updateSectionSummary();
+}
+
+function updateSectionSummary(){
+  const sec = SECTIONS[state.currentSectionIndex];
+  const answered = sec.items.reduce((a,q)=> a + (state.answers[String(q.id)]?1:0),0);
+  el('secAnswered').innerText = answered;
+  el('secNotAnswered').innerText = sec.items.length - answered;
+}
+
+function updateTotals(){
+  const total = Object.keys(state.answers).length;
+  el('totalAnswered').innerText = total;
+  el('footerAnswered').innerText = total;
+}
+
+/* ---------- Render question ---------- */
+function renderQuestion(reviewMode=false){
+  const sec = SECTIONS[state.currentSectionIndex];
+  if(!sec) return;
+  const q = sec.items[state.currentQuestionIndex];
+  el('qHeader').innerText = `Section: ${sec.name} — Q${q.id}`;
+  el('qText').innerHTML = q.q.replace(/\n/g,'<br>');
+  const optsWrap = el('optsWrap'); optsWrap.innerHTML = '';
+  const key = String(q.id);
+  const letters = ['A','B','C','D'];
+  q.options.forEach((optText, i) => {
+    const letter = letters[i] || String.fromCharCode(65+i);
+    const lab = document.createElement('label');
+    lab.className = 'opt';
+    const radio = document.createElement('input');
+    radio.type = 'radio'; radio.name = 'optRadio';
+    radio.disabled = state.paused || state.submitted;
+    radio.checked = state.answers[key] === letter;
+    radio.onchange = () => {
+      if(state.paused || state.submitted) return;
+      state.answers[key] = letter;
+      state.skipped[key] = false;
+      saveState(); buildGrid(); updateTotals();
+    };
+    const txt = document.createElement('span'); txt.innerText = `${letter}. ${optText}`;
+    lab.appendChild(radio); lab.appendChild(txt);
+
+    // click on whole label selects
+    lab.onclick = (e) => {
+      if(state.paused || state.submitted) return;
+      state.answers[key] = letter;
+      state.skipped[key] = false;
+      saveState(); buildGrid(); updateTotals();
+      radio.checked = true;
+    };
+
+    // review highlighting
+    if(state.submitted){
+      const correct = ANSWER_KEY[key];
+      if(correct === letter) lab.classList.add('correct');
+      if(state.answers[key] && state.answers[key] === letter && state.answers[key] !== correct) lab.classList.add('wrong');
+      // disable interactions
+      radio.disabled = true;
+    }
+
+    if(state.paused){ lab.classList.add('disabled'); radio.disabled = true; }
+
+    optsWrap.appendChild(lab);
+  });
+  updateTotals();
+  buildGrid();
+  updateSectionSummary();
+}
+
+/* ---------- Navigation ---------- */
+function saveAndNext(){
+  const sec = SECTIONS[state.currentSectionIndex];
+  const q = sec.items[state.currentQuestionIndex];
+  const key = String(q.id);
+  if(!state.answers[key]) state.skipped[key] = true;
+  else state.skipped[key] = false;
+  if(state.currentQuestionIndex < sec.items.length - 1) state.currentQuestionIndex++;
+  else if(state.currentSectionIndex < SECTIONS.length - 1){
+    switchSection(state.currentSectionIndex + 1);
+    state.currentQuestionIndex = 0;
+  }
+  renderQuestion();
+  saveState();
+}
+
+function goPrev(){
+  if(state.currentQuestionIndex > 0){ state.currentQuestionIndex--; renderQuestion(); return; }
+  if(state.currentSectionIndex > 0){
+    switchSection(state.currentSectionIndex - 1);
+    state.currentQuestionIndex = SECTIONS[state.currentSectionIndex].items.length - 1;
+    renderQuestion();
+  }
+}
+
+function clearResponse(){
+  const sec = SECTIONS[state.currentSectionIndex];
+  const q = sec.items[state.currentQuestionIndex];
+  const key = String(q.id);
+  delete state.answers[key];
+  state.skipped[key] = true;
+  saveState(); buildGrid(); updateTotals(); renderQuestion();
+}
+
+function markForReview(){
+  const sec = SECTIONS[state.currentSectionIndex];
+  const q = sec.items[state.currentQuestionIndex];
+  const key = String(q.id);
+  state.marked[key] = true;
+  // move next
+  saveAndNext();
+  saveState();
+}
+
+/* ---------- Section switch & per-section time tracking ---------- */
+function switchSection(newIndex){
+  if(newIndex === state.currentSectionIndex) return;
+  // accumulate time for current active section
+  accumulateSectionTime();
+  // change current section
+  state.currentSectionIndex = newIndex;
+  // reset question index if out of bounds
+  state.currentQuestionIndex = 0;
+  // set new section active start if running and not paused
+  if(!state.paused && state.running){
+    state.sectionActiveStart = Date.now();
+  } else {
+    state.sectionActiveStart = null;
+  }
+  buildSectionButtons();
+  buildGrid();
+  renderQuestion();
+  saveState();
+}
+
+function accumulateSectionTime(){
+  const idx = state.currentSectionIndex;
+  const secKey = SECTIONS[idx].key;
+  if(state.sectionActiveStart){
+    const elapsed = Math.floor((Date.now() - state.sectionActiveStart)/1000);
+    if(!isNaN(elapsed) && elapsed > 0) {
+      state.sectionTimes[secKey] = (state.sectionTimes[secKey] || 0) + elapsed;
+    }
+    state.sectionActiveStart = null;
+  }
+}
+
+/* ---------- Pause / Resume ---------- */
+function setPaused(on){
+  state.paused = on;
+  el('pauseBtn').innerText = on ? 'Resume' : 'Pause';
+  // show badge
+  el('pausedBadge').style.display = on ? 'block' : 'none';
+  // when pausing, stop accumulating section active time
+  if(on){
+    // accumulate current active
+    accumulateSectionTime();
+  } else {
+    // resume section active timing
+    if(state.running){
+      state.sectionActiveStart = Date.now();
+    }
+  }
+  renderQuestion();
+  saveState();
+}
+
+/* ---------- Fullscreen ---------- */
+async function toggleFullscreen(){
+  try{
+    if(!document.fullscreenElement){
+      await document.documentElement.requestFullscreen();
+      el('fsBtn').innerText = 'Exit full-screen';
+    } else {
+      await document.exitFullscreen();
+      el('fsBtn').innerText = 'Full screen';
+    }
+  }catch(e){ console.warn('fs',e); }
+}
+
+/* ---------- Submit / Scoring ---------- */
+function doSubmit(){
+  if(state.submitted) return;
+  // finalize timers
+  accumulateSectionTime();
+  // stop timer
+  stopGlobalTimer();
+  state.submitted = true;
+  // compute score
+  const result = computeResults();
+  // show result area and review
+  showResults(result);
+  saveState();
+}
+
+function computeResults(){
+  let totalCorrect = 0, totalAttempted = 0;
+  const perSection = {};
+  SECTIONS.forEach(sec=>{
+    const key = sec.key;
+    perSection[key] = { correct:0, attempted:0, total: sec.items.length, time: state.sectionTimes[key] || 0 };
+    sec.items.forEach(q=>{
+      const ans = state.answers[String(q.id)];
+      if(ans) perSection[key].attempted++;
+      if(ans && ANSWER_KEY[String(q.id)] === ans) perSection[key].correct++;
+    });
+    totalCorrect += perSection[key].correct;
+    totalAttempted += perSection[key].attempted;
+  });
+  const totalMarks = totalCorrect; // simple 1 mark per correct — change if needed
+  const totalQuestions = SECTIONS.reduce((a,s)=>a+s.items.length,0);
+  return { perSection, totalCorrect, totalAttempted, totalMarks, totalQuestions };
+}
+
+function showResults(result){
+  el('resultsArea').style.display = 'block';
+  // build markcard summary
+  const container = el('markcardSummary');
+  container.innerHTML = '';
+  const table = document.createElement('table');
+  const thead = document.createElement('thead');
+  thead.innerHTML = `<tr><th>Section</th><th>Total Qs</th><th>Attempted</th><th>Correct</th><th>Wrong</th><th>Time Spent</th></tr>`;
+  const tbody = document.createElement('tbody');
+  for(const sec of SECTIONS){
+    const info = result.perSection[sec.key];
+    const wrong = info.attempted - info.correct;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${sec.name}</td><td>${info.total}</td><td>${info.attempted}</td><td>${info.correct}</td><td>${wrong}</td><td>${secToHMS(info.time)}</td>`;
+    tbody.appendChild(tr);
+  }
+  const totalRow = document.createElement('tr');
+  totalRow.innerHTML = `<th>Total</th><th>${result.totalQuestions}</th><th>${result.totalAttempted}</th><th>${result.totalCorrect}</th><th>${result.totalAttempted - result.totalCorrect}</th><th>-</th>`;
+  tbody.appendChild(totalRow);
+  table.appendChild(thead); table.appendChild(tbody);
+  container.appendChild(table);
+
+  // build review tabs
+  const reviewTabs = el('reviewTabs'); reviewTabs.innerHTML = '';
+  SECTIONS.forEach((sec, idx)=>{
+    const b = document.createElement('div');
+    b.className = 'tab' + (idx===0?' active':'');
+    b.innerText = `${sec.name}`;
+    b.onclick = () => {
+      // set active
+      Array.from(reviewTabs.children).forEach(c=>c.classList.remove('active'));
+      b.classList.add('active');
+      renderReviewSection(idx);
+    };
+    reviewTabs.appendChild(b);
+  });
+
+  // initial content
+  renderReviewSection(0);
+  // show view markcard button visible
+  el('viewMarkcardBtn').style.display = 'inline-block';
+}
+
+/* ---------- Review rendering ---------- */
+function renderReviewSection(secIndex){
+  const content = el('reviewContent'); content.innerHTML = '';
+  const sec = SECTIONS[secIndex];
+  // list question tiles with status right/wrong
+  const listWrap = document.createElement('div');
+  listWrap.className = 'review-list';
+  sec.items.forEach((q, idx) => {
+    const id = String(q.id);
+    const div = document.createElement('div');
+    div.className = 'rev-q';
+    const ans = state.answers[id];
+    const correct = ANSWER_KEY[id];
+    const status = (!ans) ? 'Unattempted' : (ans === correct ? 'Correct' : 'Wrong');
+    div.innerHTML = `<div style="font-weight:800">Q${q.id}</div><div style="font-size:12px;color:#666;margin-top:6px">${status}</div>`;
+    if(status === 'Correct') div.style.background = '#e9f7ef';
+    if(status === 'Wrong') div.style.background = '#fff3f3';
+    div.onclick = () => {
+      // show this question in review display below
+      renderReviewQuestion(secIndex, idx);
+    };
+    listWrap.appendChild(div);
+  });
+  content.appendChild(listWrap);
+  // show first question by default
+  renderReviewQuestion(secIndex, 0);
+}
+
+function renderReviewQuestion(secIndex, qIndex){
+  const sec = SECTIONS[secIndex];
+  const q = sec.items[qIndex];
+  const content = el('reviewContent');
+  // create detail view
+  const detail = document.createElement('div');
+  detail.style.marginTop = '12px';
+  detail.style.background = '#fff';
+  detail.style.padding = '12px';
+  detail.style.borderRadius = '8px';
+  detail.style.border = '1px solid #e6eef8';
+  detail.innerHTML = `<div style="font-weight:800;margin-bottom:8px">${sec.name} — Q${q.id}</div><div style="margin-bottom:10px">${q.q.replace(/\n/g,'<br>')}</div>`;
+  // options with highlighting
+  const letters = ['A','B','C','D'];
+  const ul = document.createElement('div');
+  q.options.forEach((opt, i)=>{
+    const letter = letters[i];
+    const optDiv = document.createElement('div');
+    optDiv.style.padding='8px'; optDiv.style.borderRadius='6px'; optDiv.style.marginBottom='6px'; optDiv.style.border='1px solid #eef6ff';
+    const correct = ANSWER_KEY[String(q.id)];
+    if(letter === correct) optDiv.style.background = 'var(--correct)';
+    if(state.answers[String(q.id)] === letter && state.answers[String(q.id)] !== correct) optDiv.style.background = 'var(--wrong)';
+    optDiv.innerText = `${letter}. ${opt}`;
+    detail.appendChild(optDiv);
+  });
+  // show your choice and correct
+  const your = state.answers[String(q.id)] || 'Unattempted';
+  const correct = ANSWER_KEY[String(q.id)];
+  const footer = document.createElement('div');
+  footer.style.marginTop='10px';
+  footer.innerHTML = `<strong>Your answer:</strong> ${your} &nbsp;&nbsp; <strong>Correct:</strong> ${correct}`;
+  detail.appendChild(footer);
+  // add button to view markcard
+  const btnWrap = document.createElement('div'); btnWrap.style.marginTop='12px';
+  const viewMark = document.createElement('button'); viewMark.className='btn'; viewMark.innerText='View Markcard';
+  viewMark.onclick = () => {
+    // scroll to markcard summary
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  btnWrap.appendChild(viewMark);
+  detail.appendChild(btnWrap);
+
+  // replace old detailed area
+  // keep the list, append detail after it
+  // remove any existing detail nodes
+  // find listWrap and append
+  const listWrap = content.querySelector('.review-list');
+  // remove any existing detail nodes after listWrap
+  while(listWrap.nextSibling) listWrap.parentNode.removeChild(listWrap.nextSibling);
+  listWrap.parentNode.appendChild(detail);
+}
+
+/* ---------- Restart ---------- */
+function restartExam(){
+  if(!confirm('Restart exam? This will clear all saved progress.')) return;
+  // clear localStorage and reset state
+  localStorage.removeItem(STATE_KEY);
+  location.reload();
+}
+
+/* ---------- Persistence load ---------- */
+function initFromStorage(){
+  loadState();
+  // if submitted in storage, show results immediately
+  buildSectionButtons();
+  buildGrid();
+  renderQuestion();
+  renderTime();
+  updateTotals();
+  if(state.submitted){
+    startGlobalTimer(); // not running but maintain functions
+    stopGlobalTimer();
+    const res = computeResults();
+    showResults(res);
+  } else {
+    // resume timer if running
+    if(state.running && !state.paused){
+      // set sectionActiveStart to now to resume accumulation
+      state.sectionActiveStart = Date.now();
+      startGlobalTimer();
+    } else {
+      renderTime();
+    }
+  }
+}
+
+/* ---------- Render time ---------- */
+function renderTime(){
+  el('timeBox').innerText = formatTime(state.timerSeconds);
+}
+
+/* ---------- Start exam flow ---------- */
+async function onStartClick(){
+  // enter fullscreen
+  try{
+    if(!document.fullscreenElement) await document.documentElement.requestFullscreen();
+  }catch(e){ console.warn('fs failed', e); }
+  // initialize state
+  state.timerSeconds = 60 * 60; // 60 minutes
+  state.running = true;
+  state.paused = false;
+  state.submitted = false;
+  state.answers = {};
+  state.marked = {};
+  state.skipped = {};
+  state.sectionTimes = { A:0, B:0, C:0, D:0 };
+  state.sectionActiveStart = Date.now();
+  state.currentSectionIndex = 0;
+  state.currentQuestionIndex = 0;
+  saveState();
+  el('startOverlay').style.display = 'none';
+  buildSectionButtons();
+  buildGrid();
+  renderQuestion();
+  startGlobalTimer();
+}
+
+/* ---------- Event bindings ---------- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  // wire buttons
+  el('startBtn').onclick = onStartClick;
+  el('fsBtn').onclick = toggleFullscreen;
+  el('pauseBtn').onclick = () => {
+    setPaused(!state.paused);
+    saveState();
+  };
+  el('restartBtn').onclick = restartExam;
+  el('saveNextBtn').onclick = () => { saveAndNext(); };
+  el('prevBtn').onclick = goPrev;
+  el('clearBtn').onclick = clearResponse;
+  el('markBtn').onclick = markForReview;
+  el('submitTop').onclick = () => {
+    if(!confirm('Submit exam now?')) return;
+    doSubmit();
+  };
+  el('viewMarkcardBtn').onclick = () => {
+    // scroll to markcard summary
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  el('backToExamBtn').onclick = () => {
+    // hide results area and show exam UI (scroll)
+    el('resultsArea').style.display = 'none';
+    // allow navigating back to exam UI: if exam not submitted, allow
+    // If exam submitted and user wants to revisit exam screen, we still keep submitted true and review UI will be read-only
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  // reviewAnswersBtn (hidden during exam) — show after submit
+  el('reviewAnswersBtn').onclick = () => {
+    const res = computeResults();
+    showResults(res);
+    el('resultsArea').scrollIntoView({behavior:'smooth'});
+  };
+
+  // handle visibility change: if user switches tab, pause accumulation & timer continues but we track sectionActiveStart properly
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden){
+      // accumulate current section time chunk
+      accumulateSectionTime();
+    } else {
+      if(!state.paused && state.running){
+        state.sectionActiveStart = Date.now();
+      }
+    }
+  });
+
+  // load saved state if present
+  initFromStorage();
+});
+
+/* Save state periodically */
+setInterval(()=>saveState(), 5000);
+
+</script>
+</body>
+</html>
